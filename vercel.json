@@ -1,5 +1,110 @@
 {
+  "redirects": [
+    {
+      "source": "/cart",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/cart/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/cart-2",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/cart-2/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/checkout",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/checkout/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/checkout-2",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/checkout-2/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account-2",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account-2/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/shop/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/shop-2",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/shop-2/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/product/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-admin/:path*",
+      "destination": "/contact/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/assets/:path*",
+      "destination": "/site-mirror/suitesmine.com/wp-content/:path*"
+    },
+    {
+      "source": "/core/:path*",
+      "destination": "/site-mirror/suitesmine.com/wp-includes/:path*"
+    },
     {
       "source": "/(.*)",
       "destination": "/site-mirror/suitesmine.com/$1"

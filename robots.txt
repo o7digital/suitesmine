@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Disallow: /cart/
+Disallow: /cart-2/
+Disallow: /checkout/
+Disallow: /checkout-2/
+Disallow: /my-account/
+Disallow: /my-account-2/
+Disallow: /shop/
+Disallow: /shop-2/
+Disallow: /product/
+Disallow: /wp-login.php
+
+Sitemap: https://suitesmine.com/sitemap.xml
