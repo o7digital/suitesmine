@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/site-mirror/suitesmine.com/$1"
+    }
+  ]
+}
