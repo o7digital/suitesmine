@@ -77,6 +77,16 @@ process_html_file() {
     s{\\\/wp-content\\\/}{/assets/}gsi;
     s{\\\/wp-includes\\\/}{/core/}gsi;
 
+    # Avoid hardcoded production asset hosts so preview/local keep working.
+    s{https?://(?:www\.)?suitesmine\.com/assets/}{/assets/}gsi;
+    s{https?://(?:www\.)?suitesmine\.com/core/}{/core/}gsi;
+    s{https?://(?:www\.)?suitesmine\.com/wp-content/}{/assets/}gsi;
+    s{https?://(?:www\.)?suitesmine\.com/wp-includes/}{/core/}gsi;
+    s{https:\\/\\/(?:www\\.)?suitesmine\\.com\\/assets\\/}{/assets/}gsi;
+    s{https:\\/\\/(?:www\\.)?suitesmine\\.com\\/core\\/}{/core/}gsi;
+    s{https:\\/\\/(?:www\\.)?suitesmine\\.com\\/wp-content\\/}{/assets/}gsi;
+    s{https:\\/\\/(?:www\\.)?suitesmine\\.com\\/wp-includes\\/}{/core/}gsi;
+
     # Normalize old demo absolute media links to local mirrored uploads.
     s{https?://cozystay\.loftocean\.com/[^/\s"'"'"']+/assets/uploads/sites/\d+/}{/assets/uploads/}gsi;
     s{https?://cozystay\.loftocean\.com/[^/\s"'"'"']+/wp-content/uploads/sites/\d+/}{/assets/uploads/}gsi;
@@ -138,12 +148,81 @@ process_html_file() {
   ' "$file"
 }
 
-echo "1/3 Process HTML pages for vitrine + de-WP + SEO..."
+repair_missing_critical_assets() {
+  local refs_file missing_count created_count
+  local ref rel target dir stem candidate base
+
+  refs_file="$(mktemp)"
+  created_count=0
+
+  rg --pcre2 -No --glob '*.html' --no-filename \
+    '(?<=\b(?:href|src|data-cs-background-image|content)=["\x27])/assets/uploads/[^"\x27]+' \
+    "$ROOT" | sed 's/[?#].*$//' | sort -u > "$refs_file"
+
+  while IFS= read -r ref; do
+    rel="${ref#/assets/uploads/}"
+    target="$ROOT/wp-content/uploads/$rel"
+    [[ -f "$target" ]] && continue
+
+    dir="$(dirname "$rel")"
+    stem="$(basename "$rel" .webp)"
+    candidate=""
+
+    candidate="$(find "$ROOT/wp-content/uploads/$dir" -maxdepth 1 -type f -name "${stem}-*.webp" 2>/dev/null | head -n 1 || true)"
+
+    if [[ -z "$candidate" && "$stem" == *-scaled ]]; then
+      base="${stem%-scaled}"
+      candidate="$(find "$ROOT/wp-content/uploads/$dir" -maxdepth 1 -type f \( -name "${base}-*.webp" -o -name "${base}.webp" \) 2>/dev/null | head -n 1 || true)"
+    fi
+
+    if [[ -z "$candidate" ]]; then
+      candidate="$(find "$ROOT/wp-content/uploads/elementor/thumbs" -type f -name "${stem}-*.webp" 2>/dev/null | head -n 1 || true)"
+    fi
+
+    if [[ -z "$candidate" ]]; then
+      case "$ref" in
+        /assets/uploads/2024/09/Angel-de-la-Independencia.webp)
+          candidate="$ROOT/wp-content/uploads/2024/09/Lobby-scaled.webp"
+          ;;
+        /assets/uploads/2024/09/HSM2-12.webp)
+          candidate="$ROOT/wp-content/uploads/2024/09/HSM2-23.webp"
+          ;;
+        /assets/uploads/2024/10/HSM2-3.webp)
+          candidate="$ROOT/wp-content/uploads/2024/10/pexels-leorossatti-2598638-scaled.webp"
+          ;;
+        /assets/uploads/2024/10/cama-queen-scaled.webp)
+          candidate="$ROOT/wp-content/uploads/2024/10/BSM5.webp"
+          ;;
+      esac
+    fi
+
+    if [[ -n "$candidate" && -f "$candidate" ]]; then
+      mkdir -p "$(dirname "$target")"
+      cp "$candidate" "$target"
+      created_count=$((created_count + 1))
+    fi
+  done < "$refs_file"
+
+  missing_count=0
+  while IFS= read -r ref; do
+    rel="${ref#/assets/uploads/}"
+    target="$ROOT/wp-content/uploads/$rel"
+    [[ -f "$target" ]] || missing_count=$((missing_count + 1))
+  done < "$refs_file"
+
+  rm -f "$refs_file"
+  echo "Repair summary: created=$created_count missing_after=$missing_count"
+}
+
+echo "1/4 Process HTML pages for vitrine + de-WP + SEO..."
 while IFS= read -r -d '' file; do
   process_html_file "$file"
 done < <(find "$ROOT" -type f -name "*.html" -print0)
 
-echo "2/3 Sync root index..."
+echo "2/4 Repair missing critical assets..."
+repair_missing_critical_assets
+
+echo "3/4 Sync root index..."
 cp "$ROOT/index.html" "index.html"
 
-echo "3/3 Done."
+echo "4/4 Done."
