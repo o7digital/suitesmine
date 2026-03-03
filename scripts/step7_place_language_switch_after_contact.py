@@ -14,6 +14,11 @@ PRIMARY_MENU_RE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 
+LANG_ITEM_BLOCK_RE = re.compile(
+    r'<li[^>]*menu-item-language-switch[^>]*>.*?</ul>\s*</li>',
+    re.IGNORECASE | re.DOTALL,
+)
+
 STYLE_BLOCK = """
 <style id="sm-language-switch-css" type="text/css">
 .cs-menu .menu-item-language-switch {
@@ -77,21 +82,21 @@ def page_lang_and_paths(rel: Path) -> tuple[str, str, str]:
 
 def build_language_item(locale: str, es_path: str, en_path: str) -> str:
     if locale == "en":
+        toggle_label, toggle_href = "ES", es_path
         current_label, current_href = "EN", en_path
-        alt_label, alt_href = "ES", es_path
     else:
+        toggle_label, toggle_href = "EN", en_path
         current_label, current_href = "ES", es_path
-        alt_label, alt_href = "EN", en_path
 
     return (
         '<li class="menu-item menu-item-type-custom menu-item-object-custom '
         'menu-item-has-children menu-item-language-switch">'
-        f'<a href="{current_href}"><span>{current_label}</span></a>'
+        f'<a href="{toggle_href}"><span>{toggle_label}</span></a>'
         '<button class="dropdown-toggle" aria-expanded="false">'
         '<span class="screen-reader-text">expand child menu</span></button>'
         '<ul class="sub-menu">'
         '<li class="menu-item menu-item-type-custom menu-item-object-custom">'
-        f'<a href="{alt_href}"><span>{alt_label}</span></a></li>'
+        f'<a href="{current_href}"><span>{current_label}</span></a></li>'
         "</ul>"
         "</li>"
     )
@@ -106,18 +111,22 @@ def insert_style(html: str) -> str:
 
 
 def insert_menu_switch(html: str, lang_item: str) -> tuple[str, int]:
-    inserted = 0
+    updates = 0
 
     def repl(match: re.Match[str]) -> str:
-        nonlocal inserted
+        nonlocal updates
         opening, body, closing = match.groups()
         if "menu-item-language-switch" in body:
+            replaced_body, replaced = LANG_ITEM_BLOCK_RE.subn(lang_item, body)
+            if replaced:
+                updates += replaced
+                return f"{opening}{replaced_body}{closing}"
             return match.group(0)
-        inserted += 1
+        updates += 1
         return f"{opening}{body}\n{lang_item}\n{closing}"
 
     updated = PRIMARY_MENU_RE.sub(repl, html)
-    return updated, inserted
+    return updated, updates
 
 
 def main() -> None:
