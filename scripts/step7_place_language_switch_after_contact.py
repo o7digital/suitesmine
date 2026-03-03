@@ -9,44 +9,59 @@ from pathlib import Path
 ROOT = Path("site-mirror/suitesmine.com")
 SKIP_TOP_LEVEL = {"wp-content", "wp-includes", "wp-json"}
 
-PRIMARY_MENU_RE = re.compile(
-    r'(<ul[^>]*class="menu primary-menu"[^>]*>)(.*?)(</ul></nav>)',
+LANG_ITEM_BLOCK_RE = re.compile(
+    r"\s*<li[^>]*menu-item-language-switch[^>]*>.*?</ul>\s*</li>",
     re.IGNORECASE | re.DOTALL,
 )
 
-LANG_ITEM_BLOCK_RE = re.compile(
-    r'<li[^>]*menu-item-language-switch[^>]*>.*?</ul>\s*</li>',
+INLINE_SWITCH_RE = re.compile(
+    r"\s*<div class=\"sm-language-switch-right\"[^>]*>.*?</div>",
+    re.IGNORECASE | re.DOTALL,
+)
+
+STYLE_BLOCK_RE = re.compile(
+    r"<style id=\"sm-language-switch-css\"[^>]*>.*?</style>",
     re.IGNORECASE | re.DOTALL,
 )
 
 STYLE_BLOCK = """
 <style id="sm-language-switch-css" type="text/css">
-.cs-menu .menu-item-language-switch {
+.sm-language-switch-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 6px;
+}
+.sm-language-switch-right a {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 1;
+  padding-bottom: 8px;
   position: relative;
 }
-.cs-menu .menu-item-language-switch > a span {
-  letter-spacing: 0.14em;
-  font-size: 0.9em;
+.sm-language-switch-right a:hover,
+.sm-language-switch-right a:focus {
+  color: #fff;
 }
-.cs-menu .menu-item-language-switch .dropdown-toggle {
-  margin-left: 4px;
+.sm-language-switch-right a.is-active {
+  color: #fff;
 }
-.cs-menu .menu-item-language-switch .sub-menu {
-  min-width: 64px;
+.sm-language-switch-right a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #fff;
 }
-.cs-menu .menu-item-language-switch .sub-menu a {
-  padding: 10px 14px;
-}
-@media (min-width: 1025px) {
-  .cs-menu.main-navigation .menu-item-language-switch > .sub-menu {
-    background: rgba(9, 10, 13, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-}
-/* Hide old, barely visible language widget blocks in header templates. */
-.elementor-element-73b67ae,
-.elementor-element-3205728c {
-  display: none !important;
+.elementor-element-70da6a1 .sm-language-switch-right {
+  justify-content: center;
+  margin-top: 0;
 }
 </style>
 """.strip()
@@ -80,53 +95,53 @@ def page_lang_and_paths(rel: Path) -> tuple[str, str, str]:
     return locale, es_path, en_path
 
 
-def build_language_item(locale: str, es_path: str, en_path: str) -> str:
-    if locale == "en":
-        toggle_label, toggle_href = "ES", es_path
-        current_label, current_href = "EN", en_path
-    else:
-        toggle_label, toggle_href = "EN", en_path
-        current_label, current_href = "ES", es_path
-
+def build_switch_markup(locale: str, es_path: str, en_path: str) -> str:
+    es_cls = "is-active" if locale == "es" else ""
+    en_cls = "is-active" if locale == "en" else ""
     return (
-        '<li class="menu-item menu-item-type-custom menu-item-object-custom '
-        'menu-item-has-children menu-item-language-switch">'
-        f'<a href="{toggle_href}"><span>{toggle_label}</span></a>'
-        '<button class="dropdown-toggle" aria-expanded="false">'
-        '<span class="screen-reader-text">expand child menu</span></button>'
-        '<ul class="sub-menu">'
-        '<li class="menu-item menu-item-type-custom menu-item-object-custom">'
-        f'<a href="{current_href}"><span>{current_label}</span></a></li>'
-        "</ul>"
-        "</li>"
+        '<div class="sm-language-switch-right">'
+        f'<a class="{es_cls}" href="{es_path}">ES</a>'
+        f'<a class="{en_cls}" href="{en_path}">EN</a>'
+        "</div>"
     )
 
 
 def insert_style(html: str) -> str:
-    if 'id="sm-language-switch-css"' in html:
-        return html
+    if STYLE_BLOCK_RE.search(html):
+        return STYLE_BLOCK_RE.sub(STYLE_BLOCK, html, count=1)
     if "</head>" not in html:
         return html
     return html.replace("</head>", f"{STYLE_BLOCK}\n</head>", 1)
 
 
-def insert_menu_switch(html: str, lang_item: str) -> tuple[str, int]:
-    updates = 0
+def remove_menu_switch_items(html: str) -> tuple[str, int]:
+    updated, removed = LANG_ITEM_BLOCK_RE.subn("", html)
+    return updated, removed
 
-    def repl(match: re.Match[str]) -> str:
-        nonlocal updates
-        opening, body, closing = match.groups()
-        if "menu-item-language-switch" in body:
-            replaced_body, replaced = LANG_ITEM_BLOCK_RE.subn(lang_item, body)
-            if replaced:
-                updates += replaced
-                return f"{opening}{replaced_body}{closing}"
-            return match.group(0)
-        updates += 1
-        return f"{opening}{body}\n{lang_item}\n{closing}"
 
-    updated = PRIMARY_MENU_RE.sub(repl, html)
-    return updated, updates
+def insert_right_switch(html: str, switch_markup: str) -> tuple[str, int]:
+    updated = INLINE_SWITCH_RE.sub("", html)
+    inserted = 0
+
+    for element_id in ("373d1868", "70da6a1"):
+        pattern = re.compile(
+            rf'(<div class="elementor-column[^"]*elementor-element-{element_id}[^"]*"[^>]*>\s*'
+            r'<div class="elementor-widget-wrap elementor-element-populated">)',
+            re.IGNORECASE | re.DOTALL,
+        )
+        updated, count = pattern.subn(rf"\1\n{switch_markup}", updated, count=1)
+        inserted += count
+
+    return updated, inserted
+
+
+def cleanup_seo_artifacts(html: str) -> tuple[str, int]:
+    cleaned = 0
+    updated, count_link = re.subn(r"^\s*link\s*$\n?", "", html, flags=re.MULTILINE)
+    cleaned += count_link
+    updated, count_canon = re.subn(r"^\s*rel=canonical\s*$\n?", "", updated, flags=re.MULTILINE)
+    cleaned += count_canon
+    return updated, cleaned
 
 
 def main() -> None:
@@ -135,21 +150,27 @@ def main() -> None:
 
     pages = [p for p in ROOT.rglob("*.html") if is_page_html(p)]
     changed_files = 0
-    menus_inserted = 0
+    menu_items_removed = 0
+    switch_blocks_inserted = 0
+    seo_lines_cleaned = 0
 
     for page in pages:
         rel = page.relative_to(ROOT)
         locale, es_path, en_path = page_lang_and_paths(rel)
-        lang_item = build_language_item(locale, es_path, en_path)
+        switch_markup = build_switch_markup(locale, es_path, en_path)
 
         original = page.read_text(encoding="utf-8", errors="ignore")
         updated = insert_style(original)
-        updated, inserted_here = insert_menu_switch(updated, lang_item)
+        updated, removed_here = remove_menu_switch_items(updated)
+        updated, inserted_here = insert_right_switch(updated, switch_markup)
+        updated, cleaned_here = cleanup_seo_artifacts(updated)
 
         if updated != original:
             page.write_text(updated, encoding="utf-8")
             changed_files += 1
-            menus_inserted += inserted_here
+        menu_items_removed += removed_here
+        switch_blocks_inserted += inserted_here
+        seo_lines_cleaned += cleaned_here
 
     # Keep root entrypoint in sync so local servers and some deployments
     # render the same homepage as the mirrored source.
@@ -157,7 +178,9 @@ def main() -> None:
 
     print(f"pages_scanned={len(pages)}")
     print(f"pages_changed={changed_files}")
-    print(f"menus_inserted={menus_inserted}")
+    print(f"menu_items_removed={menu_items_removed}")
+    print(f"switch_blocks_inserted={switch_blocks_inserted}")
+    print(f"seo_lines_cleaned={seo_lines_cleaned}")
     print("root_index_synced=index.html")
 
 
