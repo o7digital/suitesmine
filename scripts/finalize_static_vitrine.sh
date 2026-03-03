@@ -62,6 +62,8 @@ process_html_file() {
     # Remove Woo runtime scripts/vars to keep vitrines static.
     s{<script[^>]+(?:/wp-content/plugins/woocommerce/|/assets/plugins/woocommerce/)[^>]*></script>\s*}{}gsi;
     s{<script[^>]+id=["\047](?:wc-[^"\047]+|woocommerce[^"\047]*|sourcebuster-js-js)[^>]*>.*?</script>\s*}{}gsi;
+    s{<link[^>]+id=["\047]classic-theme-styles-css["\047][^>]*>\s*}{}gsi;
+    s{<script[^>]+(?:/core/js/wp-emoji-(?:release|loader)\.min\.js|/wp-includes/js/wp-emoji-(?:release|loader)\.min\.js)[^>]*></script>\s*}{}gsi;
     s{<script[^>]*>\s*var\s+wcSettings\s*=.*?</script>\s*}{}gsi;
     s{var\s+wc_add_to_cart_params\s*=\s*\{.*?\};\s*}{}gsi;
     s{var\s+woocommerce_params\s*=\s*\{.*?\};\s*}{}gsi;
@@ -150,13 +152,13 @@ process_html_file() {
 
 repair_missing_critical_assets() {
   local refs_file missing_count created_count
-  local ref rel target dir stem candidate base
+  local ref rel target dir stem candidate base stem_no_size
 
   refs_file="$(mktemp)"
   created_count=0
 
   rg --pcre2 -No --glob '*.html' --no-filename \
-    '(?<=\b(?:href|src|data-cs-background-image|content)=["\x27])/assets/uploads/[^"\x27]+' \
+    '/assets/uploads/[^"\x27<>()[:space:]]+\.(?:webp|jpe?g|png|gif|svg|avif)' \
     "$ROOT" | sed 's/[?#].*$//' | sort -u > "$refs_file"
 
   while IFS= read -r ref; do
@@ -177,6 +179,11 @@ repair_missing_critical_assets() {
 
     if [[ -z "$candidate" ]]; then
       candidate="$(find "$ROOT/wp-content/uploads/elementor/thumbs" -type f -name "${stem}-*.webp" 2>/dev/null | head -n 1 || true)"
+    fi
+
+    if [[ -z "$candidate" && "$stem" =~ ^(.+)-[0-9]+x[0-9]+$ ]]; then
+      stem_no_size="${BASH_REMATCH[1]}"
+      candidate="$(find "$ROOT/wp-content/uploads/$dir" -maxdepth 1 -type f \( -name "${stem_no_size}.webp" -o -name "${stem_no_size}-scaled.webp" -o -name "${stem_no_size}-*.webp" \) 2>/dev/null | head -n 1 || true)"
     fi
 
     if [[ -z "$candidate" ]]; then
@@ -214,6 +221,13 @@ repair_missing_critical_assets() {
   echo "Repair summary: created=$created_count missing_after=$missing_count"
 }
 
+ensure_local_aliases() {
+  ln -sfn "wp-content" "$ROOT/assets"
+  ln -sfn "wp-includes" "$ROOT/core"
+  ln -sfn "$ROOT/wp-content" "assets"
+  ln -sfn "$ROOT/wp-includes" "core"
+}
+
 echo "1/4 Process HTML pages for vitrine + de-WP + SEO..."
 while IFS= read -r -d '' file; do
   process_html_file "$file"
@@ -225,4 +239,7 @@ repair_missing_critical_assets
 echo "3/4 Sync root index..."
 cp "$ROOT/index.html" "index.html"
 
-echo "4/4 Done."
+echo "4/4 Create local aliases..."
+ensure_local_aliases
+
+echo "Done."
