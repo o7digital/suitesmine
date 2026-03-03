@@ -31,7 +31,7 @@ STYLE_BLOCK = """
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  margin-top: 6px;
+  margin-top: 0;
 }
 .sm-language-switch-right a {
   color: rgba(255, 255, 255, 0.78);
@@ -62,6 +62,14 @@ STYLE_BLOCK = """
 .elementor-element-70da6a1 .sm-language-switch-right {
   justify-content: center;
   margin-top: 0;
+}
+.elementor-element-373d1868 .sm-language-switch-right {
+  margin-right: 8px;
+}
+/* Disable legacy text language widgets to avoid duplicate switches. */
+.elementor-element-73b67ae,
+.elementor-element-3205728c {
+  display: none !important;
 }
 </style>
 """.strip()
