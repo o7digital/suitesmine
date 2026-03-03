@@ -77,6 +77,20 @@ process_html_file() {
     s{\\\/wp-content\\\/}{/assets/}gsi;
     s{\\\/wp-includes\\\/}{/core/}gsi;
 
+    # Normalize old demo absolute media links to local mirrored uploads.
+    s{https?://cozystay\.loftocean\.com/[^/\s"'"'"']+/assets/uploads/sites/\d+/}{/assets/uploads/}gsi;
+    s{https?://cozystay\.loftocean\.com/[^/\s"'"'"']+/wp-content/uploads/sites/\d+/}{/assets/uploads/}gsi;
+
+    # Fallback replacements for missing original demo files.
+    s{/assets/uploads/2023/03/img-40\.webp}{/assets/uploads/2023/03/img-35.webp}gsi;
+    s{/assets/uploads/2023/04/eaters-collective-ESmxug33C0c-unsplash\.webp}{/assets/uploads/2023/04/content-pixie-9l7r-n1zt-Y-unsplash.webp}gsi;
+    s{/assets/uploads/2023/04/le-quan-H2NpsZJe2IA-unsplash-1024x576\.jpg}{/assets/uploads/2023/04/le-quan-H2NpsZJe2IA-unsplash-1024x576.webp}gsi;
+    s{/assets/uploads/2023/04/lindsay-cash-Md_DhaFsnCQ-unsplash\.webp}{/assets/uploads/2023/04/content-pixie-9l7r-n1zt-Y-unsplash.webp}gsi;
+    s{/assets/uploads/2023/04/tamara-bellis-ZvPoZtY-0ng-unsplash\.webp}{/assets/uploads/2023/04/nati-melnychuk-dFBhXJHKNeo-unsplash-600x900.webp}gsi;
+    s{/assets/uploads/2023/05/annie-spratt-l-eemJU0vE-unsplash\.webp}{/assets/uploads/2023/05/r-architecture-wDDfbanbhl8-unsplash.webp}gsi;
+    s{/assets/uploads/2023/05/claudio-testa-iqeG5xA96M4-unsplash\.webp}{/assets/uploads/2023/04/toomas-tartes-41gqn1q-tqc-unsplash.webp}gsi;
+    s{/assets/uploads/2023/03/img-75-683x1024\.(?:jpg|webp)}{/assets/uploads/2023/04/le-quan-H2NpsZJe2IA-unsplash-1024x576.webp}gsi;
+
     # Remove wp-* CSS classes to reduce WP fingerprint.
     s{class=(["\047])([^"\047]*)\1}{
       my ($q, $classes) = ($1, $2);
