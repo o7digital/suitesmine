@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+import shutil
 from pathlib import Path
 
 
@@ -141,9 +142,14 @@ def main() -> None:
             changed_files += 1
             menus_inserted += inserted_here
 
+    # Keep root entrypoint in sync so local servers and some deployments
+    # render the same homepage as the mirrored source.
+    shutil.copy2(ROOT / "index.html", Path("index.html"))
+
     print(f"pages_scanned={len(pages)}")
     print(f"pages_changed={changed_files}")
     print(f"menus_inserted={menus_inserted}")
+    print("root_index_synced=index.html")
 
 
 if __name__ == "__main__":
