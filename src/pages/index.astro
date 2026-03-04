@@ -1,0 +1,8 @@
+---
+import { readMirrorHtmlBySlug } from "../lib/mirror";
+
+const html = readMirrorHtmlBySlug();
+---
+
+<Fragment set:html={html} />
+

@@ -1,0 +1,16 @@
+---
+import { getMirrorRouteSlugs, readMirrorHtmlBySlug } from "../lib/mirror";
+
+export function getStaticPaths() {
+  return getMirrorRouteSlugs().map((slug) => ({
+    params: { slug },
+    props: { slug },
+  }));
+}
+
+const { slug } = Astro.props as { slug: string };
+const html = readMirrorHtmlBySlug(slug);
+---
+
+<Fragment set:html={html} />
+
