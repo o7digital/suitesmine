@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "check:detach": "bash scripts/check_no_wp_runtime.sh",
+    "build": "npm run check:detach && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
     "astro": "^5.2.0"
   }
 }
-

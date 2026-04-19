@@ -32,12 +32,26 @@ strip_wp_runtime_from_html() {
     s{<script[^>]+id=["\047](?:wp-api-request-js-extra|wp-api-request-js|wp-api-js)["\047][^>]*>.*?</script>\s*}{}gsi;
     s{<script[^>]+id=["\047](?:wp-api-request-js|wp-api-js)["\047][^>]*></script>\s*}{}gsi;
 
+    # Remove WordPress-driven inline config payloads that call wp-admin/admin-ajax.php.
+    s{<script[^>]+id=["\047]cozystay-ajax-navigation-js-extra["\047][^>]*>.*?</script>\s*}{}gsi;
+    s{<script[^>]+id=["\047]loftocean-post-metas-js-extra["\047][^>]*>.*?</script>\s*}{}gsi;
+    s{<script[^>]+id=["\047]elementor-frontend-js-before["\047][^>]*>.*?</script>\s*}{}gsi;
+    s{<script[^>]*>\s*var\s+cozystayAjaxNavigation\s*=.*?</script>\s*}{}gsi;
+    s{<script[^>]*>\s*var\s+loftoceanSocialAjax\s*=.*?</script>\s*}{}gsi;
+    s{<script[^>]*>\s*var\s+elementorFrontendConfig\s*=.*?</script>\s*}{}gsi;
+    s{^\s*var\s+cozystayAjaxNavigation\s*=.*?;\s*$}{}gmi;
+    s{^\s*var\s+loftoceanSocialAjax\s*=.*?;\s*$}{}gmi;
+    s{^\s*var\s+elementorFrontendConfig\s*=.*?;\s*$}{}gmi;
+
     # Remove analytics snippets that cause noisy network errors in static mode.
     s{<script[^>]+src=["\047]https://www\.googletagmanager\.com/gtag/js[^"\047]*["\047][^>]*>\s*</script>\s*}{}gsi;
     s{<script(?![^>]*\bid=)[^>]*>[^<]*window\.dataLayer[^<]*gtag\([^<]*</script>\s*}{}gsi;
 
     # Keep body classes coherent for static output.
     s{\bwoocommerce-no-js\b}{}gsi;
+    s{/\*#\s*sourceURL=/wp-includes/[^*]*\*/}{}gsi;
+    s{/wp-admin/\*}{}gsi;
+    s{/wp-admin/admin-ajax\.php}{}gsi;
 
     # De-duplicate excessive blank lines introduced by removals.
     s{\n{3,}}{\n\n}g;
