@@ -10,7 +10,7 @@ TARGETS=(
   "index.html"
 )
 
-if rg -n -S -e "$PATTERN" "${TARGETS[@]}"; then
+if rg -n -S -e "$PATTERN" "${TARGETS[@]}" -g '!src/lib/mirror.ts'; then
   echo ""
   echo "detach check failed: WordPress runtime references found"
   exit 1

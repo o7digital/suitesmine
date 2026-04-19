@@ -3,8 +3,23 @@ import { join, resolve } from "node:path";
 
 const MIRROR_ROOT = resolve(process.cwd(), "site-mirror/suitesmine.com");
 const INDEX_FILE = "index.html";
+const EXCLUDED_ROUTE_SEGMENTS = new Set([
+  "wp-admin",
+  "wp-content",
+  "wp-includes",
+  "wp-json",
+  "xmlrpc.php",
+]);
+
+function hasExcludedSegment(segments: string[]): boolean {
+  return segments.some((segment) => EXCLUDED_ROUTE_SEGMENTS.has(segment));
+}
 
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
+  if (hasExcludedSegment(segments)) {
+    return;
+  }
+
   const entries = readdirSync(dir, { withFileTypes: true });
 
   if (entries.some((entry) => entry.isFile() && entry.name === INDEX_FILE)) {
@@ -40,4 +55,3 @@ export function readMirrorHtmlBySlug(slug = ""): string {
   // Astro already injects <!DOCTYPE html>; strip a duplicate if present in source.
   return readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
 }
-
