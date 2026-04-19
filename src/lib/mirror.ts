@@ -15,6 +15,45 @@ function hasExcludedSegment(segments: string[]): boolean {
   return segments.some((segment) => EXCLUDED_ROUTE_SEGMENTS.has(segment));
 }
 
+const RUNTIME_SHIM = `<script id="detached-runtime-shim">
+if (typeof cozystayAjaxNavigation === "undefined") {
+  var cozystayAjaxNavigation = { noMoreText: "No More Posts", url: "", data: { action: "", query: { paged: 1 } } };
+}
+if (typeof loftoceanSocialAjax === "undefined") {
+  var loftoceanSocialAjax = { url: "", like: { action: "" }, social: { action: "" }, loadPostMetasDynamically: "", currentPostID: "" };
+}
+if (typeof elementorFrontendConfig === "undefined") {
+  var elementorFrontendConfig = {
+    environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+    i18n: {},
+    is_rtl: false,
+    breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+    responsive: { breakpoints: {} },
+    version: "3.35.0",
+    is_static: true,
+    experimentalFeatures: {},
+    urls: { assets: "/assets/plugins/elementor/assets/", ajaxurl: "", uploadUrl: "/assets/uploads" },
+    nonces: {},
+    swiperClass: "swiper",
+    settings: { page: [], editorPreferences: [] },
+    kit: { active_breakpoints: ["viewport_mobile", "viewport_tablet"] },
+    post: { id: 0, title: "", excerpt: "", featuredImage: false }
+  };
+}
+</script>`;
+
+function injectRuntimeShim(html: string): string {
+  if (html.includes('id="detached-runtime-shim"')) {
+    return html;
+  }
+
+  if (html.includes("</head>")) {
+    return html.replace("</head>", `${RUNTIME_SHIM}\n</head>`);
+  }
+
+  return `${RUNTIME_SHIM}\n${html}`;
+}
+
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
   if (hasExcludedSegment(segments)) {
     return;
@@ -53,5 +92,6 @@ export function readMirrorHtmlBySlug(slug = ""): string {
   }
 
   // Astro already injects <!DOCTYPE html>; strip a duplicate if present in source.
-  return readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
+  const html = readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
+  return injectRuntimeShim(html);
 }
