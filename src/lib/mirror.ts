@@ -17,26 +17,101 @@ function hasExcludedSegment(segments: string[]): boolean {
 
 const RUNTIME_SHIM = `<script id="detached-runtime-shim">
 if (typeof cozystayAjaxNavigation === "undefined") {
-  var cozystayAjaxNavigation = { noMoreText: "No More Posts", url: "", data: { action: "", query: { paged: 1 } } };
+  var cozystayAjaxNavigation = {
+    noMoreText: "No More Posts",
+    url: "https://suitesmine.com/wp-admin/admin-ajax.php",
+    data: {
+      query: { page: "", pagename: "", paged: 2, ignore_sticky_posts: true, post_status: "publish" },
+      action: "cozystay_load_more",
+      settings: {
+        archive_page: "",
+        page_layout: "",
+        layout: "list",
+        columns: false,
+        post_meta: "a:4:{i:0;s:7:\\"excerpt\\";i:1;s:13:\\"read_more_btn\\";i:2;s:6:\\"author\\";i:3;s:4:\\"date\\";}"
+      }
+    }
+  };
 }
 if (typeof loftoceanSocialAjax === "undefined") {
-  var loftoceanSocialAjax = { url: "", like: { action: "" }, social: { action: "" }, loadPostMetasDynamically: "", currentPostID: "" };
+  var loftoceanSocialAjax = {
+    url: "https://suitesmine.com/wp-admin/admin-ajax.php",
+    like: { action: "loftocean_post_like" },
+    social: { action: "loftocean_social_counter" },
+    loadPostMetasDynamically: "",
+    currentPostID: ""
+  };
 }
 if (typeof elementorFrontendConfig === "undefined") {
   var elementorFrontendConfig = {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
-    i18n: {},
+    i18n: {
+      shareOnFacebook: "Share on Facebook",
+      shareOnTwitter: "Share on Twitter",
+      pinIt: "Pin it",
+      download: "Download",
+      downloadImage: "Download image",
+      fullscreen: "Fullscreen",
+      zoom: "Zoom",
+      share: "Share",
+      playVideo: "Play Video",
+      previous: "Previous",
+      next: "Next",
+      close: "Close",
+      a11yCarouselPrevSlideMessage: "Previous slide",
+      a11yCarouselNextSlideMessage: "Next slide",
+      a11yCarouselFirstSlideMessage: "This is the first slide",
+      a11yCarouselLastSlideMessage: "This is the last slide",
+      a11yCarouselPaginationBulletMessage: "Go to slide"
+    },
     is_rtl: false,
     breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
-    responsive: { breakpoints: {} },
-    version: "3.35.0",
-    is_static: true,
-    experimentalFeatures: {},
-    urls: { assets: "/assets/plugins/elementor/assets/", ajaxurl: "", uploadUrl: "/assets/uploads" },
-    nonces: {},
+    responsive: {
+      breakpoints: {
+        mobile: { label: "Mobile Portrait", value: 767, default_value: 767, direction: "max", is_enabled: true },
+        mobile_extra: { label: "Mobile Landscape", value: 880, default_value: 880, direction: "max", is_enabled: false },
+        tablet: { label: "Tablet Portrait", value: 1024, default_value: 1024, direction: "max", is_enabled: true },
+        tablet_extra: { label: "Tablet Landscape", value: 1200, default_value: 1200, direction: "max", is_enabled: false },
+        laptop: { label: "Laptop", value: 1366, default_value: 1366, direction: "max", is_enabled: false },
+        widescreen: { label: "Widescreen", value: 2400, default_value: 2400, direction: "min", is_enabled: false }
+      },
+      hasCustomBreakpoints: false
+    },
+    version: "3.35.7",
+    is_static: false,
+    experimentalFeatures: {
+      e_font_icon_svg: true,
+      additional_custom_breakpoints: true,
+      container: true,
+      "nested-elements": true,
+      home_screen: true,
+      global_classes_should_enforce_capabilities: true,
+      e_variables: true,
+      "cloud-library": true,
+      e_opt_in_v4_page: true,
+      e_components: true,
+      e_interactions: true,
+      e_editor_one: true,
+      "import-export-customization": true
+    },
+    urls: {
+      assets: "https://suitesmine.com/wp-content/plugins/elementor/assets/",
+      ajaxurl: "https://suitesmine.com/wp-admin/admin-ajax.php",
+      uploadUrl: "https://suitesmine.com/wp-content/uploads"
+    },
+    nonces: { floatingButtonsClickTracking: "" },
     swiperClass: "swiper",
     settings: { page: [], editorPreferences: [] },
-    kit: { active_breakpoints: ["viewport_mobile", "viewport_tablet"] },
+    kit: {
+      active_breakpoints: ["viewport_mobile", "viewport_tablet"],
+      global_image_lightbox: "yes",
+      lightbox_enable_counter: "yes",
+      lightbox_enable_fullscreen: "yes",
+      lightbox_enable_zoom: "yes",
+      lightbox_enable_share: "yes",
+      lightbox_title_src: "title",
+      lightbox_description_src: "description"
+    },
     post: { id: 0, title: "", excerpt: "", featuredImage: false }
   };
 }
