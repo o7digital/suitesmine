@@ -130,6 +130,13 @@ function injectRuntimeShim(html: string): string {
   return `${RUNTIME_SHIM}\n${html}`;
 }
 
+function sanitizeMirrorRuntime(html: string): string {
+  return html
+    .replaceAll("https://suitesmine.com/wp-admin/admin-ajax.php", "/__detached-noop-admin-ajax")
+    .replaceAll("https://suitesmine.com/wp-content/plugins/elementor/assets/", "/assets/plugins/elementor/assets/")
+    .replaceAll("https://suitesmine.com/wp-content/uploads", "/assets/uploads");
+}
+
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
   if (hasExcludedSegment(segments)) {
     return;
@@ -169,5 +176,5 @@ export function readMirrorHtmlBySlug(slug = ""): string {
 
   // Astro already injects <!DOCTYPE html>; strip a duplicate if present in source.
   const html = readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
-  return injectRuntimeShim(html);
+  return injectRuntimeShim(sanitizeMirrorRuntime(html));
 }
