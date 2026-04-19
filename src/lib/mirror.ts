@@ -132,9 +132,29 @@ function injectRuntimeShim(html: string): string {
 
 function sanitizeMirrorRuntime(html: string): string {
   return html
+    // Remove legacy pingback tags that point to xmlrpc endpoints.
+    .replace(/<link[^>]*rel=["']pingback["'][^>]*>\s*/gi, "")
+    .replaceAll("/xmlrpc.php", "/__detached-noop-xmlrpc")
+    .replaceAll("/en/xmlrpc.php", "/__detached-noop-xmlrpc")
+    .replaceAll('wp.apiFetch.createRootURLMiddleware( "/wp-json/" )', 'wp.apiFetch.createRootURLMiddleware( "/__detached-noop-wp-json/" )')
+    .replaceAll("wp-json/", "__detached-noop-wp-json/")
+    .replaceAll("/__detached-noop-__detached-noop-wp-json/", "/__detached-noop-wp-json/")
     .replaceAll("https://suitesmine.com/wp-admin/admin-ajax.php", "/__detached-noop-admin-ajax")
     .replaceAll("https://suitesmine.com/wp-content/plugins/elementor/assets/", "/assets/plugins/elementor/assets/")
-    .replaceAll("https://suitesmine.com/wp-content/uploads", "/assets/uploads");
+    .replaceAll("https://suitesmine.com/wp-content/uploads", "/assets/uploads")
+    .replaceAll("https:\\/\\/suitesmine.com\\/wp-content\\/uploads", "\\/assets\\/uploads")
+    .replaceAll("https:\\/\\u002F\\u002Fsuitesmine.com\\u002Fwp-content\\u002Fuploads", "\\/assets\\u002Fuploads")
+    .replaceAll("https:\\/\\/suitesmine.com\\/wp-content\\/plugins\\/elementor\\/assets\\/", "\\/assets\\/plugins\\/elementor\\/assets\\/")
+    .replaceAll("%5C%2Fwp-content%5C%2Fuploads", "%5C%2Fassets%5C%2Fuploads")
+    .replaceAll("%5C%2F%5C%2Fsuitesmine.com%5C%2Fwp-content%5C%2Fuploads", "%5C%2Fassets%5C%2Fuploads")
+    .replaceAll("%5C%2Fwp-content%5C%2Fplugins%5C%2Felementor%5C%2Fassets%5C%2F", "%5C%2Fassets%5C%2Fplugins%5C%2Felementor%5C%2Fassets%5C%2F")
+    .replaceAll("%5C%2Fwp-content%5C%2Fplugins%5C%2Fwoocommerce%5C%2Fassets%5C%2F", "%5C%2Fassets%5C%2Fplugins%5C%2Fwoocommerce%5C%2Fassets%5C%2F")
+    .replaceAll("%5C%2F%5C%2Fsuitesmine.com%5C%2Fwp-content%5C%2Fplugins%5C%2Fwoocommerce%5C%2Fassets%5C%2F", "%5C%2Fassets%5C%2Fplugins%5C%2Fwoocommerce%5C%2Fassets%5C%2F")
+    .replaceAll("%5C%2Fwp-login.php", "%5C%2F__detached-noop-login")
+    .replaceAll("%5C%2F%5C%2Fsuitesmine.com%5C%2Fwp-login.php", "%5C%2F__detached-noop-login")
+    .replaceAll("%5C%2Fwp-json%5C%2F", "%5C%2F__detached-noop-wp-json%5C%2F")
+    .replaceAll("https://suitesmine.com/wp-login.php", "/__detached-noop-login")
+    .replaceAll("https:\\/\\/suitesmine.com\\/wp-login.php", "\\/__detached-noop-login");
 }
 
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
