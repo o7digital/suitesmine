@@ -16,10 +16,11 @@ function hasExcludedSegment(segments: string[]): boolean {
 }
 
 const RUNTIME_SHIM = `<script id="detached-runtime-shim">
+const DETACHED_NOOP_AJAX_URL = "/__detached-noop-admin-ajax";
 if (typeof cozystayAjaxNavigation === "undefined") {
   var cozystayAjaxNavigation = {
     noMoreText: "No More Posts",
-    url: "https://suitesmine.com/wp-admin/admin-ajax.php",
+    url: DETACHED_NOOP_AJAX_URL,
     data: {
       query: { page: "", pagename: "", paged: 2, ignore_sticky_posts: true, post_status: "publish" },
       action: "cozystay_load_more",
@@ -35,7 +36,7 @@ if (typeof cozystayAjaxNavigation === "undefined") {
 }
 if (typeof loftoceanSocialAjax === "undefined") {
   var loftoceanSocialAjax = {
-    url: "https://suitesmine.com/wp-admin/admin-ajax.php",
+    url: DETACHED_NOOP_AJAX_URL,
     like: { action: "loftocean_post_like" },
     social: { action: "loftocean_social_counter" },
     loadPostMetasDynamically: "",
@@ -95,9 +96,9 @@ if (typeof elementorFrontendConfig === "undefined") {
       "import-export-customization": true
     },
     urls: {
-      assets: "https://suitesmine.com/wp-content/plugins/elementor/assets/",
-      ajaxurl: "https://suitesmine.com/wp-admin/admin-ajax.php",
-      uploadUrl: "https://suitesmine.com/wp-content/uploads"
+      assets: "/assets/plugins/elementor/assets/",
+      ajaxurl: DETACHED_NOOP_AJAX_URL,
+      uploadUrl: "/assets/uploads"
     },
     nonces: { floatingButtonsClickTracking: "" },
     swiperClass: "swiper",
