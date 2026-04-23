@@ -1,5 +1,6 @@
 ---
-import { getMirrorRouteSlugs, readMirrorHtmlBySlug } from "../lib/mirror";
+import MirrorDocument from "../layouts/MirrorDocument.astro";
+import { getMirrorRouteSlugs, readMirrorDocumentBySlug } from "../lib/mirror";
 
 export function getStaticPaths() {
   return getMirrorRouteSlugs().map((slug) => ({
@@ -9,8 +10,12 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.props as { slug: string };
-const html = readMirrorHtmlBySlug(slug);
+const document = readMirrorDocumentBySlug(slug);
 ---
 
-<Fragment set:html={html} />
-
+<MirrorDocument
+  htmlAttributes={document.htmlAttributes}
+  headInnerHtml={document.headInnerHtml}
+  bodyAttributes={document.bodyAttributes}
+  bodyInnerHtml={document.bodyInnerHtml}
+/>
