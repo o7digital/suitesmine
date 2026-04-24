@@ -118,6 +118,13 @@ if (typeof elementorFrontendConfig === "undefined") {
 }
 </script>`;
 
+export type MirrorDocument = {
+  htmlAttributes: Record<string, string | boolean>;
+  headInnerHtml: string;
+  bodyAttributes: Record<string, string | boolean>;
+  bodyInnerHtml: string;
+};
+
 function injectRuntimeShim(html: string): string {
   if (html.includes('id="detached-runtime-shim"')) {
     return html;
@@ -197,4 +204,43 @@ export function readMirrorHtmlBySlug(slug = ""): string {
   // Astro already injects <!DOCTYPE html>; strip a duplicate if present in source.
   const html = readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
   return injectRuntimeShim(sanitizeMirrorRuntime(html));
+}
+
+function extractTagAttrs(html: string, tagName: "html" | "body"): string {
+  const pattern = new RegExp(`<${tagName}\\b([^>]*)>`, "i");
+  const match = html.match(pattern);
+  return match?.[1]?.trim() ?? "";
+}
+
+function extractTagInner(html: string, tagName: "head" | "body"): string {
+  const pattern = new RegExp(`<${tagName}\\b[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "i");
+  const match = html.match(pattern);
+  return match?.[1] ?? "";
+}
+
+function parseHtmlAttributes(attrs: string): Record<string, string | boolean> {
+  const parsed: Record<string, string | boolean> = {};
+  const attrPattern = /([:@A-Za-z0-9_-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>/=`]+)))?/g;
+  let match: RegExpExecArray | null = null;
+
+  while ((match = attrPattern.exec(attrs)) !== null) {
+    const key = match[1];
+    const value = match[2] ?? match[3] ?? match[4];
+    parsed[key] = value ?? true;
+  }
+
+  return parsed;
+}
+
+export function readMirrorDocumentBySlug(slug = ""): MirrorDocument {
+  const html = readMirrorHtmlBySlug(slug);
+  const htmlAttrs = extractTagAttrs(html, "html");
+  const bodyAttrs = extractTagAttrs(html, "body");
+
+  return {
+    htmlAttributes: parseHtmlAttributes(htmlAttrs),
+    headInnerHtml: extractTagInner(html, "head"),
+    bodyAttributes: parseHtmlAttributes(bodyAttrs),
+    bodyInnerHtml: extractTagInner(html, "body"),
+  };
 }

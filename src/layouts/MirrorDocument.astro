@@ -1,0 +1,24 @@
+---
+type Props = {
+  htmlAttributes?: Record<string, string | boolean>;
+  headInnerHtml: string;
+  bodyAttributes?: Record<string, string | boolean>;
+  bodyInnerHtml: string;
+};
+
+const {
+  htmlAttributes = {},
+  headInnerHtml,
+  bodyAttributes = {},
+  bodyInnerHtml,
+} = Astro.props as Props;
+---
+
+<html {...htmlAttributes}>
+  <head>
+    <Fragment set:html={headInnerHtml} />
+  </head>
+  <body {...bodyAttributes}>
+    <Fragment set:html={bodyInnerHtml} />
+  </body>
+</html>

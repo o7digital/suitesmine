@@ -1,8 +1,13 @@
 ---
-import { readMirrorHtmlBySlug } from "../lib/mirror";
+import MirrorDocument from "../layouts/MirrorDocument.astro";
+import { readMirrorDocumentBySlug } from "../lib/mirror";
 
-const html = readMirrorHtmlBySlug();
+const document = readMirrorDocumentBySlug();
 ---
 
-<Fragment set:html={html} />
-
+<MirrorDocument
+  htmlAttributes={document.htmlAttributes}
+  headInnerHtml={document.headInnerHtml}
+  bodyAttributes={document.bodyAttributes}
+  bodyInnerHtml={document.bodyInnerHtml}
+/>
