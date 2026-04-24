@@ -164,6 +164,37 @@ function sanitizeMirrorRuntime(html: string): string {
     .replaceAll("https:\\/\\/suitesmine.com\\/wp-login.php", "\\/__detached-noop-login");
 }
 
+function hasWebpVariant(uploadPath: string): boolean {
+  const clean = uploadPath.replace(/^\/+/, "");
+  const source = join(MIRROR_ROOT, "wp-content", clean);
+  const webp = source.replace(/\.(?:jpe?g|png)$/i, ".webp");
+  return existsSync(webp);
+}
+
+function replaceUploadsWithWebp(html: string): string {
+  const plainPattern = /\/assets\/uploads\/([^\s"'()<>?#]+\.(?:jpe?g|png))(?=([?#][^"')<>\s]*)?|["')<>\s])/gi;
+  const escapedPattern = /\\\/assets\\\/uploads\\\/([^"'()<>\s?#]+?\.(?:jpe?g|png))(?=([?#][^"'()<>\s]*)?|["'<>\s])/gi;
+
+  const replacePlain = (value: string): string =>
+    value.replace(plainPattern, (full, relativePath) => {
+      const lookupPath = `uploads/${relativePath}`;
+      return hasWebpVariant(lookupPath) ? full.replace(/\.(?:jpe?g|png)$/i, ".webp") : full;
+    });
+
+  return replacePlain(html).replace(escapedPattern, (full, relativePath) => {
+    const normalizedPath = String(relativePath).replaceAll("\\/", "/");
+    const lookupPath = `uploads/${normalizedPath}`;
+    return hasWebpVariant(lookupPath) ? full.replace(/\.(?:jpe?g|png)$/i, ".webp") : full;
+  });
+}
+
+function normalizeOgImageType(html: string): string {
+  return html.replace(
+    /(<meta\s+property=["']og:image["']\s+content=["'][^"']+\.webp["'][^>]*>[\s\S]{0,400}?<meta\s+property=["']og:image:type["']\s+content=["'])image\/(?:jpeg|png)(["'][^>]*>)/gi,
+    "$1image/webp$2"
+  );
+}
+
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
   if (hasExcludedSegment(segments)) {
     return;
@@ -203,7 +234,10 @@ export function readMirrorHtmlBySlug(slug = ""): string {
 
   // Astro already injects <!DOCTYPE html>; strip a duplicate if present in source.
   const html = readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
-  return injectRuntimeShim(sanitizeMirrorRuntime(html));
+  const sanitized = sanitizeMirrorRuntime(html);
+  const webpOptimized = replaceUploadsWithWebp(sanitized);
+  const seoNormalized = normalizeOgImageType(webpOptimized);
+  return injectRuntimeShim(seoNormalized);
 }
 
 function extractTagAttrs(html: string, tagName: "html" | "body"): string {
