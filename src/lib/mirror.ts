@@ -3,6 +3,7 @@ import { join, resolve } from "node:path";
 
 const MIRROR_ROOT = resolve(process.cwd(), "site-mirror/suitesmine.com");
 const INDEX_FILE = "index.html";
+const SITE_ORIGIN = "https://suitesmine.com";
 const EXCLUDED_ROUTE_SEGMENTS = new Set([
   "wp-admin",
   "wp-content",
@@ -195,6 +196,59 @@ function normalizeOgImageType(html: string): string {
   );
 }
 
+function getCanonicalPath(slug: string): string {
+  const clean = slug.split("/").filter(Boolean).join("/");
+  return clean.length === 0 ? "/" : `/${clean}/`;
+}
+
+function stripSmartCrawlJsonLd(html: string): string {
+  return html.replace(
+    /<!--\s*SEO meta tags powered by SmartCrawl[\s\S]*?<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi,
+    ""
+  );
+}
+
+function normalizeOgUrl(html: string, canonicalUrl: string): string {
+  return html.replace(
+    /(<meta\s+property=["']og:url["']\s+content=["'])[^"']*(["'][^>]*>)/gi,
+    `$1${canonicalUrl}$2`
+  );
+}
+
+function upsertCanonical(html: string, canonicalUrl: string): string {
+  const withoutCanonical = html.replace(/<link[^>]+rel=["']canonical["'][^>]*>\s*/gi, "");
+  const canonicalTag = `<link rel="canonical" href="${canonicalUrl}" />`;
+
+  if (withoutCanonical.includes("</head>")) {
+    return withoutCanonical.replace("</head>", `${canonicalTag}\n</head>`);
+  }
+
+  return `${withoutCanonical}\n${canonicalTag}`;
+}
+
+function upsertHreflangSet(html: string): string {
+  const withoutAlternates = html.replace(/<link[^>]+rel=["']alternate["'][^>]+hreflang=["'][^"']+["'][^>]*>\s*/gi, "");
+  const alternateTags = [
+    '<link rel="alternate" href="https://suitesmine.com/" hreflang="es" />',
+    '<link rel="alternate" href="https://suitesmine.com/en/" hreflang="en" />',
+    '<link rel="alternate" href="https://suitesmine.com/" hreflang="x-default" />',
+  ].join("\n");
+
+  if (withoutAlternates.includes("</head>")) {
+    return withoutAlternates.replace("</head>", `${alternateTags}\n</head>`);
+  }
+
+  return `${withoutAlternates}\n${alternateTags}`;
+}
+
+function normalizeSeo(html: string, slug: string): string {
+  const canonicalUrl = `${SITE_ORIGIN}${getCanonicalPath(slug)}`;
+  const noDuplicateSeo = stripSmartCrawlJsonLd(html);
+  const withOgUrl = normalizeOgUrl(noDuplicateSeo, canonicalUrl);
+  const withCanonical = upsertCanonical(withOgUrl, canonicalUrl);
+  return upsertHreflangSet(withCanonical);
+}
+
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
   if (hasExcludedSegment(segments)) {
     return;
@@ -236,7 +290,7 @@ export function readMirrorHtmlBySlug(slug = ""): string {
   const html = readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
   const sanitized = sanitizeMirrorRuntime(html);
   const webpOptimized = replaceUploadsWithWebp(sanitized);
-  const seoNormalized = normalizeOgImageType(webpOptimized);
+  const seoNormalized = normalizeSeo(normalizeOgImageType(webpOptimized), slug);
   return injectRuntimeShim(seoNormalized);
 }
 
