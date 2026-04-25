@@ -394,6 +394,64 @@ function normalizeSeo(html: string, slug: string): string {
   return upsertHreflangSet(withCanonical);
 }
 
+function isEnglishSlug(slug: string): boolean {
+  return slug === "en" || slug.startsWith("en/");
+}
+
+function upsertFooterKeywordCloud(html: string, slug: string): string {
+  const markerId = "seo-keywords-footer";
+  const withoutExisting = html.replace(
+    /<div id=["']seo-keywords-footer["'][\s\S]*?<\/div>\s*/gi,
+    ""
+  );
+
+  const spanishKeywords = [
+    "suites en cdmx",
+    "suites cerca del angel de la independencia",
+    "hotel con suites en reforma",
+    "departamentos amueblados en cdmx",
+    "alojamiento ejecutivo en cdmx",
+    "suites para estancias largas cdmx",
+    "hospedaje en colonia cuauhtemoc",
+    "apart hotel en ciudad de mexico",
+    "suites con cocina en cdmx",
+    "hotel boutique cerca de reforma",
+    "hospedaje para negocios cdmx",
+    "suites cerca de embajada usa cdmx",
+    "alojamiento cerca de zona rosa",
+    "suites con terraza en cdmx",
+    "donde hospedarse cerca del angel cdmx",
+  ];
+
+  const englishKeywords = [
+    "suites in mexico city",
+    "suites near angel of independence",
+    "hotel suites near reforma",
+    "furnished apartments in mexico city",
+    "executive stay in mexico city",
+    "extended stay suites mexico city",
+    "accommodation in cuauhtemoc mexico city",
+    "aparthotel in mexico city",
+    "suites with kitchen in mexico city",
+    "boutique hotel near reforma avenue",
+    "business travel stay mexico city",
+    "suites near us embassy mexico city",
+    "stay near zona rosa mexico city",
+    "suites with terrace in mexico city",
+    "where to stay near angel of independence",
+  ];
+
+  const keywords = isEnglishSlug(slug) ? englishKeywords : spanishKeywords;
+  const content = keywords.join(" · ");
+  const keywordBlock = `<div id="${markerId}" style="margin-top:24px;padding:18px 12px 26px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.68);font-size:13px;line-height:1.9;text-align:center;text-wrap:pretty;">${content}</div>`;
+
+  if (withoutExisting.includes("</body>")) {
+    return withoutExisting.replace("</body>", `${keywordBlock}\n</body>`);
+  }
+
+  return `${withoutExisting}\n${keywordBlock}`;
+}
+
 function walkIndexRoutes(dir: string, segments: string[], routes: string[]): void {
   if (hasExcludedSegment(segments)) {
     return;
@@ -436,7 +494,8 @@ export function readMirrorHtmlBySlug(slug = ""): string {
   const sanitized = sanitizeMirrorRuntime(html);
   const webpOptimized = replaceUploadsWithWebp(sanitized);
   const seoNormalized = normalizeSeo(normalizeOgImageType(webpOptimized), slug);
-  return injectRuntimeShim(seoNormalized);
+  const withFooterKeywords = upsertFooterKeywordCloud(seoNormalized, slug);
+  return injectRuntimeShim(withFooterKeywords);
 }
 
 function extractTagAttrs(html: string, tagName: "html" | "body"): string {
