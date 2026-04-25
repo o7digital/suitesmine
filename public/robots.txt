@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://suitesmine.com/sitemap-index.xml
+Sitemap: https://www.suitesmine.com/sitemap-index.xml

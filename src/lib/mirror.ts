@@ -3,7 +3,7 @@ import { join, resolve } from "node:path";
 
 const MIRROR_ROOT = resolve(process.cwd(), "site-mirror/suitesmine.com");
 const INDEX_FILE = "index.html";
-const SITE_ORIGIN = "https://suitesmine.com";
+const SITE_ORIGIN = "https://www.suitesmine.com";
 const EXCLUDED_ROUTE_SEGMENTS = new Set([
   "wp-admin",
   "wp-content",
@@ -374,9 +374,9 @@ function upsertCanonical(html: string, canonicalUrl: string): string {
 function upsertHreflangSet(html: string): string {
   const withoutAlternates = html.replace(/<link[^>]+rel=["']alternate["'][^>]+hreflang=["'][^"']+["'][^>]*>\s*/gi, "");
   const alternateTags = [
-    '<link rel="alternate" href="https://suitesmine.com/" hreflang="es" />',
-    '<link rel="alternate" href="https://suitesmine.com/en/" hreflang="en" />',
-    '<link rel="alternate" href="https://suitesmine.com/" hreflang="x-default" />',
+    '<link rel="alternate" href="https://www.suitesmine.com/" hreflang="es" />',
+    '<link rel="alternate" href="https://www.suitesmine.com/en/" hreflang="en" />',
+    '<link rel="alternate" href="https://www.suitesmine.com/" hreflang="x-default" />',
   ].join("\n");
 
   if (withoutAlternates.includes("</head>")) {
