@@ -117,6 +117,151 @@ if (typeof elementorFrontendConfig === "undefined") {
     post: { id: 0, title: "", excerpt: "", featuredImage: false }
   };
 }
+
+// Fallback lightbox for detached static mirrors when Elementor dynamic lightbox assets are missing.
+(function () {
+  var overlayId = "detached-lightbox-overlay";
+  var styleId = "detached-lightbox-style";
+
+  function ensureStyle() {
+    if (document.getElementById(styleId)) return;
+    var style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = [
+      "#" + overlayId + " { position: fixed; inset: 0; background: rgba(10,10,10,.92); z-index: 999999; display: none; align-items: center; justify-content: center; }",
+      "#" + overlayId + ".is-open { display: flex; }",
+      "#" + overlayId + " img { max-width: 92vw; max-height: 88vh; object-fit: contain; box-shadow: 0 12px 50px rgba(0,0,0,.45); }",
+      "#" + overlayId + " .dlb-btn { position: absolute; border: 0; background: rgba(255,255,255,.16); color: #fff; font-size: 28px; line-height: 1; width: 44px; height: 44px; cursor: pointer; }",
+      "#" + overlayId + " .dlb-close { top: 16px; right: 16px; }",
+      "#" + overlayId + " .dlb-prev { left: 16px; top: 50%; transform: translateY(-50%); }",
+      "#" + overlayId + " .dlb-next { right: 16px; top: 50%; transform: translateY(-50%); }",
+      ".site-footer .elementor-widget-cs_social, .site-footer .social-navigation, .site-footer .socialwidget { display: none !important; }"
+    ].join("");
+    document.head.appendChild(style);
+  }
+
+  function ensureOverlay() {
+    var existing = document.getElementById(overlayId);
+    if (existing) return existing;
+
+    var overlay = document.createElement("div");
+    overlay.id = overlayId;
+    overlay.innerHTML = [
+      '<button class="dlb-btn dlb-close" aria-label="Close">×</button>',
+      '<button class="dlb-btn dlb-prev" aria-label="Previous">‹</button>',
+      '<img alt="" />',
+      '<button class="dlb-btn dlb-next" aria-label="Next">›</button>'
+    ].join("");
+    document.body.appendChild(overlay);
+    return overlay;
+  }
+
+  function initFallbackLightbox() {
+    ensureStyle();
+    var overlay = ensureOverlay();
+    var imageEl = overlay.querySelector("img");
+    var group = [];
+    var index = 0;
+    var scale = 1;
+
+    function resetZoom() {
+      scale = 1;
+      imageEl.style.transform = "scale(1)";
+      imageEl.style.transformOrigin = "center center";
+      imageEl.style.cursor = "zoom-in";
+    }
+
+    function open(items, startIndex) {
+      group = items;
+      index = startIndex;
+      imageEl.src = group[index].href;
+      resetZoom();
+      overlay.classList.add("is-open");
+      document.documentElement.style.overflow = "hidden";
+    }
+
+    function close() {
+      overlay.classList.remove("is-open");
+      document.documentElement.style.overflow = "";
+      imageEl.removeAttribute("src");
+      resetZoom();
+    }
+
+    function move(step) {
+      if (!group.length) return;
+      index = (index + step + group.length) % group.length;
+      imageEl.src = group[index].href;
+      resetZoom();
+    }
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) close();
+    });
+    overlay.querySelector(".dlb-close").addEventListener("click", close);
+    overlay.querySelector(".dlb-prev").addEventListener("click", function () { move(-1); });
+    overlay.querySelector(".dlb-next").addEventListener("click", function () { move(1); });
+    imageEl.addEventListener("dblclick", function () {
+      if (scale === 1) {
+        scale = 2;
+        imageEl.style.transform = "scale(2)";
+        imageEl.style.cursor = "zoom-out";
+      } else {
+        resetZoom();
+      }
+    });
+    imageEl.addEventListener("wheel", function (e) {
+      if (!overlay.classList.contains("is-open")) return;
+      e.preventDefault();
+      scale += e.deltaY < 0 ? 0.15 : -0.15;
+      if (scale < 1) scale = 1;
+      if (scale > 4) scale = 4;
+      imageEl.style.transform = "scale(" + scale + ")";
+      imageEl.style.cursor = scale > 1 ? "zoom-out" : "zoom-in";
+    }, { passive: false });
+
+    document.addEventListener("keydown", function (e) {
+      if (!overlay.classList.contains("is-open")) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") move(-1);
+      if (e.key === "ArrowRight") move(1);
+    });
+
+    document.addEventListener("click", function (e) {
+      var link = e.target && e.target.closest && e.target.closest('a[data-elementor-open-lightbox="yes"], .cs-gallery-item a[href], .gallery-item a[href]');
+      if (!link) return;
+      var href = link.getAttribute("href") || "";
+      var looksLikeImage = /\\.(avif|webp|png|jpe?g|gif|svg)(\\?.*)?$/i.test(href);
+      var shouldHandle = link.getAttribute("data-elementor-open-lightbox") === "yes" || looksLikeImage;
+      if (!shouldHandle) return;
+
+      e.preventDefault();
+      var groupId = link.getAttribute("data-elementor-lightbox-slideshow");
+      var selector = "";
+      if (groupId) {
+        selector = 'a[data-elementor-open-lightbox="yes"][data-elementor-lightbox-slideshow="' + groupId + '"]';
+      } else {
+        var galleryRoot = link.closest(".cs-gallery, .gallery, .cs-gallery-wrap, .gallery-carousel");
+        selector = galleryRoot ? "a[href]" : 'a[data-elementor-open-lightbox="yes"], .cs-gallery-item a[href], .gallery-item a[href]';
+      }
+      var rawItems = Array.prototype.slice.call((selector === "a[href]" && link.closest(".cs-gallery, .gallery, .cs-gallery-wrap, .gallery-carousel"))
+        ? link.closest(".cs-gallery, .gallery, .cs-gallery-wrap, .gallery-carousel").querySelectorAll("a[href]")
+        : document.querySelectorAll(selector));
+      var items = rawItems.filter(function (a) {
+        var u = a.getAttribute("href") || "";
+        return /\\.(avif|webp|png|jpe?g|gif|svg)(\\?.*)?$/i.test(u);
+      });
+      if (!items.length) return;
+      var start = items.indexOf(link);
+      open(items, start < 0 ? 0 : start);
+    }, true);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFallbackLightbox);
+  } else {
+    initFallbackLightbox();
+  }
+})();
 </script>`;
 
 export type MirrorDocument = {
