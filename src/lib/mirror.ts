@@ -3,7 +3,7 @@ import { join, resolve } from "node:path";
 
 const MIRROR_ROOT = resolve(process.cwd(), "site-mirror/suitesmine.com");
 const INDEX_FILE = "index.html";
-const SITE_ORIGIN = "https://www.suitesmine.com";
+const SITE_ORIGIN = "https://suitesmine.com";
 const EXCLUDED_ROUTE_SEGMENTS = new Set([
   "wp-admin",
   "wp-content",
@@ -346,11 +346,15 @@ function getCanonicalPath(slug: string): string {
   return clean.length === 0 ? "/" : `/${clean}/`;
 }
 
-function stripSmartCrawlJsonLd(html: string): string {
-  return html.replace(
-    /<!--\s*SEO meta tags powered by SmartCrawl[\s\S]*?<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi,
-    ""
-  );
+function routeExists(slug: string): boolean {
+  const segments = slug.split("/").filter(Boolean);
+  return existsSync(join(MIRROR_ROOT, ...segments, INDEX_FILE));
+}
+
+function stripGeneratedJsonLd(html: string): string {
+  return html
+    .replace(/<!--\s*SEO meta tags powered by SmartCrawl[\s\S]*?<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, "")
+    .replace(/<script[^>]+type=["']application\/ld\+json["'][^>]+class=["']yoast-schema-graph["'][^>]*>[\s\S]*?<\/script>\s*/gi, "");
 }
 
 function normalizeOgUrl(html: string, canonicalUrl: string): string {
@@ -371,13 +375,28 @@ function upsertCanonical(html: string, canonicalUrl: string): string {
   return `${withoutCanonical}\n${canonicalTag}`;
 }
 
-function upsertHreflangSet(html: string): string {
+function getLocalizedSlugs(slug: string): { es: string; en: string } {
+  if (isEnglishSlug(slug)) {
+    const esSlug = slug.replace(/^en\/?/, "");
+    return { es: esSlug, en: slug };
+  }
+
+  return { es: slug, en: slug ? `en/${slug}` : "en" };
+}
+
+function upsertHreflangSet(html: string, slug: string): string {
   const withoutAlternates = html.replace(/<link[^>]+rel=["']alternate["'][^>]+hreflang=["'][^"']+["'][^>]*>\s*/gi, "");
-  const alternateTags = [
-    '<link rel="alternate" href="https://www.suitesmine.com/" hreflang="es" />',
-    '<link rel="alternate" href="https://www.suitesmine.com/en/" hreflang="en" />',
-    '<link rel="alternate" href="https://www.suitesmine.com/" hreflang="x-default" />',
-  ].join("\n");
+  const localized = getLocalizedSlugs(slug);
+  const tags = [
+    `<link rel="alternate" href="${SITE_ORIGIN}${getCanonicalPath(localized.es)}" hreflang="es-MX" />`,
+  ];
+
+  if (routeExists(localized.en)) {
+    tags.push(`<link rel="alternate" href="${SITE_ORIGIN}${getCanonicalPath(localized.en)}" hreflang="en" />`);
+  }
+
+  tags.push(`<link rel="alternate" href="${SITE_ORIGIN}${getCanonicalPath(localized.es)}" hreflang="x-default" />`);
+  const alternateTags = tags.join("\n");
 
   if (withoutAlternates.includes("</head>")) {
     return withoutAlternates.replace("</head>", `${alternateTags}\n</head>`);
@@ -386,12 +405,219 @@ function upsertHreflangSet(html: string): string {
   return `${withoutAlternates}\n${alternateTags}`;
 }
 
+const SEO_OVERRIDES: Record<string, { title: string; description: string }> = {
+  "": {
+    title: "Suites Mine | Suites y apart hotel cerca del Angel, CDMX",
+    description: "Suites tipo apart hotel en Colonia Cuauhtemoc, a dos calles del Angel de la Independencia. Hospedaje para negocios, vacaciones y estancias largas en CDMX.",
+  },
+  en: {
+    title: "Suites Mine | Aparthotel Suites near Reforma, Mexico City",
+    description: "Aparthotel suites in Colonia Cuauhtemoc, two blocks from the Angel of Independence. Business, leisure and extended stays in Mexico City.",
+  },
+  suites: {
+    title: "Suites en CDMX cerca de Reforma | Suites Mine",
+    description: "Conoce las suites de Suites Mine: espacios equipados para estancias cortas o largas cerca de Reforma, Zona Rosa y el Angel de la Independencia.",
+  },
+  "en/suites": {
+    title: "Suites in Mexico City near Reforma | Suites Mine",
+    description: "Explore Suites Mine suites for short and extended stays near Reforma Avenue, Zona Rosa and the Angel of Independence in Mexico City.",
+  },
+  estudio: {
+    title: "Estudio en CDMX cerca del Angel | Suites Mine",
+    description: "Estudio equipado en Colonia Cuauhtemoc, ideal para hospedaje ejecutivo, parejas y estancias cerca de Reforma y el Angel de la Independencia.",
+  },
+  "en/estudio": {
+    title: "Studio Suite near the Angel, Mexico City | Suites Mine",
+    description: "Equipped studio suite in Colonia Cuauhtemoc for business travel, couples and stays near Reforma Avenue and the Angel of Independence.",
+  },
+  "suites-doble": {
+    title: "Suite doble en CDMX cerca de Reforma | Suites Mine",
+    description: "Suite doble equipada para viajes familiares, ejecutivos o estancias largas cerca de Reforma, Zona Rosa y el Angel de la Independencia.",
+  },
+  "en/suites-doble": {
+    title: "Double Suite in Mexico City near Reforma | Suites Mine",
+    description: "Equipped double suite for family trips, business travel and extended stays near Reforma Avenue, Zona Rosa and the Angel of Independence.",
+  },
+  rooms: {
+    title: "Habitaciones y suites en Colonia Cuauhtemoc | Suites Mine",
+    description: "Habitaciones, estudios y penthouses equipados en una ubicacion centrica de CDMX, ideales para viajes ejecutivos, parejas y estancias largas.",
+  },
+  "en/rooms": {
+    title: "Rooms and Suites in Colonia Cuauhtemoc | Suites Mine",
+    description: "Rooms, studios and penthouses in central Mexico City for business travel, couples and extended stays near Reforma Avenue.",
+  },
+  contact: {
+    title: "Contacto y reservaciones | Suites Mine CDMX",
+    description: "Contacta a Suites Mine para reservar suites cerca del Angel de la Independencia en Ciudad de Mexico.",
+  },
+  "en/contact": {
+    title: "Contact and Reservations | Suites Mine Mexico City",
+    description: "Contact Suites Mine to book aparthotel suites near the Angel of Independence in Mexico City.",
+  },
+  "about-the-hotel": {
+    title: "Apart hotel en Colonia Cuauhtemoc CDMX | Suites Mine",
+    description: "Suites Mine ofrece 39 suites tipo apart hotel a dos calles del Angel de la Independencia, con servicios para viajes de negocios y turismo.",
+  },
+  "en/about-the-hotel": {
+    title: "Aparthotel in Colonia Cuauhtemoc | Suites Mine",
+    description: "Suites Mine offers 39 aparthotel-style suites two blocks from the Angel of Independence for business and leisure stays.",
+  },
+  preguntas: {
+    title: "Preguntas frecuentes sobre hospedaje | Suites Mine CDMX",
+    description: "Resuelve dudas sobre reservaciones, tarifas, estancias largas, ubicacion y servicios de Suites Mine en Ciudad de Mexico.",
+  },
+  "en/preguntas": {
+    title: "Frequently Asked Questions | Suites Mine Mexico City",
+    description: "Find answers about reservations, rates, extended stays, location and services at Suites Mine in Mexico City.",
+  },
+  "the-restaurant": {
+    title: "Restaurante en Suites Mine | Cocina internacional en CDMX",
+    description: "Disfruta cocina internacional, cocteles y servicio de restaurante durante tu estancia en Suites Mine, Colonia Cuauhtemoc.",
+  },
+  "en/the-restaurant": {
+    title: "Suites Mine Restaurant | International Dining in Mexico City",
+    description: "Enjoy international cuisine, cocktails and restaurant service during your stay at Suites Mine in Colonia Cuauhtemoc.",
+  },
+  "local-activities": {
+    title: "Actividades cerca de Reforma y Zona Rosa | Suites Mine",
+    description: "Explora museos, restaurantes, conciertos y atractivos cerca de Suites Mine, Reforma, Zona Rosa y el centro de CDMX.",
+  },
+  "en/local-activities": {
+    title: "Things to Do near Reforma and Zona Rosa | Suites Mine",
+    description: "Explore museums, restaurants, concerts and attractions near Suites Mine, Reforma Avenue, Zona Rosa and central Mexico City.",
+  },
+};
+
+const NOINDEX_ROUTE_PATTERNS = [
+  /^author\//,
+  /^cart(?:-2)?$/,
+  /^checkout(?:-2)?$/,
+  /^comments\/feed$/,
+  /^custom-block\//,
+  /^custom-site-header\//,
+  /^en\/author\//,
+  /^en\/cart(?:-2)?$/,
+  /^en\/checkout(?:-2)?$/,
+  /^en\/comments\/feed$/,
+  /^en\/custom-block\//,
+  /^en\/custom-site-header\//,
+  /^en\/feed$/,
+  /^en\/my-account(?:-2)?$/,
+  /^en\/sample-page$/,
+  /^en\/shop(?:-2)?$/,
+  /^en\/tag\//,
+  /^feed$/,
+  /^my-account(?:-2)?$/,
+  /^sample-page$/,
+  /^shop(?:-2)?$/,
+  /^tag\//,
+];
+
+function shouldNoindex(slug: string): boolean {
+  return NOINDEX_ROUTE_PATTERNS.some((pattern) => pattern.test(slug));
+}
+
+function upsertMetaTag(html: string, selector: RegExp, tag: string): string {
+  if (selector.test(html)) {
+    return html.replace(selector, tag);
+  }
+
+  return html.includes("</head>") ? html.replace("</head>", `${tag}\n</head>`) : `${html}\n${tag}`;
+}
+
+function getPageTitle(html: string): string {
+  return html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.trim() ?? "Suites Mine";
+}
+
+function getMetaDescription(html: string): string {
+  return html.match(/<meta\s+name=["']description["'][^>]*content=["']([^"']*)["'][^>]*>/i)?.[1]?.trim() ?? "";
+}
+
+function injectStructuredData(html: string, slug: string, canonicalUrl: string): string {
+  const isEnglish = isEnglishSlug(slug);
+  const title = getPageTitle(html);
+  const description = getMetaDescription(html);
+  const graph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Hotel",
+        "@id": `${SITE_ORIGIN}/#hotel`,
+        name: "Suites Mine",
+        url: SITE_ORIGIN,
+        telephone: "+52 55 3666 8535",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Ciudad de Mexico",
+          addressRegion: "CDMX",
+          addressCountry: "MX",
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id": canonicalUrl,
+        url: canonicalUrl,
+        name: title,
+        description,
+        inLanguage: isEnglish ? "en" : "es-MX",
+        isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
+        about: { "@id": `${SITE_ORIGIN}/#hotel` },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_ORIGIN}/#website`,
+        url: SITE_ORIGIN,
+        name: "Suites Mine",
+        inLanguage: isEnglish ? "en" : "es-MX",
+      },
+    ],
+  };
+  const tag = `<script type="application/ld+json">${JSON.stringify(graph)}</script>`;
+
+  return html.includes("</head>") ? html.replace("</head>", `${tag}\n</head>`) : `${html}\n${tag}`;
+}
+
+function applySeoOverride(html: string, slug: string): string {
+  const override = SEO_OVERRIDES[slug];
+  if (!override) {
+    return html;
+  }
+
+  let updated = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${override.title}</title>`);
+  updated = upsertMetaTag(updated, /<meta\s+name=["']description["'][^>]*>/i, `<meta name="description" content="${override.description}" />`);
+  updated = upsertMetaTag(updated, /<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${override.title}" />`);
+  updated = upsertMetaTag(updated, /<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${override.description}" />`);
+  updated = upsertMetaTag(updated, /<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${override.title}" />`);
+  return upsertMetaTag(updated, /<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${override.description}" />`);
+}
+
+function normalizeRobotsMeta(html: string, slug: string): string {
+  if (!shouldNoindex(slug)) {
+    return html;
+  }
+
+  return upsertMetaTag(html, /<meta\s+name=["']robots["'][^>]*>/i, '<meta name="robots" content="noindex, follow" />');
+}
+
+function normalizeHeadingStructure(html: string, slug: string): string {
+  if (slug !== "") {
+    return html;
+  }
+
+  return html
+    .replace(/<h1(\s+class=["']thumbnail__title["'][^>]*)>/gi, "<h3$1>")
+    .replace(/<\/h1>(\s*<\/div>\s*<div class=["']thumbnail__review["'])/gi, "</h3>$1");
+}
+
 function normalizeSeo(html: string, slug: string): string {
   const canonicalUrl = `${SITE_ORIGIN}${getCanonicalPath(slug)}`;
-  const noDuplicateSeo = stripSmartCrawlJsonLd(html);
-  const withOgUrl = normalizeOgUrl(noDuplicateSeo, canonicalUrl);
+  const noDuplicateSeo = normalizeHeadingStructure(stripGeneratedJsonLd(html), slug);
+  const withSeoOverride = applySeoOverride(noDuplicateSeo, slug);
+  const withRobots = normalizeRobotsMeta(withSeoOverride, slug);
+  const withOgUrl = normalizeOgUrl(withRobots, canonicalUrl);
   const withCanonical = upsertCanonical(withOgUrl, canonicalUrl);
-  return upsertHreflangSet(withCanonical);
+  const withHreflang = upsertHreflangSet(withCanonical, slug);
+  return injectStructuredData(withHreflang, slug, canonicalUrl);
 }
 
 function isEnglishSlug(slug: string): boolean {
