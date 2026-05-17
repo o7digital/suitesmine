@@ -285,6 +285,20 @@ function injectRuntimeShim(html: string): string {
 
 function sanitizeMirrorRuntime(html: string): string {
   return html
+    // Drop WordPress discovery/metadata that is useless for the detached static build.
+    .replace(/<!--\s*This site is optimized with the Yoast SEO plugin[\s\S]*?<!--\s*\/ Yoast SEO plugin\.\s*-->\s*/gi, "")
+    .replace(/<link[^>]+rel=["']profile["'][^>]*>\s*/gi, "")
+    .replace(/<link[^>]+rel=["']alternate["'][^>]+type=["']application\/rss\+xml["'][^>]*>\s*/gi, "")
+    .replace(/<link[^>]+rel=["'](?:https:\/\/api\.w\.org\/|EditURI|wlwmanifest|shortlink)["'][^>]*>\s*/gi, "")
+    .replace(/<link[^>]+type=["']application\/json\+oembed["'][^>]*>\s*/gi, "")
+    .replace(/<meta[^>]+name=["']generator["'][^>]*>\s*/gi, "")
+    .replace(/<!--\s*SEO meta tags powered by SmartCrawl[\s\S]*?<!--\s*\/SEO\s*-->\s*/gi, "")
+    .replace(/<style[^>]+id=["']wp-img-auto-sizes-contain-inline-css["'][\s\S]*?<\/style>\s*/gi, "")
+    .replace(/<style[^>]+id=["']wp-emoji-styles-inline-css["'][\s\S]*?<\/style>\s*/gi, "")
+    .replace(/<style[^>]+id=["']classic-theme-styles-inline-css["'][\s\S]*?<\/style>\s*/gi, "")
+    .replace(/<style[^>]+id=["']global-styles-inline-css["'][\s\S]*?<\/style>\s*/gi, "")
+    .replace(/<link[^>]+id=["']wp-block-library-css["'][^>]*>\s*/gi, "")
+    .replace(/<script[^>]+id=["']wp-embed-js["'][\s\S]*?<\/script>\s*/gi, "")
     // Remove legacy pingback tags that point to xmlrpc endpoints.
     .replace(/<link[^>]*rel=["']pingback["'][^>]*>\s*/gi, "")
     .replaceAll("/xmlrpc.php", "/__detached-noop-xmlrpc")
