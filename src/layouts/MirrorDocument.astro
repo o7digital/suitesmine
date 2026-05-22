@@ -12,11 +12,26 @@ const {
   bodyAttributes = {},
   bodyInnerHtml,
 } = Astro.props as Props;
+
+const GA_MEASUREMENT_ID = "G-F2QTNE0PJ1";
+const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
 ---
 
 <html {...htmlAttributes}>
   <head>
     <Fragment set:html={headInnerHtml} />
+    {!hasGoogleAnalytics && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+        <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', GA_MEASUREMENT_ID);
+        </script>
+      </>
+    )}
   </head>
   <body {...bodyAttributes}>
     <Fragment set:html={bodyInnerHtml} />
