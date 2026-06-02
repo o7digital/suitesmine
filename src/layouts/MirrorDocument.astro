@@ -17,7 +17,9 @@ const GA_MEASUREMENT_ID = "G-F2QTNE0PJ1";
 const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
 const OLIVIA_CLIENT_CODE = "suitesmine";
 const OLIVIA_CLIENT_NAME = "Suites Mine";
-const OLIVIA_CHANNEL_ENDPOINT = import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ?? "";
+const OLIVIA_CHANNEL_ENDPOINT =
+  import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ??
+  "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/olivia/chat";
 const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().startsWith("en")
   ? "en"
   : "es";
@@ -830,16 +832,20 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             },
             createdAt: new Date().toISOString(),
           };
-          const answer = answerFromSiteKnowledge(text, payload.metadata);
+          let answer = answerFromSiteKnowledge(text, payload.metadata);
           payload.metadata.bookingDraft = { ...bookingDraft };
 
           try {
             if (OLIVIA_CHANNEL_ENDPOINT) {
-              await fetch(OLIVIA_CHANNEL_ENDPOINT, {
+              const response = await fetch(OLIVIA_CHANNEL_ENDPOINT, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
               });
+              const apiAnswer = await response.json().catch(() => null);
+              if (response.ok && apiAnswer?.reply) {
+                answer = apiAnswer.reply;
+              }
             }
             addAssistantMessageWithTyping(answer);
           } catch {
