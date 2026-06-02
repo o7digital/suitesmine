@@ -50,23 +50,23 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
       data-client-name={OLIVIA_CLIENT_NAME}
       data-language={oliviaInitialLanguage}
     >
-      <button class="olivia-launcher" type="button" aria-label="Abrir Olivia IA">
+      <button class="olivia-launcher" type="button" aria-label="Abrir Olivia Hotesse">
         <span class="olivia-launcher__mark">O</span>
-        <span class="olivia-launcher__text">Olivia IA</span>
+        <span class="olivia-launcher__text">Olivia Hotesse</span>
       </button>
 
-      <section class="olivia-panel" aria-label="Chat Olivia IA" hidden>
+      <section class="olivia-panel" aria-label="Chat Olivia Hotesse" hidden>
         <header class="olivia-header">
           <div>
             <p class="olivia-kicker">Suites Mine</p>
-            <h2>Olivia IA</h2>
+            <h2>Olivia Hotesse</h2>
           </div>
-          <button class="olivia-close" type="button" aria-label="Cerrar Olivia IA">×</button>
+          <button class="olivia-close" type="button" aria-label="Cerrar Olivia Hotesse">×</button>
         </header>
 
         <div class="olivia-messages" aria-live="polite">
           <div class="olivia-message olivia-message--assistant">
-            Hola, soy Olivia IA. Puedo ayudarle con disponibilidad, tarifas y solicitudes de reserva.
+            Hola, soy Olivia Hotesse. Puedo ayudarle con disponibilidad, tarifas y solicitudes de reserva.
           </div>
         </div>
 
@@ -354,16 +354,16 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         const language = window.location.pathname.startsWith("/en") ? "en" : "es";
         const copy = {
           es: {
-            launcherLabel: "Abrir Olivia IA",
-            panelLabel: "Chat Olivia IA",
-            closeLabel: "Cerrar Olivia IA",
+            launcherLabel: "Abrir Olivia Hotesse",
+            panelLabel: "Chat Olivia Hotesse",
+            closeLabel: "Cerrar Olivia Hotesse",
             checkIn: "Llegada",
             checkOut: "Salida",
             guests: "Huespedes",
             placeholder: "Escriba su pregunta...",
             send: "Enviar",
             welcome:
-              "Hola, soy Olivia IA. Conozco Suites Mine y puedo responder sobre habitaciones, ubicación, servicios, tarifas y disponibilidad.",
+              "Hola, soy Olivia Hotesse. Conozco Suites Mine y puedo responder sobre habitaciones, ubicación, servicios, tarifas y disponibilidad.",
             sent: "Perfecto. Tambien he enviado su solicitud al equipo de Suites Mine para seguimiento.",
             fallback: "Puedo ayudarle con Suites Mine: disponibilidad, tarifas, habitaciones, ubicacion, servicios y contacto.",
             needDates: "Claro. Indiqueme fecha de llegada, salida y numero de huespedes para revisar disponibilidad.",
@@ -394,16 +394,16 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
               "Entendido. Para que una persona tome el control, deje su solicitud aqui y el equipo de Suites Mine podra dar seguimiento.",
           },
           en: {
-            launcherLabel: "Open Olivia IA",
-            panelLabel: "Olivia IA chat",
-            closeLabel: "Close Olivia IA",
+            launcherLabel: "Open Olivia Hotesse",
+            panelLabel: "Olivia Hotesse chat",
+            closeLabel: "Close Olivia Hotesse",
             checkIn: "Check in",
             checkOut: "Check out",
             guests: "Guests",
             placeholder: "Ask your question...",
             send: "Send",
             welcome:
-              "Hello, I am Olivia IA. I know Suites Mine and can answer questions about rooms, location, services, rates and availability.",
+              "Hello, I am Olivia Hotesse. I know Suites Mine and can answer questions about rooms, location, services, rates and availability.",
             sent: "Perfect. I also sent your request to the Suites Mine team for follow-up.",
             fallback: "I can help with Suites Mine: availability, rates, rooms, location, services and contact details.",
             needDates: "Of course. Please share check-in date, check-out date and number of guests so I can check availability.",
