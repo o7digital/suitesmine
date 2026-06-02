@@ -443,7 +443,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         const faqAnswers = {
           es: [
             {
-              words: ["aire acondicionado", "ac", "calor", "frio", "ventilador"],
+              words: ["aire acondicionado", "calor", "frio", "ventilador"],
               answer:
                 "Las habitaciones no cuentan con aire acondicionado. Suites Mine proporciona ventiladores portatiles, enfriadores de aire con agua y calentadores bajo peticion. Las habitaciones tienen ventanales de doble vidrio para aislamiento de ruido y mejor control termico.",
             },
@@ -514,7 +514,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           ],
           en: [
             {
-              words: ["air conditioning", "ac", "heat", "cold", "fan"],
+              words: ["air conditioning", "heat", "cold", "fan"],
               answer:
                 "Rooms do not have air conditioning. Suites Mine can provide portable fans, water air coolers and heaters on request. Rooms have double-glazed windows for noise insulation and better thermal control.",
             },
@@ -655,6 +655,8 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           return hasAny(normalized, [
             "quiero reservar",
             "podemos reservar",
+            "me haces la reserva",
+            "hacer la reserva",
             "hacer reserva",
             "reservar ahora",
             "confirmar reserva",
@@ -674,12 +676,37 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           return "";
         }
 
+        function valueAfterStep(text, step) {
+          const match = text.match(new RegExp(`(?:^|\\s)${step}[.)]?\\s*([\\s\\S]*?)(?=\\s\\d[.)]?\\s|$)`, "i"));
+          return match?.[1]?.trim().replace(/^[:.-]\s*/, "") || "";
+        }
+
+        function parseStructuredBooking(text) {
+          const normalized = normalizeText(text);
+          const name = valueAfterStep(text, 1);
+          const email = text.match(/[^\s@]+@[^\s@]+\.[^\s@]+/)?.[0] || valueAfterStep(text, 2);
+          const phone = valueAfterStep(text, 3).match(/(?:\+?\d[\d\s().-]{6,}\d)/)?.[0] || "";
+          const guests = valueAfterStep(text, 4).match(/\b\d+\b/)?.[0] || "";
+          const room = pickRoomType(valueAfterStep(text, 5) || text);
+
+          if (name && !name.includes("@")) bookingDraft.name = name;
+          if (email) bookingDraft.email = email;
+          if (phone) bookingDraft.phone = phone;
+          if (guests && !bookingDraft.guests) bookingDraft.guests = guests;
+          if (room) bookingDraft.roomType = room;
+
+          if (hasAny(normalized, ["mis fechas", "fechas aqui", "dates below", "date fields"])) {
+            return;
+          }
+        }
+
         function fillBookingDraft(text, metadata, captureName = true) {
           const trimmed = text.trim();
           const email = trimmed.match(/[^\s@]+@[^\s@]+\.[^\s@]+/)?.[0] || "";
           const phone = trimmed.match(/(?:\+?\d[\d\s().-]{6,}\d)/)?.[0] || "";
           const roomType = pickRoomType(trimmed);
 
+          parseStructuredBooking(trimmed);
           if (metadata.checkIn) bookingDraft.checkIn = String(metadata.checkIn);
           if (metadata.checkOut) bookingDraft.checkOut = String(metadata.checkOut);
           if (metadata.guests) bookingDraft.guests = String(metadata.guests);
@@ -687,7 +714,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           if (phone) bookingDraft.phone = phone;
           if (roomType) bookingDraft.roomType = roomType;
 
-          if (captureName && bookingDraft.active && !bookingDraft.name && !email && !phone && !roomType && trimmed.length > 3) {
+          if (captureName && bookingDraft.active && !bookingDraft.name && !email && !phone && !roomType && trimmed.length > 3 && !/\b\d[.)]?\s/.test(trimmed)) {
             bookingDraft.name = trimmed;
           } else if (bookingDraft.active && bookingDraft.name && !bookingDraft.email && email) {
             bookingDraft.email = email;
