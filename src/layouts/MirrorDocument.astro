@@ -18,6 +18,9 @@ const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
 const OLIVIA_CLIENT_CODE = "suitesmine";
 const OLIVIA_CLIENT_NAME = "Suites Mine";
 const OLIVIA_CHANNEL_ENDPOINT = import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ?? "";
+const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().startsWith("en")
+  ? "en"
+  : "es";
 ---
 
 <html {...htmlAttributes}>
@@ -43,39 +46,40 @@ const OLIVIA_CHANNEL_ENDPOINT = import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ?
       class="olivia-widget"
       data-client-code={OLIVIA_CLIENT_CODE}
       data-client-name={OLIVIA_CLIENT_NAME}
+      data-language={oliviaInitialLanguage}
     >
-      <button class="olivia-launcher" type="button" aria-label="Ouvrir Olivia IA">
+      <button class="olivia-launcher" type="button" aria-label="Abrir Olivia IA">
         <span class="olivia-launcher__mark">O</span>
         <span class="olivia-launcher__text">Olivia IA</span>
       </button>
 
-      <section class="olivia-panel" aria-label="Olivia IA chat" hidden>
+      <section class="olivia-panel" aria-label="Chat Olivia IA" hidden>
         <header class="olivia-header">
           <div>
             <p class="olivia-kicker">Suites Mine</p>
             <h2>Olivia IA</h2>
           </div>
-          <button class="olivia-close" type="button" aria-label="Fermer Olivia IA">×</button>
+          <button class="olivia-close" type="button" aria-label="Cerrar Olivia IA">×</button>
         </header>
 
         <div class="olivia-messages" aria-live="polite">
           <div class="olivia-message olivia-message--assistant">
-            Bonjour, je suis Olivia IA. Je peux vous aider avec les disponibilites, tarifs et demandes de reservation.
+            Hola, soy Olivia IA. Puedo ayudarle con disponibilidad, tarifas y solicitudes de reserva.
           </div>
         </div>
 
         <form class="olivia-form">
           <div class="olivia-fields">
             <label>
-              <span>Arrivee</span>
+              <span data-olivia-i18n="checkIn">Llegada</span>
               <input name="checkIn" type="date" />
             </label>
             <label>
-              <span>Depart</span>
+              <span data-olivia-i18n="checkOut">Salida</span>
               <input name="checkOut" type="date" />
             </label>
             <label>
-              <span>Voyageurs</span>
+              <span data-olivia-i18n="guests">Huespedes</span>
               <input name="guests" type="number" min="1" placeholder="2" />
             </label>
           </div>
@@ -84,10 +88,10 @@ const OLIVIA_CHANNEL_ENDPOINT = import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ?
               name="message"
               type="text"
               autocomplete="off"
-              placeholder="Posez votre question..."
+              placeholder="Escriba su pregunta..."
               required
             />
-            <button type="submit">Envoyer</button>
+            <button type="submit">Enviar</button>
           </div>
         </form>
       </section>
@@ -301,68 +305,118 @@ const OLIVIA_CHANNEL_ENDPOINT = import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ?
     </style>
 
     <script is:inline define:vars={{ OLIVIA_CLIENT_CODE, OLIVIA_CLIENT_NAME, OLIVIA_CHANNEL_ENDPOINT }}>
-      const widget = document.getElementById("olivia-widget");
-      const launcher = widget?.querySelector(".olivia-launcher");
-      const panel = widget?.querySelector(".olivia-panel");
-      const closeButton = widget?.querySelector(".olivia-close");
-      const form = widget?.querySelector(".olivia-form");
-      const messages = widget?.querySelector(".olivia-messages");
+      (() => {
+        const widget = document.getElementById("olivia-widget");
+        if (!widget || widget.dataset.ready === "true") return;
+        widget.dataset.ready = "true";
 
-      function addOliviaMessage(content, role) {
-        const message = document.createElement("div");
-        message.className = `olivia-message olivia-message--${role}`;
-        message.textContent = content;
-        messages?.appendChild(message);
-        messages?.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
-      }
-
-      launcher?.addEventListener("click", () => {
-        panel.hidden = false;
-        launcher.hidden = true;
-      });
-
-      closeButton?.addEventListener("click", () => {
-        panel.hidden = true;
-        launcher.hidden = false;
-      });
-
-      form?.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const text = String(formData.get("message") || "").trim();
-        if (!text) return;
-
-        addOliviaMessage(text, "user");
-        formData.set("message", "");
-        form.querySelector('input[name="message"]').value = "";
-
-        const payload = {
-          clientCode: OLIVIA_CLIENT_CODE,
-          clientName: OLIVIA_CLIENT_NAME,
-          source: "website",
-          pageUrl: window.location.href,
-          message: text,
-          metadata: {
-            checkIn: formData.get("checkIn") || "",
-            checkOut: formData.get("checkOut") || "",
-            guests: formData.get("guests") || "",
+        const language = window.location.pathname.startsWith("/en") ? "en" : "es";
+        const copy = {
+          es: {
+            launcherLabel: "Abrir Olivia IA",
+            panelLabel: "Chat Olivia IA",
+            closeLabel: "Cerrar Olivia IA",
+            checkIn: "Llegada",
+            checkOut: "Salida",
+            guests: "Huespedes",
+            placeholder: "Escriba su pregunta...",
+            send: "Enviar",
+            welcome:
+              "Hola, soy Olivia IA. Puedo ayudarle con disponibilidad, tarifas y solicitudes de reserva.",
+            success: "Gracias. Su solicitud fue enviada al equipo de Suites Mine.",
+            fallback: "Gracias. Hemos recibido su mensaje y le responderemos pronto.",
           },
-          createdAt: new Date().toISOString(),
-        };
+          en: {
+            launcherLabel: "Open Olivia IA",
+            panelLabel: "Olivia IA chat",
+            closeLabel: "Close Olivia IA",
+            checkIn: "Check in",
+            checkOut: "Check out",
+            guests: "Guests",
+            placeholder: "Ask your question...",
+            send: "Send",
+            welcome:
+              "Hello, I am Olivia IA. I can help with availability, rates and reservation requests.",
+            success: "Thank you. Your request was sent to the Suites Mine team.",
+            fallback: "Thank you. We received your message and will get back to you shortly.",
+          },
+        }[language];
 
-        try {
-          if (OLIVIA_CHANNEL_ENDPOINT) {
-            await fetch(OLIVIA_CHANNEL_ENDPOINT, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-          }
-          addOliviaMessage("Merci. Votre demande est transmise a l'equipe Suites Mine.", "assistant");
-        } catch {
-          addOliviaMessage("Merci. Votre message est bien note, nous revenons vers vous rapidement.", "assistant");
+        const launcher = widget.querySelector(".olivia-launcher");
+        const panel = widget.querySelector(".olivia-panel");
+        const closeButton = widget.querySelector(".olivia-close");
+        const form = widget.querySelector(".olivia-form");
+        const messages = widget.querySelector(".olivia-messages");
+        const firstMessage = widget.querySelector(".olivia-message--assistant");
+        const messageInput = widget.querySelector('input[name="message"]');
+        const submitButton = widget.querySelector('.olivia-composer button[type="submit"]');
+
+        launcher?.setAttribute("aria-label", copy.launcherLabel);
+        panel?.setAttribute("aria-label", copy.panelLabel);
+        closeButton?.setAttribute("aria-label", copy.closeLabel);
+        widget.querySelector('[data-olivia-i18n="checkIn"]').textContent = copy.checkIn;
+        widget.querySelector('[data-olivia-i18n="checkOut"]').textContent = copy.checkOut;
+        widget.querySelector('[data-olivia-i18n="guests"]').textContent = copy.guests;
+        if (firstMessage) firstMessage.textContent = copy.welcome;
+        if (messageInput) messageInput.placeholder = copy.placeholder;
+        if (submitButton) submitButton.textContent = copy.send;
+
+        function addOliviaMessage(content, role) {
+          const message = document.createElement("div");
+          message.className = `olivia-message olivia-message--${role}`;
+          message.textContent = content;
+          messages?.appendChild(message);
+          messages?.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
         }
-      });
+
+        launcher?.addEventListener("click", () => {
+          panel.hidden = false;
+          launcher.hidden = true;
+        });
+
+        closeButton?.addEventListener("click", () => {
+          panel.hidden = true;
+          launcher.hidden = false;
+        });
+
+        form?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const text = String(formData.get("message") || "").trim();
+          if (!text) return;
+
+          addOliviaMessage(text, "user");
+          if (messageInput) messageInput.value = "";
+
+          const payload = {
+            clientCode: OLIVIA_CLIENT_CODE,
+            clientName: OLIVIA_CLIENT_NAME,
+            source: "website",
+            language,
+            pageUrl: window.location.href,
+            message: text,
+            metadata: {
+              checkIn: formData.get("checkIn") || "",
+              checkOut: formData.get("checkOut") || "",
+              guests: formData.get("guests") || "",
+            },
+            createdAt: new Date().toISOString(),
+          };
+
+          try {
+            if (OLIVIA_CHANNEL_ENDPOINT) {
+              await fetch(OLIVIA_CHANNEL_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+            }
+            addOliviaMessage(copy.success, "assistant");
+          } catch {
+            addOliviaMessage(copy.fallback, "assistant");
+          }
+        });
+      })();
     </script>
   </body>
 </html>
