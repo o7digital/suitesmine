@@ -3,7 +3,7 @@ import { join, resolve } from "node:path";
 
 const MIRROR_ROOT = resolve(process.cwd(), "site-mirror/suitesmine.com");
 const INDEX_FILE = "index.html";
-const SITE_ORIGIN = "https://suitesmine.com";
+const SITE_ORIGIN = "https://www.suitesmine.com";
 const EXCLUDED_ROUTE_SEGMENTS = new Set([
   "wp-admin",
   "wp-content",
@@ -355,6 +355,40 @@ function normalizeOgImageType(html: string): string {
   );
 }
 
+function normalizeVisibleContent(html: string, slug: string): string {
+  let updated = html
+    .replaceAll("Quedate en el centro de CDMX", "Quedate en el corazon de CDMX")
+    .replaceAll("Alojamineto Extraordinario", "Alojamiento extraordinario")
+    .replaceAll("Arggentia", "Argentina")
+    .replaceAll("masinformacion", "mas informacion")
+    .replaceAll("Contácto Información", "Informacion de contacto")
+    .replaceAll("Contácto Informacion", "Informacion de contacto")
+    .replaceAll("Leer Mas", "Leer mas")
+    .replaceAll("Ver mas", "Ver mas");
+
+  if (!isEnglishSlug(slug)) {
+    return updated.replaceAll("Read more", "Leer mas");
+  }
+
+  return updated
+    .replaceAll(
+      "Tenemos 39 suites de tipo apartamento con Servicio de Hotel Ubicadas a 2 Calles del Ángel de la Independencia, en la Colonia Cuauhtémoc, CDMX.",
+      "We offer 39 apartment-style suites with hotel service, located two blocks from the Angel of Independence in Colonia Cuauhtemoc, Mexico City."
+    )
+    .replaceAll(
+      "Suites Mine es un conjunto de 39 apartamentos hotel situados a solo dos calles del Ángel de la Independencia, en la Colonia Cuauhtémoc, CDMX.",
+      "Suites Mine is a collection of 39 apartment-style hotel suites located two blocks from the Angel of Independence in Colonia Cuauhtemoc, Mexico City."
+    )
+    .replaceAll("Registrarse", "Check in")
+    .replaceAll("Verificar", "Check out")
+    .replaceAll("Invitadas", "Guests")
+    .replaceAll("Adultas", "Adults")
+    .replaceAll("Estudio", "Studio")
+    .replaceAll("Suites Doble", "Double Suites")
+    .replaceAll("Leer mas", "Read more")
+    .replaceAll("Leer Mas", "Read more");
+}
+
 function getCanonicalPath(slug: string): string {
   const clean = slug.split("/").filter(Boolean).join("/");
   return clean.length === 0 ? "/" : `/${clean}/`;
@@ -536,7 +570,7 @@ function upsertMetaTag(html: string, selector: RegExp, tag: string): string {
     return html.replace(selector, tag);
   }
 
-  return html.includes("</head>") ? html.replace("</head>", `${tag}\n</head>`) : `${html}\n${tag}`;
+  return html.includes("</head>") ? html.replace("</head>", () => `${tag}\n</head>`) : `${html}\n${tag}`;
 }
 
 function getPageTitle(html: string): string {
@@ -560,12 +594,24 @@ function injectStructuredData(html: string, slug: string, canonicalUrl: string):
         name: "Suites Mine",
         url: SITE_ORIGIN,
         telephone: "+52 55 3666 8535",
+        image: `${SITE_ORIGIN}/assets/uploads/2023/03/70A4393.webp`,
+        priceRange: "$$",
+        checkinTime: "15:00",
+        checkoutTime: "12:00",
         address: {
           "@type": "PostalAddress",
+          streetAddress: "Rio Ebro 64, Colonia Cuauhtemoc",
+          postalCode: "06500",
           addressLocality: "Ciudad de Mexico",
           addressRegion: "CDMX",
           addressCountry: "MX",
         },
+        amenityFeature: [
+          { "@type": "LocationFeatureSpecification", name: "High-speed Wi-Fi", value: true },
+          { "@type": "LocationFeatureSpecification", name: "Restaurant and bar", value: true },
+          { "@type": "LocationFeatureSpecification", name: "Terrace", value: true },
+          { "@type": "LocationFeatureSpecification", name: "Jacuzzi", value: true },
+        ],
       },
       {
         "@type": "WebPage",
@@ -588,7 +634,7 @@ function injectStructuredData(html: string, slug: string, canonicalUrl: string):
   };
   const tag = `<script type="application/ld+json">${JSON.stringify(graph)}</script>`;
 
-  return html.includes("</head>") ? html.replace("</head>", `${tag}\n</head>`) : `${html}\n${tag}`;
+  return html.includes("</head>") ? html.replace("</head>", () => `${tag}\n</head>`) : `${html}\n${tag}`;
 }
 
 function applySeoOverride(html: string, slug: string): string {
@@ -732,7 +778,8 @@ export function readMirrorHtmlBySlug(slug = ""): string {
   // Astro already injects <!DOCTYPE html>; strip a duplicate if present in source.
   const html = readFileSync(htmlPath, "utf-8").replace(/^\uFEFF?\s*<!doctype html>\s*/i, "");
   const sanitized = sanitizeMirrorRuntime(html);
-  const webpOptimized = replaceUploadsWithWebp(sanitized);
+  const contentNormalized = normalizeVisibleContent(sanitized, slug);
+  const webpOptimized = replaceUploadsWithWebp(contentNormalized);
   const seoNormalized = normalizeSeo(normalizeOgImageType(webpOptimized), slug);
   const withFooterKeywords = upsertFooterKeywordCloud(seoNormalized, slug);
   return injectRuntimeShim(withFooterKeywords);
