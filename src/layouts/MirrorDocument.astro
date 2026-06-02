@@ -15,6 +15,9 @@ const {
 
 const GA_MEASUREMENT_ID = "G-F2QTNE0PJ1";
 const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
+const OLIVIA_CLIENT_CODE = "suitesmine";
+const OLIVIA_CLIENT_NAME = "Suites Mine";
+const OLIVIA_CHANNEL_ENDPOINT = import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ?? "";
 ---
 
 <html {...htmlAttributes}>
@@ -35,5 +38,331 @@ const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
   </head>
   <body {...bodyAttributes}>
     <Fragment set:html={bodyInnerHtml} />
+    <div
+      id="olivia-widget"
+      class="olivia-widget"
+      data-client-code={OLIVIA_CLIENT_CODE}
+      data-client-name={OLIVIA_CLIENT_NAME}
+    >
+      <button class="olivia-launcher" type="button" aria-label="Ouvrir Olivia IA">
+        <span class="olivia-launcher__mark">O</span>
+        <span class="olivia-launcher__text">Olivia IA</span>
+      </button>
+
+      <section class="olivia-panel" aria-label="Olivia IA chat" hidden>
+        <header class="olivia-header">
+          <div>
+            <p class="olivia-kicker">Suites Mine</p>
+            <h2>Olivia IA</h2>
+          </div>
+          <button class="olivia-close" type="button" aria-label="Fermer Olivia IA">×</button>
+        </header>
+
+        <div class="olivia-messages" aria-live="polite">
+          <div class="olivia-message olivia-message--assistant">
+            Bonjour, je suis Olivia IA. Je peux vous aider avec les disponibilites, tarifs et demandes de reservation.
+          </div>
+        </div>
+
+        <form class="olivia-form">
+          <div class="olivia-fields">
+            <label>
+              <span>Arrivee</span>
+              <input name="checkIn" type="date" />
+            </label>
+            <label>
+              <span>Depart</span>
+              <input name="checkOut" type="date" />
+            </label>
+            <label>
+              <span>Voyageurs</span>
+              <input name="guests" type="number" min="1" placeholder="2" />
+            </label>
+          </div>
+          <div class="olivia-composer">
+            <input
+              name="message"
+              type="text"
+              autocomplete="off"
+              placeholder="Posez votre question..."
+              required
+            />
+            <button type="submit">Envoyer</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <style is:inline>
+      .olivia-widget {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 99999;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .olivia-launcher {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 56px;
+        border: 0;
+        border-radius: 999px;
+        padding: 8px 18px 8px 8px;
+        background: #1f2a44;
+        color: white;
+        box-shadow: 0 22px 60px rgba(12, 20, 38, 0.28);
+        cursor: pointer;
+      }
+
+      .olivia-launcher__mark {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ffffff;
+        color: #1f2a44;
+        font-weight: 800;
+      }
+
+      .olivia-launcher__text {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .olivia-panel {
+        width: min(420px, calc(100vw - 28px));
+        height: min(680px, calc(100vh - 28px));
+        overflow: hidden;
+        border: 1px solid rgba(31, 42, 68, 0.14);
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 30px 90px rgba(12, 20, 38, 0.28);
+      }
+
+      .olivia-panel[hidden] {
+        display: none;
+      }
+
+      .olivia-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px;
+        background: #1f2a44;
+        color: white;
+      }
+
+      .olivia-kicker,
+      .olivia-header h2 {
+        margin: 0;
+      }
+
+      .olivia-kicker {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .olivia-header h2 {
+        margin-top: 2px;
+        font-size: 20px;
+        line-height: 1.2;
+      }
+
+      .olivia-close {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        cursor: pointer;
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .olivia-messages {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: calc(100% - 236px);
+        overflow-y: auto;
+        padding: 16px;
+        background: #f6f4ee;
+      }
+
+      .olivia-message {
+        max-width: 86%;
+        border-radius: 14px;
+        padding: 11px 13px;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .olivia-message--assistant {
+        align-self: flex-start;
+        background: white;
+        color: #222833;
+        border: 1px solid rgba(31, 42, 68, 0.1);
+      }
+
+      .olivia-message--user {
+        align-self: flex-end;
+        background: #1f2a44;
+        color: white;
+      }
+
+      .olivia-form {
+        border-top: 1px solid rgba(31, 42, 68, 0.12);
+        background: white;
+        padding: 12px;
+      }
+
+      .olivia-fields {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .olivia-fields label {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 4px;
+        color: #5f6675;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .olivia-fields input,
+      .olivia-composer input {
+        min-width: 0;
+        border: 1px solid rgba(31, 42, 68, 0.18);
+        border-radius: 10px;
+        background: #fbfbfd;
+        color: #1f2a44;
+        outline: 0;
+      }
+
+      .olivia-fields input {
+        height: 36px;
+        padding: 0 8px;
+        font-size: 12px;
+      }
+
+      .olivia-composer {
+        display: flex;
+        gap: 8px;
+      }
+
+      .olivia-composer input {
+        flex: 1;
+        height: 44px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .olivia-composer button {
+        border: 0;
+        border-radius: 10px;
+        padding: 0 14px;
+        background: #b88a44;
+        color: white;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      @media (max-width: 540px) {
+        .olivia-widget {
+          right: 14px;
+          bottom: 14px;
+        }
+
+        .olivia-panel {
+          height: min(640px, calc(100vh - 28px));
+        }
+
+        .olivia-fields {
+          grid-template-columns: 1fr;
+        }
+
+        .olivia-messages {
+          height: calc(100% - 330px);
+        }
+      }
+    </style>
+
+    <script is:inline define:vars={{ OLIVIA_CLIENT_CODE, OLIVIA_CLIENT_NAME, OLIVIA_CHANNEL_ENDPOINT }}>
+      const widget = document.getElementById("olivia-widget");
+      const launcher = widget?.querySelector(".olivia-launcher");
+      const panel = widget?.querySelector(".olivia-panel");
+      const closeButton = widget?.querySelector(".olivia-close");
+      const form = widget?.querySelector(".olivia-form");
+      const messages = widget?.querySelector(".olivia-messages");
+
+      function addOliviaMessage(content, role) {
+        const message = document.createElement("div");
+        message.className = `olivia-message olivia-message--${role}`;
+        message.textContent = content;
+        messages?.appendChild(message);
+        messages?.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
+      }
+
+      launcher?.addEventListener("click", () => {
+        panel.hidden = false;
+        launcher.hidden = true;
+      });
+
+      closeButton?.addEventListener("click", () => {
+        panel.hidden = true;
+        launcher.hidden = false;
+      });
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const text = String(formData.get("message") || "").trim();
+        if (!text) return;
+
+        addOliviaMessage(text, "user");
+        formData.set("message", "");
+        form.querySelector('input[name="message"]').value = "";
+
+        const payload = {
+          clientCode: OLIVIA_CLIENT_CODE,
+          clientName: OLIVIA_CLIENT_NAME,
+          source: "website",
+          pageUrl: window.location.href,
+          message: text,
+          metadata: {
+            checkIn: formData.get("checkIn") || "",
+            checkOut: formData.get("checkOut") || "",
+            guests: formData.get("guests") || "",
+          },
+          createdAt: new Date().toISOString(),
+        };
+
+        try {
+          if (OLIVIA_CHANNEL_ENDPOINT) {
+            await fetch(OLIVIA_CHANNEL_ENDPOINT, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+          }
+          addOliviaMessage("Merci. Votre demande est transmise a l'equipe Suites Mine.", "assistant");
+        } catch {
+          addOliviaMessage("Merci. Votre message est bien note, nous revenons vers vous rapidement.", "assistant");
+        }
+      });
+    </script>
   </body>
 </html>
