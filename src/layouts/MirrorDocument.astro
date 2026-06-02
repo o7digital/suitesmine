@@ -20,6 +20,9 @@ const OLIVIA_CLIENT_NAME = "Suites Mine";
 const OLIVIA_CHANNEL_ENDPOINT =
   import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ??
   "https://suitesmine-bot.vercel.app/api/olivia/chat";
+const OLIVIA_INBOX_ENDPOINT =
+  import.meta.env.PUBLIC_OLIVIA_INBOX_ENDPOINT ??
+  "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/widget/conversations";
 const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().startsWith("en")
   ? "en"
   : "es";
@@ -345,7 +348,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
       }
     </style>
 
-    <script is:inline define:vars={{ OLIVIA_CLIENT_CODE, OLIVIA_CLIENT_NAME, OLIVIA_CHANNEL_ENDPOINT }}>
+    <script is:inline define:vars={{ OLIVIA_CLIENT_CODE, OLIVIA_CLIENT_NAME, OLIVIA_CHANNEL_ENDPOINT, OLIVIA_INBOX_ENDPOINT }}>
       (() => {
         const widget = document.getElementById("olivia-widget");
         if (!widget || widget.dataset.ready === "true") return;
@@ -607,6 +610,10 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           guests: "",
           roomType: "",
         };
+        const visitorId =
+          window.localStorage.getItem("oliviaVisitorId") || window.crypto.randomUUID();
+        const receivedOperatorMessages = new Set();
+        window.localStorage.setItem("oliviaVisitorId", visitorId);
 
         launcher?.setAttribute("aria-label", copy.launcherLabel);
         panel?.setAttribute("aria-label", copy.panelLabel);
@@ -648,6 +655,49 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             addOliviaMessage(content, "assistant");
           }, Math.min(1200, Math.max(450, content.length * 8)));
         }
+
+        async function persistInboxMessage(content) {
+          if (!OLIVIA_INBOX_ENDPOINT) return;
+          const response = await fetch(OLIVIA_INBOX_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              clientCode: OLIVIA_CLIENT_CODE,
+              visitorId,
+              content,
+              source: "website",
+              language,
+              metadata: { page: window.location.pathname },
+            }),
+          });
+          return response.ok ? response.json() : null;
+        }
+
+        async function persistInboxAssistant(content) {
+          if (!OLIVIA_INBOX_ENDPOINT) return;
+          await fetch(OLIVIA_INBOX_ENDPOINT, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ clientCode: OLIVIA_CLIENT_CODE, visitorId, content }),
+          });
+        }
+
+        async function pollOperatorMessages() {
+          if (!OLIVIA_INBOX_ENDPOINT) return;
+          try {
+            const params = new URLSearchParams({ clientCode: OLIVIA_CLIENT_CODE, visitorId });
+            const response = await fetch(`${OLIVIA_INBOX_ENDPOINT}?${params}`);
+            if (!response.ok) return;
+            const data = await response.json();
+            (data.messages || [])
+              .filter((message) => message.role === "operator" && !receivedOperatorMessages.has(message.id))
+              .forEach((message) => {
+                receivedOperatorMessages.add(message.id);
+                addAssistantMessageWithTyping(message.content);
+              });
+          } catch {}
+        }
+        window.setInterval(pollOperatorMessages, 4000);
 
         function normalizeText(value) {
           return value
@@ -890,6 +940,8 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           payload.metadata.bookingDraft = { ...bookingDraft };
 
           try {
+            const inboxData = await persistInboxMessage(text).catch(() => null);
+            if (inboxData?.conversation?.status === "manual") return;
             if (OLIVIA_CHANNEL_ENDPOINT) {
               const response = await fetch(OLIVIA_CHANNEL_ENDPOINT, {
                 method: "POST",
@@ -902,8 +954,10 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
               }
             }
             addAssistantMessageWithTyping(answer);
+            persistInboxAssistant(answer).catch(() => {});
           } catch {
             addAssistantMessageWithTyping(answer);
+            persistInboxAssistant(answer).catch(() => {});
           }
         });
       })();
