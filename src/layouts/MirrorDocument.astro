@@ -615,6 +615,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         if (firstMessage) firstMessage.textContent = copy.welcome;
         if (messageInput) messageInput.placeholder = copy.placeholder;
         if (submitButton) submitButton.textContent = copy.send;
+        setupDateLimits();
 
         function addOliviaMessage(content, role) {
           const message = document.createElement("div");
@@ -672,10 +673,50 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
 
         function pickRoomType(text) {
           const normalized = normalizeText(text);
+          if (/^\s*1\s*$/.test(normalized)) return language === "en" ? "Studio" : "Estudio";
+          if (/^\s*2\s*$/.test(normalized)) return "Suite";
+          if (/^\s*3\s*$/.test(normalized)) return language === "en" ? "Double Suite" : "Suite Doble";
           if (hasAny(normalized, ["suite doble", "double suite", "doble"])) return language === "en" ? "Double Suite" : "Suite Doble";
           if (hasAny(normalized, ["suite"])) return "Suite";
           if (hasAny(normalized, ["estudio", "studio"])) return language === "en" ? "Studio" : "Estudio";
           return "";
+        }
+
+        function formatDateInput(date) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        }
+
+        function addDays(date, days) {
+          const next = new Date(date);
+          next.setDate(next.getDate() + days);
+          return next;
+        }
+
+        function setupDateLimits() {
+          const checkInInput = form?.querySelector('input[name="checkIn"]');
+          const checkOutInput = form?.querySelector('input[name="checkOut"]');
+          if (!checkInInput || !checkOutInput) return;
+
+          const minimumCheckIn = formatDateInput(addDays(new Date(), 2));
+          checkInInput.min = minimumCheckIn;
+          if (!checkInInput.value || checkInInput.value < minimumCheckIn) {
+            checkInInput.value = minimumCheckIn;
+          }
+
+          function updateCheckOutMinimum() {
+            const base = checkInInput.value ? new Date(`${checkInInput.value}T00:00:00`) : addDays(new Date(), 2);
+            const minimumCheckOut = formatDateInput(addDays(base, 1));
+            checkOutInput.min = minimumCheckOut;
+            if (!checkOutInput.value || checkOutInput.value < minimumCheckOut) {
+              checkOutInput.value = minimumCheckOut;
+            }
+          }
+
+          updateCheckOutMinimum();
+          checkInInput.addEventListener("change", updateCheckOutMinimum);
         }
 
         function valueAfterStep(text, step) {
@@ -747,8 +788,15 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         function answerFromSiteKnowledge(text, metadata) {
           const normalized = normalizeText(text);
           const hasDates = Boolean(metadata.checkIn && metadata.checkOut);
+          const selectedRoomType = pickRoomType(text);
 
           if (isBookingIntent(normalized)) {
+            bookingDraft.active = true;
+            fillBookingDraft(text, metadata, false);
+            return nextBookingAnswer();
+          }
+
+          if (selectedRoomType && hasDates) {
             bookingDraft.active = true;
             fillBookingDraft(text, metadata, false);
             return nextBookingAnswer();
