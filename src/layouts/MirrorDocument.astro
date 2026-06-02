@@ -338,7 +338,17 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             contact:
               "Puede contactar a Suites Mine en contacto@suitesmine.com o por telefono al +52 55 3666 8535.",
             booking:
-              "Para reservar, digame sus fechas, numero de huespedes y tipo de habitacion preferida. Si desea, tambien puedo pasar la solicitud al equipo.",
+              "Perfecto, puedo preparar su reserva. Necesito estos datos: nombre y apellido, email, telefono, fecha de llegada, fecha de salida, numero de huespedes y habitacion preferida.",
+            askName: "Perfecto, preparo la reserva. ¿A nombre de quien hacemos la reserva? Necesito nombre y apellido.",
+            askEmail: "Gracias. ¿Cual es su email de contacto?",
+            askPhone: "Perfecto. ¿Cual es su telefono con codigo de pais?",
+            askDates: "Ahora necesito las fechas: llegada y salida. Puede usar los campos de fecha abajo o escribirlas aqui.",
+            askGuests: "¿Para cuantos huespedes es la reserva?",
+            askRoom: "¿Que habitacion prefiere: Estudio, Suite o Suite Doble?",
+            bookingReady:
+              "Listo. Tengo los datos para crear la reserva:\n\nNombre: {name}\nEmail: {email}\nTelefono: {phone}\nLlegada: {checkIn}\nSalida: {checkOut}\nHuespedes: {guests}\nHabitacion: {roomType}\n\nVoy a enviar esta solicitud de reserva al sistema. Para pago y confirmacion final, el equipo o Cloudbeds debe validar la disponibilidad en tiempo real.",
+            paymentNext:
+              "El siguiente paso es el pago. Cuando el pago este validado, la confirmacion de reserva y el ticket se enviaran al email indicado.",
             human:
               "Entendido. Para que una persona tome el control, deje su solicitud aqui y el equipo de Suites Mine podra dar seguimiento.",
           },
@@ -367,7 +377,17 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             contact:
               "You can contact Suites Mine at contacto@suitesmine.com or by phone at +52 55 3666 8535.",
             booking:
-              "To reserve, tell me your dates, number of guests and preferred room type. I can also pass the request to the team.",
+              "Perfect, I can prepare your booking. I need: first and last name, email, phone, check-in date, check-out date, number of guests and preferred room type.",
+            askName: "Perfect, I will prepare the booking. What name should the reservation be under? I need first and last name.",
+            askEmail: "Thank you. What is your contact email?",
+            askPhone: "Perfect. What is your phone number with country code?",
+            askDates: "Now I need your dates: check-in and check-out. You can use the date fields below or write them here.",
+            askGuests: "How many guests is the booking for?",
+            askRoom: "Which room do you prefer: Studio, Suite or Double Suite?",
+            bookingReady:
+              "Done. I have the details to create the booking:\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nCheck-in: {checkIn}\nCheck-out: {checkOut}\nGuests: {guests}\nRoom: {roomType}\n\nI will send this booking request to the system. For payment and final confirmation, the team or Cloudbeds must validate real-time availability.",
+            paymentNext:
+              "The next step is payment. Once payment is validated, the booking confirmation and ticket will be sent to the email provided.",
             human:
               "Understood. If you want a person to take over, leave your request here and the Suites Mine team can follow up.",
           },
@@ -533,6 +553,16 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         const firstMessage = widget.querySelector(".olivia-message--assistant");
         const messageInput = widget.querySelector('input[name="message"]');
         const submitButton = widget.querySelector('.olivia-composer button[type="submit"]');
+        const bookingDraft = {
+          active: false,
+          name: "",
+          email: "",
+          phone: "",
+          checkIn: "",
+          checkOut: "",
+          guests: "",
+          roomType: "",
+        };
 
         launcher?.setAttribute("aria-label", copy.launcherLabel);
         panel?.setAttribute("aria-label", copy.panelLabel);
@@ -563,15 +593,90 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           return words.some((word) => text.includes(word));
         }
 
+        function isBookingIntent(normalized) {
+          return hasAny(normalized, [
+            "quiero reservar",
+            "podemos reservar",
+            "hacer reserva",
+            "reservar ahora",
+            "confirmar reserva",
+            "book now",
+            "make a booking",
+            "make reservation",
+            "i want to book",
+            "i would like to book",
+          ]);
+        }
+
+        function pickRoomType(text) {
+          const normalized = normalizeText(text);
+          if (hasAny(normalized, ["suite doble", "double suite", "doble"])) return language === "en" ? "Double Suite" : "Suite Doble";
+          if (hasAny(normalized, ["suite"])) return "Suite";
+          if (hasAny(normalized, ["estudio", "studio"])) return language === "en" ? "Studio" : "Estudio";
+          return "";
+        }
+
+        function fillBookingDraft(text, metadata, captureName = true) {
+          const trimmed = text.trim();
+          const email = trimmed.match(/[^\s@]+@[^\s@]+\.[^\s@]+/)?.[0] || "";
+          const phone = trimmed.match(/(?:\+?\d[\d\s().-]{6,}\d)/)?.[0] || "";
+          const roomType = pickRoomType(trimmed);
+
+          if (metadata.checkIn) bookingDraft.checkIn = String(metadata.checkIn);
+          if (metadata.checkOut) bookingDraft.checkOut = String(metadata.checkOut);
+          if (metadata.guests) bookingDraft.guests = String(metadata.guests);
+          if (email) bookingDraft.email = email;
+          if (phone) bookingDraft.phone = phone;
+          if (roomType) bookingDraft.roomType = roomType;
+
+          if (captureName && bookingDraft.active && !bookingDraft.name && !email && !phone && !roomType && trimmed.length > 3) {
+            bookingDraft.name = trimmed;
+          } else if (bookingDraft.active && bookingDraft.name && !bookingDraft.email && email) {
+            bookingDraft.email = email;
+          } else if (bookingDraft.active && bookingDraft.email && !bookingDraft.phone && phone) {
+            bookingDraft.phone = phone;
+          }
+        }
+
+        function nextBookingAnswer() {
+          if (!bookingDraft.name) return copy.askName;
+          if (!bookingDraft.email) return copy.askEmail;
+          if (!bookingDraft.phone) return copy.askPhone;
+          if (!bookingDraft.checkIn || !bookingDraft.checkOut) return copy.askDates;
+          if (!bookingDraft.guests) return copy.askGuests;
+          if (!bookingDraft.roomType) return copy.askRoom;
+
+          return copy.bookingReady
+            .replace("{name}", bookingDraft.name)
+            .replace("{email}", bookingDraft.email)
+            .replace("{phone}", bookingDraft.phone)
+            .replace("{checkIn}", bookingDraft.checkIn)
+            .replace("{checkOut}", bookingDraft.checkOut)
+            .replace("{guests}", bookingDraft.guests)
+            .replace("{roomType}", bookingDraft.roomType)
+            .concat(`\n\n${copy.paymentNext}`);
+        }
+
         function answerFromSiteKnowledge(text, metadata) {
           const normalized = normalizeText(text);
           const hasDates = Boolean(metadata.checkIn && metadata.checkOut);
+
+          if (isBookingIntent(normalized)) {
+            bookingDraft.active = true;
+            fillBookingDraft(text, metadata, false);
+            return nextBookingAnswer();
+          }
+
+          if (bookingDraft.active) {
+            fillBookingDraft(text, metadata);
+            return nextBookingAnswer();
+          }
 
           if (hasAny(normalized, ["humano", "persona", "agente", "asesor", "equipo", "manual", "take over", "human", "agent"])) {
             return copy.human;
           }
 
-          if (hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price", "reserva", "reservar", "booking", "book", "habitacion", "room"])) {
+          if (hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price", "habitacion", "room"])) {
             if (hasAny(normalized, ["habitacion", "room", "suite", "estudio", "studio"]) && !hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price", "reserva", "booking", "book"])) {
               return copy.rooms;
             }
@@ -579,6 +684,10 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
               return copy.needDates;
             }
             return `${copy.availability}\n\n${language === "en" ? "Booking link:" : "Link de reserva:"} ${hotelKnowledge.bookingUrl}`;
+          }
+
+          if (hasAny(normalized, ["reserva", "reservar", "booking", "book"])) {
+            return copy.booking;
           }
 
           const faqAnswer = faqAnswers.find((item) => hasAny(normalized, item.words));
@@ -637,6 +746,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             createdAt: new Date().toISOString(),
           };
           const answer = answerFromSiteKnowledge(text, payload.metadata);
+          payload.metadata.bookingDraft = { ...bookingDraft };
 
           try {
             if (OLIVIA_CHANNEL_ENDPOINT) {
