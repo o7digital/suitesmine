@@ -660,7 +660,7 @@ function normalizeRobotsMeta(html: string, slug: string): string {
 }
 
 function normalizeHeadingStructure(html: string, slug: string): string {
-  if (slug !== "" && slug !== "en") {
+  if (slug !== "") {
     return html;
   }
 
@@ -669,104 +669,9 @@ function normalizeHeadingStructure(html: string, slug: string): string {
     .replace(/<\/h1>(\s*<\/div>\s*<div class=["']thumbnail__review["'])/gi, "</h3>$1");
 }
 
-const SEO_H1_OVERRIDES: Record<string, string> = {
-  "": "Suites Mine: suites y apart hotel cerca del Angel en CDMX",
-  en: "Suites Mine: aparthotel suites near Reforma in Mexico City",
-  suites: "Suites en CDMX cerca de Reforma",
-  "en/suites": "Suites in Mexico City near Reforma",
-  estudio: "Estudio en CDMX cerca del Angel",
-  "en/estudio": "Studio suite near the Angel in Mexico City",
-  "suites-doble": "Suite doble en CDMX cerca de Reforma",
-  "en/suites-doble": "Double suite in Mexico City near Reforma",
-  "about-the-hotel": "Apart hotel en Colonia Cuauhtemoc CDMX",
-  "en/about-the-hotel": "Aparthotel in Colonia Cuauhtemoc Mexico City",
-};
-
-const SEO_BODY_COPY: Record<string, { heading: string; body: string }> = {
-  "": {
-    heading: "Hospedaje en Colonia Cuauhtemoc, cerca de Reforma",
-    body: "Suites Mine ofrece suites tipo apartamento en CDMX para viajes de negocios, vacaciones y estancias largas. La propiedad esta en Rio Ebro 64, a dos calles del Angel de la Independencia, cerca de Paseo de la Reforma, Zona Rosa y la Embajada de Estados Unidos.",
-  },
-  en: {
-    heading: "Aparthotel accommodation in Colonia Cuauhtemoc, near Reforma",
-    body: "Suites Mine offers apartment-style suites in Mexico City for business travel, leisure trips and extended stays. The property is located at Rio Ebro 64, two blocks from the Angel of Independence, near Reforma Avenue, Zona Rosa and the U.S. Embassy.",
-  },
-  suites: {
-    heading: "Suites equipadas para estancias cortas y largas en CDMX",
-    body: "Nuestras suites en CDMX combinan ubicacion centrica, cocina equipada, limpieza diaria y servicios de hotel. Son una opcion practica para hospedarse cerca de Reforma, Zona Rosa, Colonia Cuauhtemoc y el Angel de la Independencia.",
-  },
-  "en/suites": {
-    heading: "Equipped suites for short and extended stays in Mexico City",
-    body: "Our suites in Mexico City combine a central location, equipped kitchens, daily cleaning and hotel-style services. They are a practical option near Reforma Avenue, Zona Rosa, Colonia Cuauhtemoc and the Angel of Independence.",
-  },
-  estudio: {
-    heading: "Estudio con cocineta cerca de Reforma CDMX",
-    body: "El estudio de Suites Mine es una opcion funcional para viajeros que buscan hospedaje ejecutivo en CDMX, una suite compacta cerca del Angel de la Independencia y una ubicacion tranquila en Colonia Cuauhtemoc.",
-  },
-  "en/estudio": {
-    heading: "Studio suite with kitchenette near Reforma Mexico City",
-    body: "The Suites Mine studio is a functional option for travelers looking for executive accommodation in Mexico City, a compact suite near the Angel of Independence and a quiet location in Colonia Cuauhtemoc.",
-  },
-  "suites-doble": {
-    heading: "Suite doble para familias y negocios en CDMX",
-    body: "La suite doble ofrece mas espacio para familias, grupos pequenos y viajes de trabajo. Esta pensada para quienes necesitan hospedaje con cocina en CDMX cerca de Reforma, Zona Rosa y el Angel de la Independencia.",
-  },
-  "en/suites-doble": {
-    heading: "Double suite for families and business travel in Mexico City",
-    body: "The double suite offers more space for families, small groups and work trips. It is designed for guests who need accommodation with a kitchen in Mexico City near Reforma Avenue, Zona Rosa and the Angel of Independence.",
-  },
-  "about-the-hotel": {
-    heading: "Suites tipo apart hotel a dos calles del Angel",
-    body: "Suites Mine cuenta con 39 suites tipo apart hotel en Colonia Cuauhtemoc, CDMX. La ubicacion permite hospedarse cerca de Reforma, la Zona Rosa, la Embajada de Estados Unidos y zonas de negocios del centro de Ciudad de Mexico.",
-  },
-  "en/about-the-hotel": {
-    heading: "Aparthotel-style suites two blocks from the Angel",
-    body: "Suites Mine has 39 aparthotel-style suites in Colonia Cuauhtemoc, Mexico City. The location makes it easy to stay near Reforma Avenue, Zona Rosa, the U.S. Embassy and central business areas of Mexico City.",
-  },
-};
-
-function replaceFirstH1(html: string, title: string): string {
-  return html.replace(/<h1(\s+[^>]*)?>[\s\S]*?<\/h1>/i, (match, attrs = "") => {
-    const cleanAttrs = attrs ?? "";
-    return `<h1${cleanAttrs}>${title}</h1>`;
-  });
-}
-
-function injectSeoBodyCopy(html: string, slug: string): string {
-  const copy = SEO_BODY_COPY[slug];
-  if (!copy || html.includes('id="business-seo-copy"')) {
-    return html;
-  }
-
-  const block = [
-    '<section id="business-seo-copy" style="max-width:980px;margin:34px auto 28px;padding:0 24px;text-align:center;">',
-    `<h2 style="font-size:clamp(26px,3vw,38px);line-height:1.2;margin:0 0 12px;">${copy.heading}</h2>`,
-    `<p style="font-size:17px;line-height:1.75;margin:0 auto;max-width:820px;">${copy.body}</p>`,
-    "</section>",
-  ].join("");
-
-  const pageTitlePattern = /(<h1\s+class=["']entry-title["'][^>]*>[\s\S]*?<\/h1>\s*<\/div>\s*<\/section>)/i;
-  if (pageTitlePattern.test(html)) {
-    return html.replace(pageTitlePattern, `$1${block}`);
-  }
-
-  const homeTitlePattern = /(<div class=["']cs-title-text["'][^>]*>[\s\S]*?<\/div>\s*<\/div>)/i;
-  if (homeTitlePattern.test(html)) {
-    return html.replace(homeTitlePattern, `$1${block}`);
-  }
-
-  return html.includes("</main>") ? html.replace("</main>", `${block}</main>`) : `${html}${block}`;
-}
-
-function applySeoContentEnhancements(html: string, slug: string): string {
-  const h1 = SEO_H1_OVERRIDES[slug];
-  const withH1 = h1 ? replaceFirstH1(html, h1) : html;
-  return injectSeoBodyCopy(withH1, slug);
-}
-
 function normalizeSeo(html: string, slug: string): string {
   const canonicalUrl = `${SITE_ORIGIN}${getCanonicalPath(slug)}`;
-  const noDuplicateSeo = applySeoContentEnhancements(normalizeHeadingStructure(stripGeneratedJsonLd(html), slug), slug);
+  const noDuplicateSeo = normalizeHeadingStructure(stripGeneratedJsonLd(html), slug);
   const withSeoOverride = applySeoOverride(noDuplicateSeo, slug);
   const withRobots = normalizeRobotsMeta(withSeoOverride, slug);
   const withOgUrl = normalizeOgUrl(withRobots, canonicalUrl);
