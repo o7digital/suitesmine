@@ -643,7 +643,7 @@ function applySeoOverride(html: string, slug: string): string {
     return html;
   }
 
-  let updated = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${override.title}</title>`);
+  let updated = upsertMetaTag(html, /<title[\s\S]*?<\/title>/i, `<title>${override.title}</title>`);
   updated = upsertMetaTag(updated, /<meta\s+name=["']description["'][^>]*>/i, `<meta name="description" content="${override.description}" />`);
   updated = upsertMetaTag(updated, /<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${override.title}" />`);
   updated = upsertMetaTag(updated, /<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${override.description}" />`);
@@ -693,38 +693,38 @@ function upsertFooterKeywordCloud(html: string, slug: string): string {
 
   const spanishKeywords = [
     "suites en cdmx",
-    "suites cerca del angel de la independencia",
-    "hotel con suites en reforma",
+    "suites cerca del angel de la independencia cdmx",
+    "hotel con suites en reforma cdmx",
     "departamentos amueblados en cdmx",
     "alojamiento ejecutivo en cdmx",
     "suites para estancias largas cdmx",
-    "hospedaje en colonia cuauhtemoc",
+    "hospedaje en colonia cuauhtemoc cdmx",
     "apart hotel en ciudad de mexico",
     "suites con cocina en cdmx",
-    "hotel boutique cerca de reforma",
+    "hotel boutique cerca de reforma cdmx",
     "hospedaje para negocios cdmx",
     "suites cerca de embajada usa cdmx",
-    "alojamiento cerca de zona rosa",
+    "alojamiento cerca de zona rosa cdmx",
     "suites con terraza en cdmx",
     "donde hospedarse cerca del angel cdmx",
   ];
 
   const englishKeywords = [
     "suites in mexico city",
-    "suites near angel of independence",
-    "hotel suites near reforma",
+    "suites near angel of independence mexico city",
+    "hotel suites near reforma mexico city",
     "furnished apartments in mexico city",
     "executive stay in mexico city",
     "extended stay suites mexico city",
     "accommodation in cuauhtemoc mexico city",
     "aparthotel in mexico city",
     "suites with kitchen in mexico city",
-    "boutique hotel near reforma avenue",
+    "boutique hotel near reforma avenue mexico city",
     "business travel stay mexico city",
     "suites near us embassy mexico city",
     "stay near zona rosa mexico city",
     "suites with terrace in mexico city",
-    "where to stay near angel of independence",
+    "where to stay near angel of independence mexico city",
   ];
 
   const keywords = isEnglishSlug(slug) ? englishKeywords : spanishKeywords;
