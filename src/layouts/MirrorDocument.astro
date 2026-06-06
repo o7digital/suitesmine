@@ -46,6 +46,8 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
   </head>
   <body {...bodyAttributes}>
     <Fragment set:html={bodyInnerHtml} />
+    {false && (
+      <>
     <div
       id="olivia-widget"
       class="olivia-widget"
@@ -962,5 +964,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         });
       })();
     </script>
+      </>
+    )}
   </body>
 </html>
