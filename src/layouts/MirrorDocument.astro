@@ -19,7 +19,7 @@ const OLIVIA_CLIENT_CODE = "suitesmine";
 const OLIVIA_CLIENT_NAME = "Suites Mine";
 const OLIVIA_CHANNEL_ENDPOINT =
   import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ??
-  "https://suitesmine-bot.vercel.app/api/olivia/chat";
+  "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/olivia/chat";
 const OLIVIA_INBOX_ENDPOINT =
   import.meta.env.PUBLIC_OLIVIA_INBOX_ENDPOINT ??
   "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/widget/conversations";
@@ -63,6 +63,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           <div>
             <p class="olivia-kicker">Suites Mine</p>
             <h2>Olivia IA Concierge</h2>
+            <span class="olivia-status">Hôtesse digitale disponible</span>
           </div>
           <button class="olivia-close" type="button" aria-label="Cerrar Olivia IA Concierge">×</button>
         </header>
@@ -70,6 +71,12 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         <div class="olivia-messages" aria-live="polite">
           <div class="olivia-message olivia-message--assistant">
             Hola, soy Olivia IA Concierge. Puedo ayudarle con disponibilidad, tarifas y solicitudes de reserva.
+          </div>
+          <div class="olivia-quick-actions" aria-label="Acciones rapidas">
+            <button type="button" data-olivia-prompt="availability">Disponibilidad</button>
+            <button type="button" data-olivia-prompt="booking">Reservar</button>
+            <button type="button" data-olivia-prompt="rooms">Habitaciones</button>
+            <button type="button" data-olivia-prompt="contact">Contacto</button>
           </div>
         </div>
 
@@ -86,6 +93,15 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             <label>
               <span data-olivia-i18n="guests">Huespedes</span>
               <input name="guests" type="number" min="1" placeholder="2" />
+            </label>
+            <label>
+              <span data-olivia-i18n="roomType">Categoria</span>
+              <select name="roomType">
+                <option value="">Flexible</option>
+                <option value="Estudio">Estudio</option>
+                <option value="Suite">Suite</option>
+                <option value="Suite Doble">Suite Doble</option>
+              </select>
             </label>
           </div>
           <div class="olivia-composer">
@@ -108,20 +124,21 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         right: 22px;
         bottom: 22px;
         z-index: 99999;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: #f7f1e4;
       }
 
       .olivia-launcher {
         display: flex;
         align-items: center;
-        gap: 10px;
-        min-height: 56px;
+        gap: 12px;
+        min-height: 58px;
         border: 0;
         border-radius: 999px;
-        padding: 8px 18px 8px 8px;
-        background: #1f2a44;
-        color: white;
-        box-shadow: 0 22px 60px rgba(12, 20, 38, 0.28);
+        padding: 8px 20px 8px 8px;
+        background: linear-gradient(135deg, rgba(16, 18, 22, 0.96), rgba(48, 42, 34, 0.94));
+        color: #fff8e9;
+        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42), inset 0 0 0 1px rgba(214, 179, 111, 0.32);
         cursor: pointer;
       }
 
@@ -131,24 +148,28 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: #ffffff;
-        color: #1f2a44;
+        background: #f8f1df;
+        color: #171512;
         font-weight: 800;
+        box-shadow: inset 0 0 0 1px rgba(178, 139, 74, 0.35);
       }
 
       .olivia-launcher__text {
-        font-size: 15px;
-        font-weight: 700;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
       .olivia-panel {
-        width: min(420px, calc(100vw - 28px));
-        height: min(680px, calc(100vh - 28px));
+        width: min(430px, calc(100vw - 28px));
+        height: min(650px, calc(100vh - 28px));
         overflow: hidden;
-        border: 1px solid rgba(31, 42, 68, 0.14);
-        border-radius: 18px;
-        background: #ffffff;
-        box-shadow: 0 30px 90px rgba(12, 20, 38, 0.28);
+        border: 1px solid rgba(221, 185, 113, 0.34);
+        border-radius: 10px;
+        background: rgba(18, 17, 15, 0.92);
+        box-shadow: 0 34px 100px rgba(0, 0, 0, 0.48);
+        backdrop-filter: blur(16px);
       }
 
       .olivia-panel[hidden] {
@@ -159,9 +180,12 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 18px;
-        background: #1f2a44;
-        color: white;
+        padding: 18px 18px 16px;
+        background:
+          linear-gradient(135deg, rgba(16, 18, 22, 0.98), rgba(69, 54, 34, 0.92)),
+          radial-gradient(circle at top right, rgba(214, 179, 111, 0.22), transparent 38%);
+        color: #fff8e9;
+        border-bottom: 1px solid rgba(221, 185, 113, 0.22);
       }
 
       .olivia-kicker,
@@ -170,27 +194,48 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
       }
 
       .olivia-kicker {
-        color: rgba(255, 255, 255, 0.72);
-        font-size: 12px;
+        color: rgba(229, 203, 150, 0.86);
+        font-size: 11px;
         font-weight: 700;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
       }
 
       .olivia-header h2 {
-        margin-top: 2px;
-        font-size: 20px;
+        margin-top: 4px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 24px;
+        font-weight: 400;
         line-height: 1.2;
+      }
+
+      .olivia-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        color: rgba(255, 248, 233, 0.78);
+        font-size: 12px;
+      }
+
+      .olivia-status::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #d6b36f;
+        box-shadow: 0 0 16px rgba(214, 179, 111, 0.9);
       }
 
       .olivia-close {
         display: grid;
         place-items: center;
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
         border: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.12);
-        color: white;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff8e9;
         cursor: pointer;
         font-size: 24px;
         line-height: 1;
@@ -199,33 +244,56 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
       .olivia-messages {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        height: calc(100% - 236px);
+        gap: 12px;
+        height: calc(100% - 318px);
         overflow-y: auto;
         padding: 16px;
-        background: #f6f4ee;
+        background:
+          linear-gradient(180deg, rgba(22, 20, 17, 0.92), rgba(12, 12, 12, 0.94)),
+          radial-gradient(circle at top left, rgba(214, 179, 111, 0.12), transparent 36%);
       }
 
       .olivia-message {
         max-width: 86%;
-        border-radius: 14px;
-        padding: 11px 13px;
+        border-radius: 10px;
+        padding: 12px 14px;
         font-size: 14px;
-        line-height: 1.45;
+        line-height: 1.5;
         white-space: pre-line;
       }
 
       .olivia-message--assistant {
         align-self: flex-start;
-        background: white;
-        color: #222833;
-        border: 1px solid rgba(31, 42, 68, 0.1);
+        background: rgba(255, 248, 233, 0.96);
+        color: #29231a;
+        border: 1px solid rgba(214, 179, 111, 0.26);
       }
 
       .olivia-message--user {
         align-self: flex-end;
-        background: #1f2a44;
-        color: white;
+        background: rgba(214, 179, 111, 0.96);
+        color: #191510;
+        font-weight: 700;
+      }
+
+      .olivia-quick-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 2px;
+      }
+
+      .olivia-quick-actions button {
+        min-height: 36px;
+        border: 1px solid rgba(214, 179, 111, 0.34);
+        border-radius: 8px;
+        background: rgba(255, 248, 233, 0.08);
+        color: #f8f1df;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
       }
 
       .olivia-message--typing {
@@ -267,14 +335,14 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
       }
 
       .olivia-form {
-        border-top: 1px solid rgba(31, 42, 68, 0.12);
-        background: white;
+        border-top: 1px solid rgba(214, 179, 111, 0.22);
+        background: rgba(247, 241, 228, 0.96);
         padding: 12px;
       }
 
       .olivia-fields {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
         margin-bottom: 10px;
       }
@@ -284,25 +352,27 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         min-width: 0;
         flex-direction: column;
         gap: 4px;
-        color: #5f6675;
+        color: #62533e;
         font-size: 11px;
         font-weight: 700;
       }
 
       .olivia-fields input,
+      .olivia-fields select,
       .olivia-composer input {
         min-width: 0;
-        border: 1px solid rgba(31, 42, 68, 0.18);
-        border-radius: 10px;
-        background: #fbfbfd;
-        color: #1f2a44;
+        border: 1px solid rgba(94, 70, 37, 0.22);
+        border-radius: 8px;
+        background: #fffdf8;
+        color: #29231a;
         outline: 0;
       }
 
-      .olivia-fields input {
+      .olivia-fields input,
+      .olivia-fields select {
         height: 36px;
         padding: 0 8px;
-        font-size: 12px;
+        font-size: 13px;
       }
 
       .olivia-composer {
@@ -319,13 +389,15 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
 
       .olivia-composer button {
         border: 0;
-        border-radius: 10px;
-        padding: 0 14px;
-        background: #b88a44;
-        color: white;
+        border-radius: 8px;
+        padding: 0 16px;
+        background: #29231a;
+        color: #fff8e9;
         cursor: pointer;
         font-size: 13px;
         font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
       @media (max-width: 540px) {
@@ -339,11 +411,11 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         }
 
         .olivia-fields {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .olivia-messages {
-          height: calc(100% - 330px);
+          height: calc(100% - 318px);
         }
       }
     </style>
@@ -364,10 +436,11 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             checkIn: "Llegada",
             checkOut: "Salida",
             guests: "Huespedes",
-            placeholder: "Escriba su pregunta...",
+            roomType: "Categoria",
+            placeholder: "Pregunte por fechas, tarifas o reserva...",
             send: "Enviar",
             welcome:
-              "Hola, soy Olivia IA Concierge. Conozco Suites Mine y puedo responder sobre habitaciones, ubicación, servicios, tarifas y disponibilidad.",
+              "Buenas tardes, soy Olivia, hotesse digital de Suites Mine. Puedo revisar fechas, orientar sobre categorias y preparar su solicitud de reserva.",
             sent: "Perfecto. Tambien he enviado su solicitud al equipo de Suites Mine para seguimiento.",
             fallback: "Puedo ayudarle con Suites Mine: disponibilidad, tarifas, habitaciones, ubicacion, servicios y contacto.",
             needDates: "Claro. Indiqueme fecha de llegada, salida y numero de huespedes para revisar disponibilidad.",
@@ -405,10 +478,11 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             checkIn: "Check in",
             checkOut: "Check out",
             guests: "Guests",
-            placeholder: "Ask your question...",
+            roomType: "Category",
+            placeholder: "Ask about dates, rates or booking...",
             send: "Send",
             welcome:
-              "Hello, I am Olivia AI Concierge. I know Suites Mine and can answer questions about rooms, location, services, rates and availability.",
+              "Good afternoon, I am Olivia, Suites Mine's digital hostess. I can review dates, guide you through room categories and prepare your booking request.",
             sent: "Perfect. I also sent your request to the Suites Mine team for follow-up.",
             fallback: "I can help with Suites Mine: availability, rates, rooms, location, services and contact details.",
             needDates: "Of course. Please share check-in date, check-out date and number of guests so I can check availability.",
@@ -625,6 +699,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         widget.querySelector('[data-olivia-i18n="checkIn"]').textContent = copy.checkIn;
         widget.querySelector('[data-olivia-i18n="checkOut"]').textContent = copy.checkOut;
         widget.querySelector('[data-olivia-i18n="guests"]').textContent = copy.guests;
+        widget.querySelector('[data-olivia-i18n="roomType"]').textContent = copy.roomType;
         if (firstMessage) firstMessage.textContent = copy.welcome;
         if (messageInput) messageInput.placeholder = copy.placeholder;
         if (submitButton) submitButton.textContent = copy.send;
@@ -738,6 +813,22 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           return "";
         }
 
+        function syncRoomOptions() {
+          const select = form?.querySelector('select[name="roomType"]');
+          if (!select) return;
+          if (language === "en") {
+            select.options[0].textContent = "Flexible";
+            select.options[1].textContent = "Studio";
+            select.options[2].textContent = "Suite";
+            select.options[3].textContent = "Double Suite";
+          } else {
+            select.options[0].textContent = "Flexible";
+            select.options[1].textContent = "Estudio";
+            select.options[2].textContent = "Suite";
+            select.options[3].textContent = "Suite Doble";
+          }
+        }
+
         function formatDateInput(date) {
           const year = date.getFullYear();
           const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -809,6 +900,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           if (metadata.checkIn) bookingDraft.checkIn = String(metadata.checkIn);
           if (metadata.checkOut) bookingDraft.checkOut = String(metadata.checkOut);
           if (metadata.guests) bookingDraft.guests = String(metadata.guests);
+          if (metadata.roomType) bookingDraft.roomType = String(metadata.roomType);
           if (email) bookingDraft.email = email;
           if (phone) bookingDraft.phone = phone;
           if (roomType) bookingDraft.roomType = roomType;
@@ -913,6 +1005,22 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           launcher.hidden = false;
         });
 
+        syncRoomOptions();
+        widget.querySelectorAll("[data-olivia-prompt]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const prompts = {
+              availability: language === "en" ? "I want to check availability" : "Quiero revisar disponibilidad",
+              booking: language === "en" ? "I want to book a suite" : "Quiero reservar una suite",
+              rooms: language === "en" ? "What is the difference between Studio, Suite and Double Suite?" : "Cual es la diferencia entre Estudio, Suite y Suite Doble?",
+              contact: language === "en" ? "How can I contact Suites Mine?" : "Como puedo contactar a Suites Mine?",
+            };
+            if (messageInput) {
+              messageInput.value = prompts[button.dataset.oliviaPrompt] || "";
+              messageInput.focus();
+            }
+          });
+        });
+
         form?.addEventListener("submit", async (event) => {
           event.preventDefault();
           const formData = new FormData(form);
@@ -933,6 +1041,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
               checkIn: formData.get("checkIn") || "",
               checkOut: formData.get("checkOut") || "",
               guests: formData.get("guests") || "",
+              roomType: formData.get("roomType") || "",
             },
             createdAt: new Date().toISOString(),
           };
