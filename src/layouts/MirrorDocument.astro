@@ -687,6 +687,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
         const visitorId =
           window.localStorage.getItem("oliviaVisitorId") || window.crypto.randomUUID();
         const receivedOperatorMessages = new Set();
+        let oliviaBusy = false;
         window.localStorage.setItem("oliviaVisitorId", visitorId);
 
         launcher?.setAttribute("aria-label", copy.launcherLabel);
@@ -938,6 +939,10 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           const hasDates = Boolean(metadata.checkIn && metadata.checkOut);
           const selectedRoomType = pickRoomType(text);
 
+          if (hasAny(normalized, ["diferencia", "difference", "tipo", "tipos", "habitacion", "room", "rooms"]) && hasAny(normalized, ["estudio", "studio", "suite", "doble", "double"])) {
+            return copy.rooms;
+          }
+
           if (isBookingIntent(normalized)) {
             bookingDraft.active = true;
             fillBookingDraft(text, metadata, false);
@@ -995,6 +1000,11 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           return copy.fallback;
         }
 
+        function shouldUseRemoteAnswer(text) {
+          const normalized = normalizeText(text);
+          return bookingDraft.active || isBookingIntent(normalized);
+        }
+
         launcher?.addEventListener("click", () => {
           panel.hidden = false;
           launcher.hidden = true;
@@ -1014,20 +1024,20 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
               rooms: language === "en" ? "What is the difference between Studio, Suite and Double Suite?" : "Cual es la diferencia entre Estudio, Suite y Suite Doble?",
               contact: language === "en" ? "How can I contact Suites Mine?" : "Como puedo contactar a Suites Mine?",
             };
-            if (messageInput) {
-              messageInput.value = prompts[button.dataset.oliviaPrompt] || "";
-              messageInput.focus();
-            }
+            const prompt = prompts[button.dataset.oliviaPrompt] || "";
+            if (prompt) sendOliviaMessage(prompt);
           });
         });
 
-        form?.addEventListener("submit", async (event) => {
-          event.preventDefault();
+        async function sendOliviaMessage(text) {
+          if (oliviaBusy) return;
           const formData = new FormData(form);
-          const text = String(formData.get("message") || "").trim();
-          if (!text) return;
+          const trimmedText = String(text || "").trim();
+          if (!trimmedText) return;
+          oliviaBusy = true;
+          if (submitButton) submitButton.disabled = true;
 
-          addOliviaMessage(text, "user");
+          addOliviaMessage(trimmedText, "user");
           if (messageInput) messageInput.value = "";
 
           const payload = {
@@ -1036,7 +1046,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             source: "website",
             language,
             pageUrl: window.location.href,
-            message: text,
+            message: trimmedText,
             metadata: {
               checkIn: formData.get("checkIn") || "",
               checkOut: formData.get("checkOut") || "",
@@ -1045,13 +1055,13 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             },
             createdAt: new Date().toISOString(),
           };
-          let answer = answerFromSiteKnowledge(text, payload.metadata);
+          let answer = answerFromSiteKnowledge(trimmedText, payload.metadata);
           payload.metadata.bookingDraft = { ...bookingDraft };
 
           try {
-            const inboxData = await persistInboxMessage(text).catch(() => null);
-            if (inboxData?.conversation?.status === "manual") return;
-            if (OLIVIA_CHANNEL_ENDPOINT) {
+            const inboxData = await persistInboxMessage(trimmedText).catch(() => null);
+            const isManual = inboxData?.conversation?.status === "manual";
+            if (OLIVIA_CHANNEL_ENDPOINT && shouldUseRemoteAnswer(trimmedText)) {
               const response = await fetch(OLIVIA_CHANNEL_ENDPOINT, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -1063,11 +1073,21 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
               }
             }
             addAssistantMessageWithTyping(answer);
-            persistInboxAssistant(answer).catch(() => {});
+            if (!isManual) persistInboxAssistant(answer).catch(() => {});
           } catch {
             addAssistantMessageWithTyping(answer);
             persistInboxAssistant(answer).catch(() => {});
+          } finally {
+            window.setTimeout(() => {
+              oliviaBusy = false;
+              if (submitButton) submitButton.disabled = false;
+            }, Math.min(1300, Math.max(500, answer.length * 8)));
           }
+        }
+
+        form?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          await sendOliviaMessage(form?.querySelector('input[name="message"]')?.value || "");
         });
       })();
     </script>
