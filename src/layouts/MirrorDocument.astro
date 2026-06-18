@@ -445,7 +445,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             fallback: "Puedo ayudarle con Suites Mine: disponibilidad, tarifas, habitaciones, ubicacion, servicios y contacto.",
             needDates: "Claro. Indiqueme fecha de llegada, salida y numero de huespedes para revisar disponibilidad.",
             availability:
-              "Para 09/06/2026 al 12/06/2026 tengo estas opciones de referencia:\n\nEstudio: 21 disponibles, 1700 MXN por noche, total 5100 MXN.\nSuite: 14 disponibles, 1900 MXN por noche, total 5700 MXN.\nSuite Doble: 4 disponibles, 2100 MXN por noche, total 6300 MXN.\n\nPuedo ayudarle a elegir la mejor opcion segun sus huespedes.",
+              "Revise disponibilidad y tarifa real en Cloudbeds para las fechas seleccionadas antes de continuar al pago:",
             rooms:
               "Suites Mine cuenta con 39 suites tipo apartamento: Estudio, Suite y Suite Doble. La Suite Doble es la opcion mas amplia para hasta 4 huespedes.",
             location:
@@ -455,7 +455,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             contact:
               "Puede contactar a Suites Mine en contacto@suitesmine.com o por telefono al +52 55 3666 8535.",
             booking:
-              "Perfecto, puedo preparar su reserva.\n\nVoy paso a paso:\n1. Nombre y apellido\n2. Email\n3. Telefono\n4. Fechas y huespedes\n5. Tipo de habitacion\n6. Pago y confirmacion por email",
+              "Perfecto, puedo preparar su solicitud. Voy paso a paso y antes de pago revisamos disponibilidad real en Cloudbeds.\n\n1. Nombre y apellido\n2. Email\n3. Telefono\n4. Fechas y huespedes\n5. Tipo de habitacion\n6. Revisar disponibilidad Cloudbeds",
             askName: "Perfecto, preparo la reserva.\n\nPaso 1/6\n¿A nombre de quien hacemos la reserva?\nEscriba nombre y apellido.",
             askEmail: "Paso 2/6\n¿Cual es su email de contacto?\nA este correo enviaremos confirmacion y ticket despues del pago.",
             askPhone: "Paso 3/6\n¿Cual es su telefono con codigo de pais?",
@@ -464,9 +464,9 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             askRoom:
               "Paso 5/6\nElija una categoria disponible:\n\n1. Estudio - hasta 3 huespedes\n2. Suite - hasta 3 huespedes\n3. Suite Doble - hasta 4 huespedes\n\nPuede escribir: Estudio, Suite o Suite Doble.",
             bookingReady:
-              "Paso 6/6\nResumen de reserva:\n\nNombre: {name}\nEmail: {email}\nTelefono: {phone}\nLlegada: {checkIn}\nSalida: {checkOut}\nHuespedes: {guests}\nCategoria: {roomType}\n\nVoy a enviar esta solicitud al sistema para pago y confirmacion.",
+              "Paso 6/6\nResumen de solicitud:\n\nNombre: {name}\nEmail: {email}\nTelefono: {phone}\nLlegada: {checkIn}\nSalida: {checkOut}\nHuespedes: {guests}\nCategoria: {roomType}",
             paymentNext:
-              "El siguiente paso es el pago. Cuando el pago este validado, la confirmacion de reserva y el ticket se enviaran al email indicado.",
+              "Antes de hablar de pago, revise disponibilidad y tarifa real en Cloudbeds: {bookingUrl}",
             human:
               "Entendido. Para que una persona tome el control, deje su solicitud aqui y el equipo de Suites Mine podra dar seguimiento.",
           },
@@ -487,7 +487,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             fallback: "I can help with Suites Mine: availability, rates, rooms, location, services and contact details.",
             needDates: "Of course. Please share check-in date, check-out date and number of guests so I can check availability.",
             availability:
-              "For June 9, 2026 to June 12, 2026, I have these reference options:\n\nStudio: 21 available, MXN 1700 per night, total MXN 5100.\nSuite: 14 available, MXN 1900 per night, total MXN 5700.\nDouble Suite: 4 available, MXN 2100 per night, total MXN 6300.\n\nI can help you choose the best option for your guests.",
+              "Check live availability and the real rate in Cloudbeds for the selected dates before continuing to payment:",
             rooms:
               "Suites Mine has 39 apartment-style suites: Studio, Suite and Double Suite. The Double Suite is the largest option, for up to 4 guests.",
             location:
@@ -497,7 +497,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             contact:
               "You can contact Suites Mine at contacto@suitesmine.com or by phone at +52 55 3666 8535.",
             booking:
-              "Perfect, I can prepare your booking.\n\nWe will go step by step:\n1. First and last name\n2. Email\n3. Phone\n4. Dates and guests\n5. Room category\n6. Payment and confirmation by email",
+              "Perfect, I can prepare your request step by step, then we check live Cloudbeds availability before payment.\n\n1. First and last name\n2. Email\n3. Phone\n4. Dates and guests\n5. Room category\n6. Check Cloudbeds availability",
             askName: "Perfect, I will prepare the booking.\n\nStep 1/6\nWhat name should the reservation be under?\nPlease write first and last name.",
             askEmail: "Step 2/6\nWhat is your contact email?\nWe will send confirmation and ticket to this email after payment.",
             askPhone: "Step 3/6\nWhat is your phone number with country code?",
@@ -506,9 +506,9 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             askRoom:
               "Step 5/6\nChoose an available category:\n\n1. Studio - up to 3 guests\n2. Suite - up to 3 guests\n3. Double Suite - up to 4 guests\n\nYou can write: Studio, Suite or Double Suite.",
             bookingReady:
-              "Step 6/6\nBooking summary:\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nCheck-in: {checkIn}\nCheck-out: {checkOut}\nGuests: {guests}\nCategory: {roomType}\n\nI will send this request to the system for payment and confirmation.",
+              "Step 6/6\nRequest summary:\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nCheck-in: {checkIn}\nCheck-out: {checkOut}\nGuests: {guests}\nCategory: {roomType}",
             paymentNext:
-              "The next step is payment. Once payment is validated, the booking confirmation and ticket will be sent to the email provided.",
+              "Before discussing payment, check live availability and the real rate in Cloudbeds: {bookingUrl}",
             human:
               "Understood. If you want a person to take over, leave your request here and the Suites Mine team can follow up.",
           },
@@ -915,6 +915,18 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
           }
         }
 
+        function buildCloudbedsUrl({ checkIn, checkOut, guests }) {
+          const url = new URL(hotelKnowledge.bookingUrl);
+          if (checkIn) url.searchParams.set("checkin", checkIn);
+          if (checkOut) url.searchParams.set("checkout", checkOut);
+          if (guests) {
+            url.searchParams.set("guests", guests);
+            url.searchParams.set("adults", guests);
+          }
+          url.searchParams.set("kids", "0");
+          return url.toString();
+        }
+
         function nextBookingAnswer() {
           if (!bookingDraft.name) return copy.askName;
           if (!bookingDraft.email) return copy.askEmail;
@@ -931,7 +943,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             .replace("{checkOut}", bookingDraft.checkOut)
             .replace("{guests}", bookingDraft.guests)
             .replace("{roomType}", bookingDraft.roomType)
-            .concat(`\n\n${copy.paymentNext}`);
+            .concat(`\n\n${copy.paymentNext.replace("{bookingUrl}", buildCloudbedsUrl(bookingDraft))}`);
         }
 
         function answerFromSiteKnowledge(text, metadata) {
@@ -971,11 +983,13 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
             if (!hasDates && hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price"])) {
               return copy.needDates;
             }
-            return `${copy.availability}\n\n${language === "en" ? "Booking link:" : "Link de reserva:"} ${hotelKnowledge.bookingUrl}`;
+            return `${copy.availability}\n${buildCloudbedsUrl({ checkIn: metadata.checkIn, checkOut: metadata.checkOut, guests: metadata.guests })}`;
           }
 
           if (hasAny(normalized, ["reserva", "reservar", "booking", "book"])) {
-            return copy.booking;
+            bookingDraft.active = true;
+            fillBookingDraft(text, metadata, false);
+            return nextBookingAnswer();
           }
 
           const faqAnswer = faqAnswers.find((item) => hasAny(normalized, item.words));
