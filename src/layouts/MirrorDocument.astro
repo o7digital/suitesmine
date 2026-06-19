@@ -76,6 +76,7 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           <div class="olivia-message olivia-message--assistant">
             Hola, soy Olivia IA Concierge. Puedo ayudarle con disponibilidad, tarifas y solicitudes de reserva.
           </div>
+          <div class="olivia-actions" data-olivia-actions></div>
         </div>
 
         <form class="olivia-form">
@@ -233,6 +234,37 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         color: white;
       }
 
+      .olivia-message a {
+        color: inherit;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+        text-decoration: underline;
+      }
+
+      .olivia-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+      }
+
+      .olivia-action {
+        min-height: 40px;
+        border: 1px solid rgba(95, 79, 45, 0.75);
+        border-radius: 10px;
+        background: transparent;
+        color: #1f2a44;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .olivia-action:hover {
+        background: rgba(200, 170, 112, 0.18);
+      }
+
       .olivia-message--typing {
         display: inline-flex;
         align-items: center;
@@ -359,7 +391,11 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         if (!widget || widget.dataset.ready === "true") return;
         widget.dataset.ready = "true";
 
-        const language = window.location.pathname.startsWith("/en") ? "en" : "es";
+        const language = window.location.pathname.startsWith("/en")
+          ? "en"
+          : window.location.pathname.startsWith("/zh")
+            ? "zh"
+            : "es";
         const copy = {
           es: {
             displayName: "Olivia IA Concierge",
@@ -371,6 +407,12 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             guests: "Huespedes",
             placeholder: "Escriba su pregunta...",
             send: "Enviar",
+            actions: [
+              ["Reserva", "Deseo reservar"],
+              ["Disponibilidad", "Quiero revisar disponibilidad"],
+              ["Suites", "Quiero ver suites"],
+              ["Agente", "Quiero hablar con un agente"],
+            ],
             welcome:
               "Hola, soy Olivia IA Concierge. Conozco Suites Mine y puedo responder sobre habitaciones, ubicación, servicios, tarifas y disponibilidad.",
             sent: "Perfecto. Tambien he enviado su solicitud al equipo de Suites Mine para seguimiento.",
@@ -412,6 +454,12 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             guests: "Guests",
             placeholder: "Ask your question...",
             send: "Send",
+            actions: [
+              ["Reservation", "I want to book"],
+              ["Availability", "I want to check availability"],
+              ["Suites", "I want to see suites"],
+              ["Agent", "I want to speak with an agent"],
+            ],
             welcome:
               "Hello, I am Olivia AI Concierge. I know Suites Mine and can answer questions about rooms, location, services, rates and availability.",
             sent: "Perfect. I also sent your request to the Suites Mine team for follow-up.",
@@ -442,6 +490,53 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
               "The next step is payment. Once payment is validated, the booking confirmation and ticket will be sent to the email provided.",
             human:
               "Understood. If you want a person to take over, leave your request here and the Suites Mine team can follow up.",
+          },
+          zh: {
+            displayName: "Olivia AI 礼宾",
+            launcherLabel: "打开 Olivia AI 礼宾",
+            panelLabel: "Olivia AI 礼宾聊天",
+            closeLabel: "关闭 Olivia AI 礼宾",
+            checkIn: "入住",
+            checkOut: "退房",
+            guests: "客人",
+            placeholder: "询问日期、价格或预订...",
+            send: "发送",
+            actions: [
+              ["预订", "我想预订"],
+              ["查房态", "我想查询可订日期"],
+              ["套房", "我想查看套房"],
+              ["客服", "我想联系人工客服"],
+            ],
+            welcome:
+              "您好，我是 Olivia AI 礼宾。我了解 Suites Mine，可以回答有关房型、位置、服务、价格和可订情况的问题。",
+            sent: "好的。我也已将您的请求发送给 Suites Mine 团队跟进。",
+            fallback: "我可以协助您了解 Suites Mine 的可订情况、价格、房型、位置、服务和联系方式。",
+            needDates: "当然。请提供入住日期、退房日期和客人人数，我可以帮您查询可订情况。",
+            availability:
+              "以 2026/06/09 至 2026/06/12 为例，有以下参考选项：\n\n单间套房：21 间可订，每晚 1700 MXN，总价 5100 MXN。\n套房：14 间可订，每晚 1900 MXN，总价 5700 MXN。\n双人套房：4 间可订，每晚 2100 MXN，总价 6300 MXN。\n\n我可以根据客人人数帮您选择合适选项。",
+            rooms:
+              "Suites Mine 有 39 间公寓式套房：单间套房、套房和双人套房。双人套房空间最大，最多可住 4 位客人。",
+            location:
+              "Suites Mine 位于 Rio Ebro 64, Colonia Cuauhtemoc, CDMX 06500, Mexico，靠近独立天使纪念碑。",
+            services:
+              "酒店提供公寓式套房、Wi-Fi、宾客服务、露台、餐厅/酒吧，以及视可订情况提供按摩浴缸选项。",
+            contact:
+              "您可以通过 contacto@suitesmine.com 或电话 +52 55 3666 8535 联系 Suites Mine。",
+            booking:
+              "好的，我可以帮您准备预订。\n\n我们一步一步来：\n1. 姓名\n2. 邮箱\n3. 电话\n4. 入住/退房日期和客人人数\n5. 房型\n6. 付款和邮件确认",
+            askName: "好的，我来准备预订。\n\n第 1/6 步\n预订人姓名是什么？\n请填写姓名。",
+            askEmail: "第 2/6 步\n您的联系邮箱是什么？\n付款后确认邮件和票据会发送到该邮箱。",
+            askPhone: "第 3/6 步\n请提供带国家区号的电话号码。",
+            askDates: "第 4/6 步\n我需要入住和退房日期。\n您可以使用下方日期字段，或直接在这里输入。",
+            askGuests: "第 4/6 步\n这次预订有几位客人？",
+            askRoom:
+              "第 5/6 步\n请选择可订房型：\n\n1. 单间套房 - 最多 3 位客人\n2. 套房 - 最多 3 位客人\n3. 双人套房 - 最多 4 位客人\n\n您可以输入：单间套房、套房或双人套房。",
+            bookingReady:
+              "第 6/6 步\n预订摘要：\n\n姓名：{name}\n邮箱：{email}\n电话：{phone}\n入住：{checkIn}\n退房：{checkOut}\n客人：{guests}\n房型：{roomType}\n\n我会将此请求发送到系统，以便处理付款和确认。",
+            paymentNext:
+              "下一步是付款。付款验证后，预订确认和票据会发送到您提供的邮箱。",
+            human:
+              "明白。如果您希望人工客服接手，请在这里留下请求，Suites Mine 团队会跟进。",
           },
         }[language];
 
@@ -602,6 +697,7 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         const closeButton = widget.querySelector(".olivia-close");
         const form = widget.querySelector(".olivia-form");
         const messages = widget.querySelector(".olivia-messages");
+        const actions = widget.querySelector("[data-olivia-actions]");
         const firstMessage = widget.querySelector(".olivia-message--assistant");
         const messageInput = widget.querySelector('input[name="message"]');
         const submitButton = widget.querySelector('.olivia-composer button[type="submit"]');
@@ -633,12 +729,39 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         if (firstMessage) firstMessage.textContent = copy.welcome;
         if (messageInput) messageInput.placeholder = copy.placeholder;
         if (submitButton) submitButton.textContent = copy.send;
+        if (actions) {
+          actions.innerHTML = "";
+          copy.actions.forEach(([label, prompt]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "olivia-action";
+            button.textContent = label;
+            button.addEventListener("click", () => submitOliviaMessage(prompt));
+            actions.appendChild(button);
+          });
+        }
         setupDateLimits();
 
         function addOliviaMessage(content, role) {
           const message = document.createElement("div");
           message.className = `olivia-message olivia-message--${role}`;
-          message.textContent = content;
+          if (role === "assistant") {
+            const parts = content.split(/(https?:\/\/[^\s]+)/g).filter(Boolean);
+            parts.forEach((part) => {
+              if (part.startsWith("http")) {
+                const link = document.createElement("a");
+                link.href = part;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = part;
+                message.appendChild(link);
+              } else {
+                message.appendChild(document.createTextNode(part));
+              }
+            });
+          } else {
+            message.textContent = content;
+          }
           messages?.appendChild(message);
           messages?.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
         }
@@ -729,6 +852,8 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             "make reservation",
             "i want to book",
             "i would like to book",
+            "我想预订",
+            "预订",
           ]);
         }
 
@@ -737,9 +862,9 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           if (/^\s*1\s*$/.test(normalized)) return language === "en" ? "Studio" : "Estudio";
           if (/^\s*2\s*$/.test(normalized)) return "Suite";
           if (/^\s*3\s*$/.test(normalized)) return language === "en" ? "Double Suite" : "Suite Doble";
-          if (hasAny(normalized, ["suite doble", "double suite", "doble"])) return language === "en" ? "Double Suite" : "Suite Doble";
-          if (hasAny(normalized, ["suite"])) return "Suite";
-          if (hasAny(normalized, ["estudio", "studio"])) return language === "en" ? "Studio" : "Estudio";
+          if (hasAny(normalized, ["suite doble", "double suite", "doble", "双人套房"])) return language === "en" ? "Double Suite" : "Suite Doble";
+          if (hasAny(normalized, ["suite", "套房"])) return "Suite";
+          if (hasAny(normalized, ["estudio", "studio", "单间套房"])) return language === "en" ? "Studio" : "Estudio";
           return "";
         }
 
@@ -918,10 +1043,9 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           launcher.hidden = false;
         });
 
-        form?.addEventListener("submit", async (event) => {
-          event.preventDefault();
+        async function submitOliviaMessage(overrideText = "") {
           const formData = new FormData(form);
-          const text = String(formData.get("message") || "").trim();
+          const text = String(overrideText || formData.get("message") || "").trim();
           if (!text) return;
 
           addOliviaMessage(text, "user");
@@ -964,6 +1088,11 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             addAssistantMessageWithTyping(answer);
             persistInboxAssistant(answer).catch(() => {});
           }
+        }
+
+        form?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          submitOliviaMessage();
         });
       })();
     </script>
