@@ -23,9 +23,12 @@ const OLIVIA_CHANNEL_ENDPOINT =
 const OLIVIA_INBOX_ENDPOINT =
   import.meta.env.PUBLIC_OLIVIA_INBOX_ENDPOINT ??
   "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/widget/conversations";
-const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().startsWith("en")
+const htmlLanguage = String(htmlAttributes.lang ?? "").toLowerCase();
+const oliviaInitialLanguage = htmlLanguage.startsWith("en")
   ? "en"
-  : "es";
+  : htmlLanguage.startsWith("zh")
+    ? "zh"
+    : "es";
 ---
 
 <html {...htmlAttributes}>
@@ -46,7 +49,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
   </head>
   <body {...bodyAttributes}>
     <Fragment set:html={bodyInnerHtml} />
-    {false && (
+    {true && (
       <>
     <div
       id="olivia-widget"
