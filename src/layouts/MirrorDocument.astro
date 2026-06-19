@@ -415,34 +415,8 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             ],
             welcome:
               "Hola, soy Olivia IA Concierge. Conozco Suites Mine y puedo responder sobre habitaciones, ubicación, servicios, tarifas y disponibilidad.",
-            sent: "Perfecto. Tambien he enviado su solicitud al equipo de Suites Mine para seguimiento.",
-            fallback: "Puedo ayudarle con Suites Mine: disponibilidad, tarifas, habitaciones, ubicacion, servicios y contacto.",
-            needDates: "Claro. Indiqueme fecha de llegada, salida y numero de huespedes para revisar disponibilidad.",
-            availability:
-              "Para 09/06/2026 al 12/06/2026 tengo estas opciones de referencia:\n\nEstudio: 21 disponibles, 1700 MXN por noche, total 5100 MXN.\nSuite: 14 disponibles, 1900 MXN por noche, total 5700 MXN.\nSuite Doble: 4 disponibles, 2100 MXN por noche, total 6300 MXN.\n\nPuedo ayudarle a elegir la mejor opcion segun sus huespedes.",
-            rooms:
-              "Suites Mine cuenta con 39 suites tipo apartamento: Estudio, Suite y Suite Doble. La Suite Doble es la opcion mas amplia para hasta 4 huespedes.",
-            location:
-              "Suites Mine esta en Rio Ebro 64, Colonia Cuauhtemoc, CDMX 06500, Mexico. Es una zona centrica, cerca del Angel de la Independencia.",
-            services:
-              "El hotel ofrece suites tipo apartamento, Wi-Fi, recepcion/atencion, terraza, restaurante/bar y opciones con jacuzzi segun disponibilidad.",
-            contact:
-              "Puede contactar a Suites Mine en contacto@suitesmine.com o por telefono al +52 55 3666 8535.",
-            booking:
-              "Perfecto, puedo preparar su reserva.\n\nVoy paso a paso:\n1. Nombre y apellido\n2. Email\n3. Telefono\n4. Fechas y huespedes\n5. Tipo de habitacion\n6. Pago y confirmacion por email",
-            askName: "Perfecto, preparo la reserva.\n\nPaso 1/6\n¿A nombre de quien hacemos la reserva?\nEscriba nombre y apellido.",
-            askEmail: "Paso 2/6\n¿Cual es su email de contacto?\nA este correo enviaremos confirmacion y ticket despues del pago.",
-            askPhone: "Paso 3/6\n¿Cual es su telefono con codigo de pais?",
-            askDates: "Paso 4/6\nNecesito llegada y salida.\nPuede usar los campos de fecha de abajo o escribirlas aqui.",
-            askGuests: "Paso 4/6\n¿Para cuantos huespedes es la reserva?",
-            askRoom:
-              "Paso 5/6\nElija una categoria disponible:\n\n1. Estudio - hasta 3 huespedes\n2. Suite - hasta 3 huespedes\n3. Suite Doble - hasta 4 huespedes\n\nPuede escribir: Estudio, Suite o Suite Doble.",
-            bookingReady:
-              "Paso 6/6\nResumen de reserva:\n\nNombre: {name}\nEmail: {email}\nTelefono: {phone}\nLlegada: {checkIn}\nSalida: {checkOut}\nHuespedes: {guests}\nCategoria: {roomType}\n\nVoy a enviar esta solicitud al sistema para pago y confirmacion.",
-            paymentNext:
-              "El siguiente paso es el pago. Cuando el pago este validado, la confirmacion de reserva y el ticket se enviaran al email indicado.",
-            human:
-              "Entendido. Para que una persona tome el control, deje su solicitud aqui y el equipo de Suites Mine podra dar seguimiento.",
+            apiError:
+              "Olivia no pudo responder en este momento. Intente de nuevo en unos segundos o contacte a Suites Mine directamente.",
           },
           en: {
             displayName: "Olivia AI Concierge",
@@ -462,34 +436,8 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             ],
             welcome:
               "Hello, I am Olivia AI Concierge. I know Suites Mine and can answer questions about rooms, location, services, rates and availability.",
-            sent: "Perfect. I also sent your request to the Suites Mine team for follow-up.",
-            fallback: "I can help with Suites Mine: availability, rates, rooms, location, services and contact details.",
-            needDates: "Of course. Please share check-in date, check-out date and number of guests so I can check availability.",
-            availability:
-              "For June 9, 2026 to June 12, 2026, I have these reference options:\n\nStudio: 21 available, MXN 1700 per night, total MXN 5100.\nSuite: 14 available, MXN 1900 per night, total MXN 5700.\nDouble Suite: 4 available, MXN 2100 per night, total MXN 6300.\n\nI can help you choose the best option for your guests.",
-            rooms:
-              "Suites Mine has 39 apartment-style suites: Studio, Suite and Double Suite. The Double Suite is the largest option, for up to 4 guests.",
-            location:
-              "Suites Mine is located at Rio Ebro 64, Colonia Cuauhtemoc, CDMX 06500, Mexico, near the Angel of Independence.",
-            services:
-              "The hotel offers apartment-style suites, Wi-Fi, guest support, terrace, restaurant/bar and jacuzzi options depending on availability.",
-            contact:
-              "You can contact Suites Mine at contacto@suitesmine.com or by phone at +52 55 3666 8535.",
-            booking:
-              "Perfect, I can prepare your booking.\n\nWe will go step by step:\n1. First and last name\n2. Email\n3. Phone\n4. Dates and guests\n5. Room category\n6. Payment and confirmation by email",
-            askName: "Perfect, I will prepare the booking.\n\nStep 1/6\nWhat name should the reservation be under?\nPlease write first and last name.",
-            askEmail: "Step 2/6\nWhat is your contact email?\nWe will send confirmation and ticket to this email after payment.",
-            askPhone: "Step 3/6\nWhat is your phone number with country code?",
-            askDates: "Step 4/6\nI need check-in and check-out dates.\nYou can use the date fields below or write them here.",
-            askGuests: "Step 4/6\nHow many guests is the booking for?",
-            askRoom:
-              "Step 5/6\nChoose an available category:\n\n1. Studio - up to 3 guests\n2. Suite - up to 3 guests\n3. Double Suite - up to 4 guests\n\nYou can write: Studio, Suite or Double Suite.",
-            bookingReady:
-              "Step 6/6\nBooking summary:\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nCheck-in: {checkIn}\nCheck-out: {checkOut}\nGuests: {guests}\nCategory: {roomType}\n\nI will send this request to the system for payment and confirmation.",
-            paymentNext:
-              "The next step is payment. Once payment is validated, the booking confirmation and ticket will be sent to the email provided.",
-            human:
-              "Understood. If you want a person to take over, leave your request here and the Suites Mine team can follow up.",
+            apiError:
+              "Olivia could not answer right now. Please try again in a few seconds or contact Suites Mine directly.",
           },
           zh: {
             displayName: "Olivia AI 礼宾",
@@ -509,187 +457,9 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             ],
             welcome:
               "您好，我是 Olivia AI 礼宾。我了解 Suites Mine，可以回答有关房型、位置、服务、价格和可订情况的问题。",
-            sent: "好的。我也已将您的请求发送给 Suites Mine 团队跟进。",
-            fallback: "我可以协助您了解 Suites Mine 的可订情况、价格、房型、位置、服务和联系方式。",
-            needDates: "当然。请提供入住日期、退房日期和客人人数，我可以帮您查询可订情况。",
-            availability:
-              "以 2026/06/09 至 2026/06/12 为例，有以下参考选项：\n\n单间套房：21 间可订，每晚 1700 MXN，总价 5100 MXN。\n套房：14 间可订，每晚 1900 MXN，总价 5700 MXN。\n双人套房：4 间可订，每晚 2100 MXN，总价 6300 MXN。\n\n我可以根据客人人数帮您选择合适选项。",
-            rooms:
-              "Suites Mine 有 39 间公寓式套房：单间套房、套房和双人套房。双人套房空间最大，最多可住 4 位客人。",
-            location:
-              "Suites Mine 位于 Rio Ebro 64, Colonia Cuauhtemoc, CDMX 06500, Mexico，靠近独立天使纪念碑。",
-            services:
-              "酒店提供公寓式套房、Wi-Fi、宾客服务、露台、餐厅/酒吧，以及视可订情况提供按摩浴缸选项。",
-            contact:
-              "您可以通过 contacto@suitesmine.com 或电话 +52 55 3666 8535 联系 Suites Mine。",
-            booking:
-              "好的，我可以帮您准备预订。\n\n我们一步一步来：\n1. 姓名\n2. 邮箱\n3. 电话\n4. 入住/退房日期和客人人数\n5. 房型\n6. 付款和邮件确认",
-            askName: "好的，我来准备预订。\n\n第 1/6 步\n预订人姓名是什么？\n请填写姓名。",
-            askEmail: "第 2/6 步\n您的联系邮箱是什么？\n付款后确认邮件和票据会发送到该邮箱。",
-            askPhone: "第 3/6 步\n请提供带国家区号的电话号码。",
-            askDates: "第 4/6 步\n我需要入住和退房日期。\n您可以使用下方日期字段，或直接在这里输入。",
-            askGuests: "第 4/6 步\n这次预订有几位客人？",
-            askRoom:
-              "第 5/6 步\n请选择可订房型：\n\n1. 单间套房 - 最多 3 位客人\n2. 套房 - 最多 3 位客人\n3. 双人套房 - 最多 4 位客人\n\n您可以输入：单间套房、套房或双人套房。",
-            bookingReady:
-              "第 6/6 步\n预订摘要：\n\n姓名：{name}\n邮箱：{email}\n电话：{phone}\n入住：{checkIn}\n退房：{checkOut}\n客人：{guests}\n房型：{roomType}\n\n我会将此请求发送到系统，以便处理付款和确认。",
-            paymentNext:
-              "下一步是付款。付款验证后，预订确认和票据会发送到您提供的邮箱。",
-            human:
-              "明白。如果您希望人工客服接手，请在这里留下请求，Suites Mine 团队会跟进。",
+            apiError:
+              "Olivia 现在无法回复。请稍后再试，或直接联系 Suites Mine。",
           },
-        }[language];
-
-        const hotelKnowledge = {
-          bookingUrl:
-            language === "en"
-              ? "https://hotels.cloudbeds.com/en/reservation/DzS8Bc?currency=mxn"
-              : "https://hotels.cloudbeds.com/es/reservation/DzS8Bc?currency=mxn",
-        };
-
-        const faqAnswers = {
-          es: [
-            {
-              words: ["aire acondicionado", "calor", "frio", "ventilador"],
-              answer:
-                "Las habitaciones no cuentan con aire acondicionado. Suites Mine proporciona ventiladores portatiles, enfriadores de aire con agua y calentadores bajo peticion. Las habitaciones tienen ventanales de doble vidrio para aislamiento de ruido y mejor control termico.",
-            },
-            {
-              words: ["estacionamiento", "parking", "parqueo", "auto", "coche", "carro"],
-              answer:
-                "El estacionamiento es pequeno, gratuito y sujeto a disponibilidad. Se da acceso conforme llegan los vehiculos. Si esta lleno, hay estacionamientos publicos cercanos o calle con parquimetro de lunes a viernes de 8:00 am a 8:00 pm.",
-            },
-            {
-              words: ["mascota", "mascotas", "pet", "perro", "gato"],
-              answer: "Suites Mine no acepta mascotas de ningun tipo.",
-            },
-            {
-              words: ["nino", "ninos", "menor", "menores", "children", "kids", "bebe"],
-              answer:
-                "No se aceptan ninos menores de 6 anos. A partir de 6 anos se consideran como un huesped mas y aplica tarifa de adulto.",
-            },
-            {
-              words: ["early", "temprano", "late", "tardio", "check in", "check-in", "check out", "check-out", "salida tarde", "llegada temprano"],
-              answer:
-                "El check-in regular es de 2:00 pm a 12:30 am del dia siguiente. Early check-in solo puede solicitarse despues de las 6:00 pm del dia previo, sujeto a disponibilidad y con tarifa fija, desde las 9:00 am. Late check-out tambien se solicita un dia antes despues de las 6:00 pm, sujeto a disponibilidad, con salida maxima a las 4:00 pm y tarifa fija.",
-            },
-            {
-              words: ["madrugada", "24 horas", "24h", "noche previa", "llego tarde"],
-              answer:
-                "Suites Mine no opera 24 horas. Si llega fuera del horario de check-in, de 2:00 pm a 12:30 am, se recomienda elegir un alojamiento con operacion 24 horas.",
-            },
-            {
-              words: ["equipaje", "maleta", "maletas", "luggage", "guardar"],
-              answer:
-                "El resguardo de equipaje es gratuito el mismo dia del check-in o check-out. El horario es de 9:00 am a 10:00 pm. Para guardar equipaje por varios dias, aplica una tarifa fija por dia y por maleta/bolsa/mochila.",
-            },
-            {
-              words: ["movilidad", "discapacidad", "accesible", "silla", "elevador", "adulto mayor"],
-              answer:
-                "Algunos Estudios del primer piso tienen aditamentos para movilidad reducida, como barras de seguridad y silla para regadera. Para entrar hay alrededor de 10 escalones; desde estacionamiento subterraneo hay acceso a elevador. Para necesidades especiales, conviene reservar por telefono al +52 55 3666 8535.",
-            },
-            {
-              words: ["hotel", "airbnb", "recepcion 24", "concierge", "desayuno", "aeropuerto"],
-              answer:
-                "Suites Mine es un servicio de hospedaje alterno tipo apartahotel, no un hotel tradicional. No ofrece recepcion 24 horas, concierge, botones, desayuno incluido ni transporte aeropuerto. Si ofrece limpieza diaria, guardaequipaje, Wi-Fi de alta velocidad, TV de paga, vigilancia, recepcion y amenidades.",
-            },
-            {
-              words: ["diferencia", "tipo", "tipos", "estudio", "suite", "doble", "habitaciones"],
-              answer:
-                "Los Estudios son la opcion mas economica, con cocineta parcial. Las Suites tienen cocina mas equipada con parrilla, campana, ollas y sartenes. Estudios y Suites alojan hasta 3 huespedes. Las Suites Dobles son mas amplias, tienen 2 camas queen size, cocina completa y capacidad hasta 4 huespedes.",
-            },
-            {
-              words: ["amenidades", "rooftop", "terraza", "jacuzzi", "bar", "gimnasio", "comida"],
-              answer:
-                "Suites Mine cuenta con rooftop abierto todos los dias de 10:30 am a 10:00 pm, jacuzzi comun para 8 personas, sala pequena, camastros, mesas, bar, banos con regadera y comida a la carta. El gimnasio esta previsto para la sucursal.",
-            },
-            {
-              words: ["descuento", "larga estancia", "semana", "mes", "mensual", "long stay"],
-              answer:
-                "Hay tarifa por noche, descuento de 10% para semana desde 7 noches consecutivas en la misma habitacion, y descuento de 20% para mes desde 30 noches consecutivas. Disponible en web oficial y por telefono.",
-            },
-            {
-              words: ["pago", "tarjeta", "efectivo", "transferencia", "visa", "mastercard", "amex"],
-              answer:
-                "Aceptan efectivo en pesos mexicanos y tarjetas Visa, MasterCard, Carnet y American Express. En reservas anticipadas por telefono se puede solicitar transferencia bancaria nacional o link de pago virtual.",
-            },
-            {
-              words: ["factura", "facturacion", "iva", "sat"],
-              answer:
-                "La mayoria de reservas pueden facturarse con IVA desglosado. Se requiere Constancia de Situacion Fiscal del SAT y correo electronico durante la estancia. Para huesped extranjero puede solicitarse recibo no certificado por el SAT.",
-            },
-          ],
-          en: [
-            {
-              words: ["air conditioning", "heat", "cold", "fan"],
-              answer:
-                "Rooms do not have air conditioning. Suites Mine can provide portable fans, water air coolers and heaters on request. Rooms have double-glazed windows for noise insulation and better thermal control.",
-            },
-            {
-              words: ["parking", "car", "vehicle"],
-              answer:
-                "Parking is small, free and subject to availability. Vehicles are admitted as they arrive. If full, guests can use nearby public parking or metered street parking Monday to Friday from 8:00 am to 8:00 pm.",
-            },
-            {
-              words: ["pet", "pets", "dog", "cat"],
-              answer: "Suites Mine does not accept pets of any kind.",
-            },
-            {
-              words: ["child", "children", "kid", "kids", "minor", "baby"],
-              answer:
-                "Children under 6 are not accepted. Children from 6 years old count as one more guest and adult rates apply.",
-            },
-            {
-              words: ["early", "late", "check in", "check-in", "check out", "check-out"],
-              answer:
-                "Regular check-in is from 2:00 pm to 12:30 am the next day. Early check-in can only be requested after 6:00 pm the day before arrival, subject to availability and a fixed fee, from 9:00 am. Late check-out is also requested one day before after 6:00 pm, subject to availability, with maximum departure at 4:00 pm and a fixed fee.",
-            },
-            {
-              words: ["midnight", "24 hours", "24h", "late arrival"],
-              answer:
-                "Suites Mine does not operate 24 hours. If you arrive outside check-in hours, from 2:00 pm to 12:30 am, the property recommends choosing accommodation with 24-hour operation.",
-            },
-            {
-              words: ["luggage", "bag", "bags", "storage"],
-              answer:
-                "Luggage storage is free on the same day as check-in or check-out. Service hours are 9:00 am to 10:00 pm. For storage over several days, a fixed daily fee applies per suitcase/bag/backpack.",
-            },
-            {
-              words: ["mobility", "accessible", "accessibility", "wheelchair", "elevator", "senior"],
-              answer:
-                "Some first-floor Studios have light accessibility aids such as shower safety bars and a shower chair. Entry requires about 10 steps; from underground parking there is elevator access. For special needs, book by phone at +52 55 3666 8535.",
-            },
-            {
-              words: ["hotel", "airbnb", "24-hour reception", "concierge", "breakfast", "airport"],
-              answer:
-                "Suites Mine is an alternative lodging service, similar to an aparthotel, not a traditional hotel. It does not offer 24-hour reception, concierge, bell service, included breakfast or airport transfer. It does offer daily cleaning, luggage storage, high-speed Wi-Fi, paid TV, security, reception and amenities.",
-            },
-            {
-              words: ["difference", "type", "studio", "suite", "double", "rooms"],
-              answer:
-                "Studios are the most economical option and include a partial kitchenette. Suites have a more complete kitchen with electric grill, hood, pots and pans. Studios and Suites host up to 3 guests. Double Suites are larger, with 2 queen beds, full kitchen and capacity up to 4 guests.",
-            },
-            {
-              words: ["amenities", "rooftop", "terrace", "jacuzzi", "bar", "gym", "food"],
-              answer:
-                "Suites Mine has a rooftop open daily from 10:30 am to 10:00 pm, a common jacuzzi for 8 people, small lounge, sunbeds, tables, bar, bathrooms with shower and a la carte food service. A gym is planned for the branch.",
-            },
-            {
-              words: ["discount", "long stay", "week", "month", "monthly"],
-              answer:
-                "There is a nightly rate, a 10% weekly discount from 7 consecutive nights in the same room, and a 20% monthly discount from 30 consecutive nights. These discounts are available on the official website and by phone.",
-            },
-            {
-              words: ["payment", "card", "cash", "transfer", "visa", "mastercard", "amex"],
-              answer:
-                "Suites Mine accepts cash in Mexican pesos and Visa, MasterCard, Carnet and American Express credit/debit cards. For advance phone reservations, national bank transfer or virtual payment link may be requested.",
-            },
-            {
-              words: ["invoice", "billing", "vat", "tax"],
-              answer:
-                "Most reservations can be invoiced with itemized VAT. A Mexican SAT Tax Status Certificate and email are required during the stay. Foreign guests can request a non-SAT-certified receipt.",
-            },
-          ],
         }[language];
 
         const launcher = widget.querySelector(".olivia-launcher");
@@ -701,16 +471,7 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         const firstMessage = widget.querySelector(".olivia-message--assistant");
         const messageInput = widget.querySelector('input[name="message"]');
         const submitButton = widget.querySelector('.olivia-composer button[type="submit"]');
-        const bookingDraft = {
-          active: false,
-          name: "",
-          email: "",
-          phone: "",
-          checkIn: "",
-          checkOut: "",
-          guests: "",
-          roomType: "",
-        };
+        const bookingDraft = {};
         const visitorId =
           window.localStorage.getItem("oliviaVisitorId") || window.crypto.randomUUID();
         const receivedOperatorMessages = new Set();
@@ -784,6 +545,12 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           }, Math.min(1200, Math.max(450, content.length * 8)));
         }
 
+        function getAssistantText(response) {
+          if (!response) return "";
+          if (typeof response === "string") return response;
+          return response.reply || response.response || response.message || response.output || "";
+        }
+
         async function persistInboxMessage(content) {
           if (!OLIVIA_INBOX_ENDPOINT) return;
           const response = await fetch(OLIVIA_INBOX_ENDPOINT, {
@@ -827,47 +594,6 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         }
         window.setInterval(pollOperatorMessages, 4000);
 
-        function normalizeText(value) {
-          return value
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-        }
-
-        function hasAny(text, words) {
-          return words.some((word) => text.includes(word));
-        }
-
-        function isBookingIntent(normalized) {
-          return hasAny(normalized, [
-            "quiero reservar",
-            "podemos reservar",
-            "me haces la reserva",
-            "hacer la reserva",
-            "hacer reserva",
-            "reservar ahora",
-            "confirmar reserva",
-            "book now",
-            "make a booking",
-            "make reservation",
-            "i want to book",
-            "i would like to book",
-            "我想预订",
-            "预订",
-          ]);
-        }
-
-        function pickRoomType(text) {
-          const normalized = normalizeText(text);
-          if (/^\s*1\s*$/.test(normalized)) return language === "en" ? "Studio" : "Estudio";
-          if (/^\s*2\s*$/.test(normalized)) return "Suite";
-          if (/^\s*3\s*$/.test(normalized)) return language === "en" ? "Double Suite" : "Suite Doble";
-          if (hasAny(normalized, ["suite doble", "double suite", "doble", "双人套房"])) return language === "en" ? "Double Suite" : "Suite Doble";
-          if (hasAny(normalized, ["suite", "套房"])) return "Suite";
-          if (hasAny(normalized, ["estudio", "studio", "单间套房"])) return language === "en" ? "Studio" : "Estudio";
-          return "";
-        }
-
         function formatDateInput(date) {
           const year = date.getFullYear();
           const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -905,134 +631,6 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           checkInInput.addEventListener("change", updateCheckOutMinimum);
         }
 
-        function valueAfterStep(text, step) {
-          const match = text.match(new RegExp(`(?:^|\\s)${step}[.)]?\\s*([\\s\\S]*?)(?=\\s\\d[.)]?\\s|$)`, "i"));
-          return match?.[1]?.trim().replace(/^[:.-]\s*/, "") || "";
-        }
-
-        function parseStructuredBooking(text) {
-          const normalized = normalizeText(text);
-          const name = valueAfterStep(text, 1);
-          const email = text.match(/[^\s@]+@[^\s@]+\.[^\s@]+/)?.[0] || valueAfterStep(text, 2);
-          const phone = valueAfterStep(text, 3).match(/(?:\+?\d[\d\s().-]{6,}\d)/)?.[0] || "";
-          const guests = valueAfterStep(text, 4).match(/\b\d+\b/)?.[0] || "";
-          const room = pickRoomType(valueAfterStep(text, 5) || text);
-
-          if (name && !name.includes("@")) bookingDraft.name = name;
-          if (email) bookingDraft.email = email;
-          if (phone) bookingDraft.phone = phone;
-          if (guests && !bookingDraft.guests) bookingDraft.guests = guests;
-          if (room) bookingDraft.roomType = room;
-
-          if (hasAny(normalized, ["mis fechas", "fechas aqui", "dates below", "date fields"])) {
-            return;
-          }
-        }
-
-        function fillBookingDraft(text, metadata, captureName = true) {
-          const trimmed = text.trim();
-          const email = trimmed.match(/[^\s@]+@[^\s@]+\.[^\s@]+/)?.[0] || "";
-          const phone = trimmed.match(/(?:\+?\d[\d\s().-]{6,}\d)/)?.[0] || "";
-          const roomType = pickRoomType(trimmed);
-
-          parseStructuredBooking(trimmed);
-          if (metadata.checkIn) bookingDraft.checkIn = String(metadata.checkIn);
-          if (metadata.checkOut) bookingDraft.checkOut = String(metadata.checkOut);
-          if (metadata.guests) bookingDraft.guests = String(metadata.guests);
-          if (email) bookingDraft.email = email;
-          if (phone) bookingDraft.phone = phone;
-          if (roomType) bookingDraft.roomType = roomType;
-
-          if (captureName && bookingDraft.active && !bookingDraft.name && !email && !phone && !roomType && trimmed.length > 3 && !/\b\d[.)]?\s/.test(trimmed)) {
-            bookingDraft.name = trimmed;
-          } else if (bookingDraft.active && bookingDraft.name && !bookingDraft.email && email) {
-            bookingDraft.email = email;
-          } else if (bookingDraft.active && bookingDraft.email && !bookingDraft.phone && phone) {
-            bookingDraft.phone = phone;
-          }
-        }
-
-        function nextBookingAnswer() {
-          if (!bookingDraft.name) return copy.askName;
-          if (!bookingDraft.email) return copy.askEmail;
-          if (!bookingDraft.phone) return copy.askPhone;
-          if (!bookingDraft.checkIn || !bookingDraft.checkOut) return copy.askDates;
-          if (!bookingDraft.guests) return copy.askGuests;
-          if (!bookingDraft.roomType) return copy.askRoom;
-
-          return copy.bookingReady
-            .replace("{name}", bookingDraft.name)
-            .replace("{email}", bookingDraft.email)
-            .replace("{phone}", bookingDraft.phone)
-            .replace("{checkIn}", bookingDraft.checkIn)
-            .replace("{checkOut}", bookingDraft.checkOut)
-            .replace("{guests}", bookingDraft.guests)
-            .replace("{roomType}", bookingDraft.roomType)
-            .concat(`\n\n${copy.paymentNext}`);
-        }
-
-        function answerFromSiteKnowledge(text, metadata) {
-          const normalized = normalizeText(text);
-          const hasDates = Boolean(metadata.checkIn && metadata.checkOut);
-          const selectedRoomType = pickRoomType(text);
-
-          if (isBookingIntent(normalized)) {
-            bookingDraft.active = true;
-            fillBookingDraft(text, metadata, false);
-            return nextBookingAnswer();
-          }
-
-          if (selectedRoomType && hasDates) {
-            bookingDraft.active = true;
-            fillBookingDraft(text, metadata, false);
-            return nextBookingAnswer();
-          }
-
-          if (bookingDraft.active) {
-            fillBookingDraft(text, metadata);
-            return nextBookingAnswer();
-          }
-
-          if (hasAny(normalized, ["humano", "persona", "agente", "asesor", "equipo", "manual", "take over", "human", "agent"])) {
-            return copy.human;
-          }
-
-          if (hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price", "habitacion", "room"])) {
-            if (hasAny(normalized, ["habitacion", "room", "suite", "estudio", "studio"]) && !hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price", "reserva", "booking", "book"])) {
-              return copy.rooms;
-            }
-            if (!hasDates && hasAny(normalized, ["dispo", "available", "availability", "tarifa", "precio", "rate", "price"])) {
-              return copy.needDates;
-            }
-            return `${copy.availability}\n\n${language === "en" ? "Booking link:" : "Link de reserva:"} ${hotelKnowledge.bookingUrl}`;
-          }
-
-          if (hasAny(normalized, ["reserva", "reservar", "booking", "book"])) {
-            return copy.booking;
-          }
-
-          const faqAnswer = faqAnswers.find((item) => hasAny(normalized, item.words));
-          if (faqAnswer) return faqAnswer.answer;
-
-          if (hasAny(normalized, ["ubicacion", "direccion", "donde", "location", "address", "where", "angel", "cuauhtemoc"])) {
-            return copy.location;
-          }
-
-          if (hasAny(normalized, ["servicio", "amenidad", "wifi", "terraza", "jacuzzi", "restaurant", "bar", "service", "amenity"])) {
-            return copy.services;
-          }
-
-          if (hasAny(normalized, ["contacto", "telefono", "email", "correo", "phone", "mail", "contact"])) {
-            return copy.contact;
-          }
-
-          if (hasAny(normalized, ["hola", "hello", "hi", "buenos", "buenas"])) {
-            return copy.welcome;
-          }
-
-          return copy.fallback;
-        }
-
         launcher?.addEventListener("click", () => {
           panel.hidden = false;
           launcher.hidden = true;
@@ -1050,10 +648,13 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
 
           addOliviaMessage(text, "user");
           if (messageInput) messageInput.value = "";
+          if (submitButton) submitButton.disabled = true;
 
           const payload = {
             clientCode: OLIVIA_CLIENT_CODE,
+            clientId: OLIVIA_CLIENT_CODE,
             clientName: OLIVIA_CLIENT_NAME,
+            visitorId,
             source: "website",
             language,
             pageUrl: window.location.href,
@@ -1065,28 +666,35 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             },
             createdAt: new Date().toISOString(),
           };
-          let answer = answerFromSiteKnowledge(text, payload.metadata);
           payload.metadata.bookingDraft = { ...bookingDraft };
 
           try {
             const inboxData = await persistInboxMessage(text).catch(() => null);
-            if (inboxData?.conversation?.status === "manual") return;
-            if (OLIVIA_CHANNEL_ENDPOINT) {
-              const response = await fetch(OLIVIA_CHANNEL_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-              });
-              const apiAnswer = await response.json().catch(() => null);
-              if (response.ok && apiAnswer?.reply) {
-                answer = apiAnswer.reply;
-              }
+            if (inboxData?.conversation?.status === "manual") {
+              return;
             }
+
+            if (!OLIVIA_CHANNEL_ENDPOINT) throw new Error("Missing Olivia endpoint");
+
+            const response = await fetch(OLIVIA_CHANNEL_ENDPOINT, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            const apiAnswer = await response.json().catch(() => null);
+            if (!response.ok) {
+              throw new Error(apiAnswer?.error || apiAnswer?.detail || "Olivia API error");
+            }
+
+            const answer = getAssistantText(apiAnswer);
+            if (!answer) throw new Error("Olivia API returned an empty answer");
+
             addAssistantMessageWithTyping(answer);
             persistInboxAssistant(answer).catch(() => {});
           } catch {
-            addAssistantMessageWithTyping(answer);
-            persistInboxAssistant(answer).catch(() => {});
+            addAssistantMessageWithTyping(copy.apiError);
+          } finally {
+            if (submitButton) submitButton.disabled = false;
           }
         }
 
