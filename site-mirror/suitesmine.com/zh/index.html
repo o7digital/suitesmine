@@ -1773,6 +1773,25 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+<script id="zh-reservation-labels">
+document.addEventListener("DOMContentLoaded", function () {
+  function applyChineseReservationLabels() {
+    document.querySelectorAll(".elementor-widget-cs_reservation .cs-check-in .cs-form-label").forEach(function (el) {
+      el.textContent = "入住";
+    });
+    document.querySelectorAll(".elementor-widget-cs_reservation .cs-check-out .cs-form-label").forEach(function (el) {
+      el.textContent = "退房";
+    });
+    document.querySelectorAll(".elementor-widget-cs_reservation .cs-submit .btn-text").forEach(function (el) {
+      el.textContent = "查询可订房";
+    });
+  }
+
+  applyChineseReservationLabels();
+  window.setTimeout(applyChineseReservationLabels, 250);
+  window.setTimeout(applyChineseReservationLabels, 1000);
+});
+</script>
 
 </body>
 </html>
