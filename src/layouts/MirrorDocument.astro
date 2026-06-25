@@ -241,6 +241,17 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         text-decoration: underline;
       }
 
+      .olivia-whatsapp-button {
+        display: block;
+        margin-top: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #25d366;
+        color: white !important;
+        text-align: center;
+        text-decoration: none !important;
+      }
+
       .olivia-actions {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -503,7 +514,7 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
         }
         setupDateLimits();
 
-        function addOliviaMessage(content, role) {
+        function addOliviaMessage(content, role, options = {}) {
           const message = document.createElement("div");
           message.className = `olivia-message olivia-message--${role}`;
           if (role === "assistant") {
@@ -520,6 +531,20 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
                 message.appendChild(document.createTextNode(part));
               }
             });
+            if (options.whatsapp) {
+              const whatsapp = document.createElement("a");
+              whatsapp.className = "olivia-whatsapp-button";
+              whatsapp.href = "https://wa.me/525536668585";
+              whatsapp.target = "_blank";
+              whatsapp.rel = "noopener noreferrer";
+              whatsapp.textContent =
+                language === "en"
+                  ? "Contact hotel on WhatsApp"
+                  : language === "zh"
+                    ? "通过 WhatsApp 联系酒店"
+                    : "Contactar al hotel por WhatsApp";
+              message.appendChild(whatsapp);
+            }
           } else {
             message.textContent = content;
           }
@@ -537,11 +562,11 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           return message;
         }
 
-        function addAssistantMessageWithTyping(content) {
+        function addAssistantMessageWithTyping(content, options = {}) {
           const typing = addTypingMessage();
           window.setTimeout(() => {
             typing.remove();
-            addOliviaMessage(content, "assistant");
+            addOliviaMessage(content, "assistant", options);
           }, Math.min(1200, Math.max(450, content.length * 8)));
         }
 
@@ -686,7 +711,9 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             const answer = getAssistantText(apiAnswer);
             if (!answer) throw new Error("Olivia API returned an empty answer");
 
-            addAssistantMessageWithTyping(answer);
+            addAssistantMessageWithTyping(answer, {
+              whatsapp: apiAnswer?.handoffRecommended === true,
+            });
             persistInboxAssistant(answer).catch(() => {});
           } catch {
             addAssistantMessageWithTyping(copy.apiError);
