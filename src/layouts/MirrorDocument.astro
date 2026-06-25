@@ -669,10 +669,7 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
           payload.metadata.bookingDraft = { ...bookingDraft };
 
           try {
-            const inboxData = await persistInboxMessage(text).catch(() => null);
-            if (inboxData?.conversation?.status === "manual") {
-              return;
-            }
+            await persistInboxMessage(text).catch(() => null);
 
             if (!OLIVIA_CHANNEL_ENDPOINT) throw new Error("Missing Olivia endpoint");
 
