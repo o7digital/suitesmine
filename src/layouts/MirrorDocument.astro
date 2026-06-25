@@ -15,6 +15,7 @@ const {
 
 const GA_MEASUREMENT_ID = "G-F2QTNE0PJ1";
 const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
+const ENABLE_OLIVIA_CHAT = false;
 const OLIVIA_CLIENT_CODE = "suitesmine";
 const OLIVIA_CLIENT_NAME = "Suites Mine";
 const OLIVIA_CHANNEL_ENDPOINT =
@@ -46,7 +47,7 @@ const oliviaInitialLanguage = String(htmlAttributes.lang ?? "").toLowerCase().st
   </head>
   <body {...bodyAttributes}>
     <Fragment set:html={bodyInnerHtml} />
-    {false && (
+    {ENABLE_OLIVIA_CHAT && (
       <>
     <div
       id="olivia-widget"
