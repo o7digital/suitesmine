@@ -18,8 +18,7 @@ const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
 const OLIVIA_CLIENT_CODE = "suitesmine";
 const OLIVIA_CLIENT_NAME = "Suites Mine";
 const OLIVIA_CHANNEL_ENDPOINT =
-  import.meta.env.PUBLIC_OLIVIA_CHANNEL_ENDPOINT ??
-  "https://suitesmine-bot.vercel.app/api/olivia/chat";
+  "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/olivia/chat";
 const OLIVIA_INBOX_ENDPOINT =
   import.meta.env.PUBLIC_OLIVIA_INBOX_ENDPOINT ??
   "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/widget/conversations";
@@ -534,7 +533,7 @@ const oliviaInitialLanguage = htmlLanguage.startsWith("en")
             if (options.whatsapp) {
               const whatsapp = document.createElement("a");
               whatsapp.className = "olivia-whatsapp-button";
-              whatsapp.href = "https://wa.me/525536668585";
+              whatsapp.href = "https://wa.me/525536668535";
               whatsapp.target = "_blank";
               whatsapp.rel = "noopener noreferrer";
               whatsapp.textContent =
