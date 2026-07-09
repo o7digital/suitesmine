@@ -18,10 +18,10 @@ const hasGoogleAnalytics = headInnerHtml.includes(GA_MEASUREMENT_ID);
 const OLIVIA_CLIENT_CODE = "suitesmine";
 const OLIVIA_CLIENT_NAME = "Suites Mine";
 const OLIVIA_CHANNEL_ENDPOINT =
-  "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/olivia/chat";
+  "https://olivia-ai.o7digital.com/api/olivia/chat";
 const OLIVIA_INBOX_ENDPOINT =
   import.meta.env.PUBLIC_OLIVIA_INBOX_ENDPOINT ??
-  "https://suitesmine-bot-git-dev-olivier-steineur.vercel.app/api/widget/conversations";
+  "https://olivia-ai.o7digital.com/api/widget/conversations";
 const htmlLanguage = String(htmlAttributes.lang ?? "").toLowerCase();
 const oliviaInitialLanguage = htmlLanguage.startsWith("en")
   ? "en"
