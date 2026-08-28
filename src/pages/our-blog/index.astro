@@ -1,0 +1,99 @@
+---
+import MirrorDocument from "../../layouts/MirrorDocument.astro";
+import { readMirrorDocumentBySlug } from "../../lib/mirror";
+
+const document = readMirrorDocumentBySlug("our-blog");
+const marker = '<section class="elementor-section elementor-top-section elementor-element elementor-element-fe1806c';
+const septemberEditorial = `
+<section class="sm-september" aria-labelledby="sm-september-title">
+  <div class="sm-september__glow sm-september__glow--one"></div>
+  <div class="sm-september__glow sm-september__glow--two"></div>
+  <div class="sm-september__inner">
+    <header class="sm-september__intro">
+      <p class="sm-september__eyebrow">Suites Mine presenta · Septiembre 2026</p>
+      <div class="sm-september__heading-row">
+        <h2 id="sm-september-title">La ciudad<br><em>sube el volumen.</em></h2>
+        <div>
+          <p>Una agenda curada para descubrir conciertos, arte y noches memorables en Ciudad de México, con Suites Mine como punto de partida junto a Reforma.</p>
+          <a class="sm-september__reserve" href="https://hotels.cloudbeds.com/reservation/" target="_blank" rel="noreferrer">Reservar mi estancia <span>↗</span></a>
+        </div>
+      </div>
+    </header>
+
+    <article class="sm-feature">
+      <img src="https://dynamicmedia.livenationinternational.com/d/h/a/c26821d3-b690-4002-8484-bac4f14f25a7.jpg" alt="Maroon 5 en Ciudad de México" loading="eager" />
+      <div class="sm-feature__shade"></div>
+      <div class="sm-feature__date"><strong>30</strong><span>SEP</span></div>
+      <div class="sm-feature__content">
+        <p>El gran cierre del mes</p>
+        <h3>Maroon 5</h3>
+        <span>Estadio Alfredo Harp Helú · Ciudad de México</span>
+        <a href="https://www.ocesa.com.mx/todos-los-eventos/maroon-5-boletos-ae618" target="_blank" rel="noreferrer">Información oficial ↗</a>
+      </div>
+    </article>
+
+    <div class="sm-events-grid">
+      <article class="sm-event-card sm-event-card--wide">
+        <div class="sm-event-card__image">
+          <img src="https://media.ticketmaster.com/tm/en-us/dam/a/623/99ba4f26-2dc5-4924-9e6d-d5fd3487e623_CUSTOM.jpg" alt="Robyn The Sexistential Tour" loading="lazy" />
+          <span>19 SEP</span>
+        </div>
+        <div class="sm-event-card__body"><p>Pop electrónico</p><h3>Robyn + Lykke Li</h3><span>Palacio de los Deportes · 20:00</span><a href="https://www.ticketmaster.com.mx/palacio-de-los-deportes-tickets-ciudad-de-mexico/venue/163842?page=2" target="_blank" rel="noreferrer">Ver evento ↗</a></div>
+      </article>
+      <article class="sm-event-card">
+        <div class="sm-event-card__image">
+          <img src="https://dynamicmedia.livenationinternational.com/a/c/o/a5c4d2d0-e545-481d-85f6-532d44700fb1.jpg" alt="Yuridia en Ciudad de México" loading="lazy" />
+          <span>03–04 SEP</span>
+        </div>
+        <div class="sm-event-card__body"><p>Concierto</p><h3>Yuridia</h3><span>Estadio GNP Seguros</span><a href="https://www.ocesa.com.mx/todos-los-eventos/yuridia-boletos-ae1560791" target="_blank" rel="noreferrer">Ver evento ↗</a></div>
+      </article>
+      <article class="sm-event-card">
+        <div class="sm-event-card__image sm-event-card__image--graphic">
+          <span>08–26 SEP</span><b>JUNTOS</b>
+        </div>
+        <div class="sm-event-card__body"><p>Música mexicana</p><h3>Jorge Medina + Josi Cuen</h3><span>Auditorio Nacional · Fechas múltiples</span><a href="https://www.auditorio.com.mx/cartelera/2026/septiembre/juntos.html" target="_blank" rel="noreferrer">Ver evento ↗</a></div>
+      </article>
+      <article class="sm-event-card">
+        <div class="sm-event-card__image">
+          <img src="https://dynamicmedia.livenationinternational.com/t/f/v/c4b1d5c9-287f-41ee-897e-6a16c16a6e64.jpg" alt="La Santa Cecilia" loading="lazy" />
+          <span>12 SEP</span>
+        </div>
+        <div class="sm-event-card__body"><p>Latin · Folk</p><h3>La Santa Cecilia</h3><span>Teatro Metropólitan</span><a href="https://www.ocesa.com.mx/todos-los-eventos/la-santa-cecilia-boletos-ae1512780" target="_blank" rel="noreferrer">Ver evento ↗</a></div>
+      </article>
+      <article class="sm-event-card">
+        <div class="sm-event-card__image sm-event-card__image--gold">
+          <span>22 SEP</span><b>GONDWANA<br><small>+ QUIQUE NEIRA</small></b>
+        </div>
+        <div class="sm-event-card__body"><p>Reggae</p><h3>Gondwana + Quique Neira</h3><span>Auditorio Nacional · 20:30</span><a href="https://www.auditorio.com.mx/cartelera/2026/septiembre/gondwana-y-quique-neira.html" target="_blank" rel="noreferrer">Ver evento ↗</a></div>
+      </article>
+      <article class="sm-event-card sm-event-card--wide">
+        <div class="sm-event-card__image sm-event-card__image--carmina">
+          <span>23 SEP</span><b>CARMINA<br>BURANA<small>MEXICANA</small></b>
+        </div>
+        <div class="sm-event-card__body"><p>Música · Danza · Videomapping</p><h3>Carmina Burana Mexicana</h3><span>Auditorio Nacional · 20:00</span><a href="https://www.auditorio.com.mx/cartelera/2026/septiembre/carmina-burana-mexicana.html" target="_blank" rel="noreferrer">Ver evento ↗</a></div>
+      </article>
+    </div>
+
+    <footer class="sm-september__footer">
+      <p><span>SUITES MINE</span> Río Ebro 64 · Colonia Cuauhtémoc · A dos calles del Ángel</p>
+      <a href="https://hotels.cloudbeds.com/reservation/" target="_blank" rel="noreferrer">Consultar disponibilidad</a>
+    </footer>
+  </div>
+</section>
+<style>
+  .sm-september{--ink:#152a24;--cream:#f3ecdf;--gold:#c79b4b;position:relative;overflow:hidden;background:var(--ink);color:var(--cream);padding:110px 24px 96px;font-family:"Helvetica Neue",Arial,sans-serif}.sm-september *{box-sizing:border-box}.sm-september__glow{position:absolute;border-radius:50%;filter:blur(3px);pointer-events:none}.sm-september__glow--one{width:700px;height:700px;right:-310px;top:-350px;background:radial-gradient(circle,rgba(190,151,77,.2),transparent 68%)}.sm-september__glow--two{width:500px;height:500px;left:-300px;bottom:-220px;background:radial-gradient(circle,rgba(77,133,112,.2),transparent 70%)}.sm-september__inner{position:relative;z-index:1;max-width:1240px;margin:auto}.sm-september__intro{margin-bottom:64px}.sm-september__eyebrow,.sm-feature__content>p,.sm-event-card__body>p{margin:0;color:#d3ae67;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}.sm-september__heading-row{display:grid;grid-template-columns:1.35fr .65fr;gap:70px;align-items:end;margin-top:24px}.sm-september__heading-row h2{margin:0;color:#fffaf0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(54px,7vw,104px);font-weight:400;letter-spacing:-.055em;line-height:.9}.sm-september__heading-row h2 em{color:#d5af67;font-weight:400}.sm-september__heading-row>div>p{margin:0;color:#c9d0ca;font-size:16px;line-height:1.8}.sm-september__reserve{display:inline-flex;gap:18px;align-items:center;margin-top:26px;padding-bottom:7px;border-bottom:1px solid rgba(213,175,103,.6);color:#fff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.sm-feature{position:relative;min-height:600px;overflow:hidden;background:#08120f}.sm-feature>img{position:absolute;width:100%;height:100%;object-fit:cover;transition:transform .8s ease}.sm-feature:hover>img{transform:scale(1.025)}.sm-feature__shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,14,11,.86),rgba(5,14,11,.12) 70%),linear-gradient(0deg,rgba(5,14,11,.8),transparent 50%)}.sm-feature__date{position:absolute;top:34px;right:34px;display:grid;place-items:center;width:92px;height:92px;border:1px solid rgba(255,255,255,.45);background:rgba(10,24,19,.46);backdrop-filter:blur(12px)}.sm-feature__date strong{font-family:Georgia,serif;font-size:34px;font-weight:400;line-height:1}.sm-feature__date span{font-size:10px;letter-spacing:.2em}.sm-feature__content{position:absolute;left:clamp(28px,6vw,76px);bottom:clamp(32px,6vw,70px)}.sm-feature__content h3{margin:14px 0 8px;font-family:Georgia,serif;font-size:clamp(52px,8vw,100px);font-weight:400;letter-spacing:-.05em;line-height:.9}.sm-feature__content>span{display:block;color:#e2ddd2;font-size:14px}.sm-feature__content a,.sm-event-card__body a{display:inline-block;margin-top:24px;color:inherit;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.sm-events-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:1px;background:rgba(220,192,137,.22)}.sm-event-card{display:grid;grid-template-columns:44% 56%;min-height:330px;background:#1a312a}.sm-event-card--wide{grid-column:span 2;grid-template-columns:56% 44%;min-height:420px}.sm-event-card__image{position:relative;overflow:hidden;background:#0d1c18}.sm-event-card__image img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.sm-event-card:hover img{transform:scale(1.04)}.sm-event-card__image>span{position:absolute;top:18px;left:18px;padding:8px 10px;background:#f3ecdf;color:#183028;font-size:10px;font-weight:800;letter-spacing:.13em}.sm-event-card__image--graphic,.sm-event-card__image--gold,.sm-event-card__image--carmina{display:flex;align-items:flex-end;padding:32px;background:radial-gradient(circle at 70% 20%,#3b5b4f,transparent 42%),#10231d}.sm-event-card__image--gold{background:linear-gradient(145deg,#8b6a31,#1b3028 72%)}.sm-event-card__image--carmina{background:radial-gradient(circle at 30% 30%,#72342b,transparent 50%),#1b1714}.sm-event-card__image b{font-family:Georgia,serif;font-size:clamp(34px,4vw,65px);font-weight:400;letter-spacing:-.04em;line-height:.9}.sm-event-card__image b small{display:block;margin-top:10px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:.18em}.sm-event-card__body{display:flex;flex-direction:column;justify-content:center;padding:clamp(26px,4vw,52px)}.sm-event-card__body h3{margin:14px 0 12px;font-family:Georgia,serif;font-size:clamp(27px,3vw,43px);font-weight:400;letter-spacing:-.035em;line-height:1}.sm-event-card__body>span{color:#aebcb6;font-size:13px;line-height:1.5}.sm-event-card__body a{align-self:flex-start;margin-top:28px;border-bottom:1px solid rgba(213,175,103,.5);padding-bottom:6px;color:#f0d69e}.sm-september__footer{display:flex;justify-content:space-between;gap:30px;align-items:center;margin-top:64px;padding-top:30px;border-top:1px solid rgba(231,213,174,.2);font-size:11px;letter-spacing:.1em;text-transform:uppercase}.sm-september__footer p{margin:0;color:#aebcb6}.sm-september__footer p span{color:#d5af67;font-weight:800}.sm-september__footer a{color:#fff;text-decoration:none}.elementor-element-fe1806c{padding-top:85px!important}.elementor-element-fe1806c:before{content:"Archivo & guías de la ciudad";display:block;max-width:1240px;margin:0 auto 45px;padding:0 15px;color:#1b332b;font-family:Georgia,serif;font-size:42px;text-align:center}
+  @media(max-width:800px){.sm-september{padding:74px 18px 70px}.sm-september__heading-row{grid-template-columns:1fr;gap:28px}.sm-feature{min-height:520px}.sm-feature__date{top:18px;right:18px;width:72px;height:72px}.sm-events-grid{grid-template-columns:1fr}.sm-event-card,.sm-event-card--wide{grid-column:auto;grid-template-columns:1fr;min-height:0}.sm-event-card__image{height:260px}.sm-event-card__body{min-height:250px}.sm-september__footer{align-items:flex-start;flex-direction:column}.sm-event-card--wide .sm-event-card__image{height:320px}}
+</style>
+`;
+
+const bodyInnerHtml = document.bodyInnerHtml.includes(marker)
+  ? document.bodyInnerHtml.replace(marker, `${septemberEditorial}<section class="elementor-section elementor-top-section elementor-element elementor-element-fe1806c`)
+  : document.bodyInnerHtml;
+---
+
+<MirrorDocument
+  htmlAttributes={document.htmlAttributes}
+  headInnerHtml={document.headInnerHtml}
+  bodyAttributes={document.bodyAttributes}
+  bodyInnerHtml={bodyInnerHtml}
+/>
