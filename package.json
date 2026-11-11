@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "check:detach": "bash scripts/check_no_wp_runtime.sh",
+    "test": "node --test tests/*.test.mjs",
     "build": "npm run check:detach && astro build",
     "preview": "astro preview"
   },

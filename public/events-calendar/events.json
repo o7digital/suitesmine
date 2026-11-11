@@ -1,0 +1,1223 @@
+{
+  "version": 1,
+  "timeZone": "America/Mexico_City",
+  "source": "Approved Suites Mine CRM publications, November 2026 to February 2027",
+  "months": {
+    "2026-11": [
+      {
+        "id": "munal-ruta-destino-noviembre",
+        "sortDate": "2026-11-01",
+        "title": {
+          "es": "México: ruta y destino",
+          "en": "Mexico: Routes and Destinations",
+          "zh": "墨西哥：路线与目的地"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 14 de febrero de 2027",
+          "en": "On view this month · Through February 14, 2027",
+          "zh": "本月展览 · 展期至2027年2月14日"
+        },
+        "venue": {
+          "es": "Museo Nacional de Arte (MUNAL)",
+          "en": "National Museum of Art (MUNAL)",
+          "zh": "国家艺术博物馆（MUNAL）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Arte, fotografía, mapas y cultura visual exploran cómo México construyó su imagen como destino durante el siglo XX.",
+          "en": "Art, photography, maps and visual culture explore how Mexico developed its image as a travel destination.",
+          "zh": "通过艺术、摄影、地图与视觉文化，探索墨西哥如何塑造其旅游目的地形象。"
+        },
+        "url": "https://munal.mx/es/exposiciones/m%C3%A9xico-ruta-y-destino",
+        "sourceLabel": "MUNAL",
+        "imageUrl": "https://munal.mx/images/MUNAL_MEXICO_RUTA-Y-DESTINO.jpg"
+      },
+      {
+        "id": "lila-downs-noviembre",
+        "sortDate": "2026-11-01",
+        "title": {
+          "es": "Lila Downs",
+          "en": "Lila Downs",
+          "zh": "Lila Downs"
+        },
+        "date": {
+          "es": "1 de noviembre · 19:00",
+          "en": "November 1 · 19:00",
+          "zh": "11月1日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Una celebración de carrera, identidad cultural y nueva música.",
+          "en": "A celebration of a musical career, cultural identity and new songs.",
+          "zh": "以音乐庆祝艺术生涯、文化认同与全新作品。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/lila-downs.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Lila-Downs/Auditorio-Nacional-Lila-Downs-cartelera.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "aitana-noviembre",
+        "sortDate": "2026-11-06",
+        "title": {
+          "es": "Aitana · Cuarto Azul World Tour",
+          "en": "Aitana · Cuarto Azul World Tour",
+          "zh": "Aitana · Cuarto Azul World Tour"
+        },
+        "date": {
+          "es": "6 y 7 de noviembre",
+          "en": "November 6 and 7",
+          "zh": "11月6日、7日"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "La estrella española lleva su gira mundial al Auditorio Nacional.",
+          "en": "The Spanish pop star brings her world tour to the Auditorio Nacional.",
+          "zh": "西班牙流行歌手 Aitana 携世界巡演登上国家礼堂舞台。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/aitana.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Aitana/Auditorio-Nacional-Aitana-cartelera.jpg"
+      },
+      {
+        "id": "cirque-echo-noviembre",
+        "sortDate": "2026-11-13",
+        "title": {
+          "es": "Cirque du Soleil · ECHO",
+          "en": "Cirque du Soleil · ECHO",
+          "zh": "Cirque du Soleil · ECHO"
+        },
+        "date": {
+          "es": "Desde el 13 de noviembre",
+          "en": "From November 13",
+          "zh": "11月13日起"
+        },
+        "venue": {
+          "es": "Gran Carpa Santa Fe",
+          "en": "Gran Carpa Santa Fe",
+          "zh": "Santa Fe 马戏团大帐篷（Gran Carpa Santa Fe）"
+        },
+        "category": {
+          "es": "Espectáculo",
+          "en": "Live show",
+          "zh": "现场演出"
+        },
+        "description": {
+          "es": "La nueva producción del Cirque du Soleil combina acrobacia, personajes y un universo visual inmersivo.",
+          "en": "Cirque du Soleil’s ECHO brings together acrobatics, characters and an immersive visual world.",
+          "zh": "太阳马戏团 ECHO 融合高空杂技、鲜活角色与沉浸式视觉体验。"
+        },
+        "url": "https://www.ocesa.com.mx/todos-los-eventos/cirque-du-soleil-boletos-ae9243",
+        "sourceLabel": "OCESA",
+        "imageUrl": "https://dynamicmedia.livenationinternational.com/k/c/b/1d9db872-004b-4007-aca6-179c6d35fb15.jpg"
+      },
+      {
+        "id": "majo-aguilar-noviembre",
+        "sortDate": "2026-11-13",
+        "title": {
+          "es": "Majo Aguilar · Se Armó El Baile",
+          "en": "Majo Aguilar · Se Armó El Baile",
+          "zh": "Majo Aguilar · Se Armó El Baile"
+        },
+        "date": {
+          "es": "13 de noviembre · 20:30",
+          "en": "November 13 · 20:30",
+          "zh": "11月13日 · 20:30"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Cierre de gira con banda en vivo y mariachi.",
+          "en": "A tour finale featuring a live band and mariachi.",
+          "zh": "现场乐队与墨西哥流浪乐团共同呈现巡演收官之夜。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/majo-aguilar.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Majo-Aguilar/Auditorio-Nacional-Majo-Aguilar-cartelera.jpg",
+        "sortTime": "20:30"
+      },
+      {
+        "id": "karol-g-noviembre",
+        "sortDate": "2026-11-13",
+        "title": {
+          "es": "Karol G · Viajando por el mundo, Tropitour",
+          "en": "Karol G · Viajando por el mundo, Tropitour",
+          "zh": "Karol G · Viajando por el mundo, Tropitour"
+        },
+        "date": {
+          "es": "13, 14 y 15 de noviembre · 21:00",
+          "en": "November 13, 14 and 15 · 21:00",
+          "zh": "11月13日、14日、15日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Tres noches de música latina en el Estadio GNP Seguros para preparar una escapada de concierto en Ciudad de México.",
+          "en": "Three nights of Latin music at Estadio GNP Seguros: a great reason for a concert getaway in Mexico City.",
+          "zh": "Karol G 在 Estadio GNP Seguros 连唱三晚，为您的墨西哥城音乐之旅增添拉丁节奏。"
+        },
+        "url": "https://www.ticketmaster.com.mx/karol-g-boletos/artist/2412593",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://dynamicmedia.livenationinternational.com/h/f/j/b6a5d5bd-36aa-45e8-810e-6ed4808a06df.jpg",
+        "sortTime": "21:00"
+      },
+      {
+        "id": "daniel-boaventura-noviembre",
+        "sortDate": "2026-11-15",
+        "title": {
+          "es": "Daniel Boaventura Sinfónico",
+          "en": "Daniel Boaventura · Symphonic Concert",
+          "zh": "Daniel Boaventura · 交响音乐会"
+        },
+        "date": {
+          "es": "15 de noviembre · 19:00",
+          "en": "November 15 · 19:00",
+          "zh": "11月15日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Grandes clásicos con banda y la Orquesta Minería Pops.",
+          "en": "Timeless classics with a live band and the Orquesta Minería Pops.",
+          "zh": "Daniel Boaventura 携现场乐队与 Orquesta Minería Pops 演绎经典名曲。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/daniel-boaventura-sinf%C3%B3nico.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Daniel-Boaventura/Auditorio-Nacional-Daniel-Boaventura-Banner.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "lp-noviembre",
+        "sortDate": "2026-11-22",
+        "title": {
+          "es": "LP · All Is Not Lost Tour",
+          "en": "LP · All Is Not Lost Tour",
+          "zh": "LP · All Is Not Lost Tour"
+        },
+        "date": {
+          "es": "22 de noviembre · 19:00",
+          "en": "November 22 · 19:00",
+          "zh": "11月22日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "LP regresa a Ciudad de México con All Is Not Lost Tour.",
+          "en": "LP returns to Mexico City with the All Is Not Lost Tour.",
+          "zh": "LP 携 All Is Not Lost Tour 重返墨西哥城。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/lp.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/LP/Auditorio-Nacional-LP-cartelera.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "soda-stereo-noviembre",
+        "sortDate": "2026-11-23",
+        "title": {
+          "es": "Soda Stereo · Ecos",
+          "en": "Soda Stereo · Ecos",
+          "zh": "Soda Stereo · Ecos"
+        },
+        "date": {
+          "es": "23 de noviembre",
+          "en": "November 23",
+          "zh": "11月23日"
+        },
+        "venue": {
+          "es": "Palacio de los Deportes",
+          "en": "Palacio de los Deportes",
+          "zh": "体育宫（Palacio de los Deportes）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "El legado de Soda Stereo vuelve a encontrarse con el público de Ciudad de México.",
+          "en": "Soda Stereo’s musical legacy meets Mexico City audiences once again.",
+          "zh": "与墨西哥城乐迷重温 Soda Stereo 的音乐传奇。"
+        },
+        "url": "https://www.ocesa.com.mx/todos-los-eventos/soda-stereo-boletos-ae1629933",
+        "sourceLabel": "OCESA",
+        "imageUrl": "https://networksites.livenationinternational.com/networksites/ttyfjxk3/soda-stereo_preventa_gira_-_sitio_600x300.jpg"
+      },
+      {
+        "id": "hayley-williams-noviembre",
+        "sortDate": "2026-11-26",
+        "title": {
+          "es": "The Hayley Williams Show",
+          "en": "The Hayley Williams Show",
+          "zh": "The Hayley Williams Show"
+        },
+        "date": {
+          "es": "26 de noviembre · 19:00",
+          "en": "November 26 · 19:00",
+          "zh": "11月26日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Hayley Williams presenta su nuevo espectáculo en el Auditorio Nacional.",
+          "en": "Hayley Williams presents her new live show at the Auditorio Nacional.",
+          "zh": "Hayley Williams 在国家礼堂呈现全新现场演出。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/the-hayley-williams-show.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Hayley-William/Auditorio-Nacional-Hayley-William-Cartelera.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "autenticos-caligaris-noviembre",
+        "sortDate": "2026-11-27",
+        "title": {
+          "es": "Los Auténticos Caligaris",
+          "en": "Los Auténticos Caligaris",
+          "zh": "Los Auténticos Caligaris"
+        },
+        "date": {
+          "es": "27 de noviembre · 21:00",
+          "en": "November 27 · 21:00",
+          "zh": "11月27日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Los Auténticos Decadentes y Los Caligaris comparten una noche de ska, rock y fiesta en la capital.",
+          "en": "Los Auténticos Decadentes and Los Caligaris share a night of ska, rock and celebration in the capital.",
+          "zh": "Los Auténticos Decadentes 与 Los Caligaris 同台，带来斯卡、摇滚与欢乐派对。"
+        },
+        "url": "https://www.estadiognpseguros.com/todos-los-eventos/los-aut%C3%A9nticos-decadentes-boletos-ae1512555",
+        "sourceLabel": "Estadio GNP Seguros",
+        "imageUrl": "https://dynamicmedia.livenationinternational.com/n/n/f/38a1ddf7-567b-4805-a3f9-193005f648c4.jpg",
+        "sortTime": "21:00"
+      },
+      {
+        "id": "rodrigo-cadena-noviembre",
+        "sortDate": "2026-11-29",
+        "title": {
+          "es": "Rodrigo de la Cadena · La Sinfonía de la Memoria II",
+          "en": "Rodrigo de la Cadena · La Sinfonía de la Memoria II",
+          "zh": "Rodrigo de la Cadena · La Sinfonía de la Memoria II"
+        },
+        "date": {
+          "es": "29 de noviembre · 18:00",
+          "en": "November 29 · 18:00",
+          "zh": "11月29日 · 18:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Un homenaje sinfónico a los compositores e intérpretes que dieron identidad musical a México.",
+          "en": "A symphonic tribute to the composers and performers who shaped Mexico’s musical identity.",
+          "zh": "以交响乐致敬塑造墨西哥音乐特色的作曲家与表演艺术家。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/noviembre/rodrigo-de-la-cadena.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Rodrigo-de-la-Cadena/Auditorio-Nacional-Rodrigo-De-La-Cadena-cartelera.jpg",
+        "sortTime": "18:00"
+      }
+    ],
+    "2026-12": [
+      {
+        "id": "cirque-echo-diciembre",
+        "sortDate": "2026-12-01",
+        "title": {
+          "es": "Cirque du Soleil · ECHO",
+          "en": "Cirque du Soleil · ECHO",
+          "zh": "Cirque du Soleil · ECHO"
+        },
+        "date": {
+          "es": "Funciones durante diciembre",
+          "en": "Performances throughout December",
+          "zh": "12月期间多场演出"
+        },
+        "venue": {
+          "es": "Gran Carpa Santa Fe",
+          "en": "Gran Carpa Santa Fe",
+          "zh": "Santa Fe 马戏团大帐篷（Gran Carpa Santa Fe）"
+        },
+        "category": {
+          "es": "Espectáculo",
+          "en": "Live show",
+          "zh": "现场演出"
+        },
+        "description": {
+          "es": "La temporada de ECHO continúa en diciembre con funciones para cerrar el año.",
+          "en": "ECHO continues its season in December with performances to celebrate the end of the year.",
+          "zh": "ECHO 演出季延续至12月，以精彩表演迎接岁末。"
+        },
+        "url": "https://www.ocesa.com.mx/todos-los-eventos/cirque-du-soleil-boletos-ae9243",
+        "sourceLabel": "OCESA",
+        "imageUrl": "https://dynamicmedia.livenationinternational.com/k/c/b/1d9db872-004b-4007-aca6-179c6d35fb15.jpg"
+      },
+      {
+        "id": "tamayo-arquitectura-diciembre",
+        "sortDate": "2026-12-01",
+        "title": {
+          "es": "Arquitectura y cosmotécnica",
+          "en": "Architecture and Cosmotechnics",
+          "zh": "建筑与宇宙技术"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 28 de febrero de 2027",
+          "en": "On view this month · Through February 28, 2027",
+          "zh": "本月展览 · 展期至2027年2月28日"
+        },
+        "venue": {
+          "es": "Museo Tamayo",
+          "en": "Museo Tamayo",
+          "zh": "塔马约博物馆（Museo Tamayo）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Una lectura contemporánea del edificio brutalista a 45 años de la inauguración del museo.",
+          "en": "A contemporary perspective on the museum’s brutalist building, 45 years after its opening.",
+          "zh": "在博物馆开馆四十五周年之际，以当代视角重新审视其粗野主义建筑。"
+        },
+        "url": "https://www.museotamayo.org/exposiciones/museo-tamayo-arquitectura-y-cosmotecnica",
+        "sourceLabel": "Museo Tamayo",
+        "imageUrl": "https://cdn.prod.website-files.com/5f3576fec2caeb654f6deb22/6a6a8db7e04a777aae497f84__MG_8780%202.jpg"
+      },
+      {
+        "id": "munal-ruta-destino-diciembre",
+        "sortDate": "2026-12-01",
+        "title": {
+          "es": "México: ruta y destino",
+          "en": "Mexico: Routes and Destinations",
+          "zh": "墨西哥：路线与目的地"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 14 de febrero de 2027",
+          "en": "On view this month · Through February 14, 2027",
+          "zh": "本月展览 · 展期至2027年2月14日"
+        },
+        "venue": {
+          "es": "Museo Nacional de Arte (MUNAL)",
+          "en": "National Museum of Art (MUNAL)",
+          "zh": "国家艺术博物馆（MUNAL）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Arte, fotografía, mapas y cultura visual exploran cómo México construyó su imagen como destino.",
+          "en": "Art, photography, maps and visual culture explore how Mexico developed its image as a travel destination.",
+          "zh": "通过艺术、摄影、地图与视觉文化，探索墨西哥如何塑造其旅游目的地形象。"
+        },
+        "url": "https://munal.mx/es/exposiciones/m%C3%A9xico-ruta-y-destino",
+        "sourceLabel": "MUNAL",
+        "imageUrl": "https://munal.mx/images/MUNAL_MEXICO_RUTA-Y-DESTINO.jpg"
+      },
+      {
+        "id": "bruno-mars-diciembre",
+        "sortDate": "2026-12-03",
+        "title": {
+          "es": "Bruno Mars · The Romantic Tour",
+          "en": "Bruno Mars · The Romantic Tour",
+          "zh": "Bruno Mars · The Romantic Tour"
+        },
+        "date": {
+          "es": "3, 4, 7, 8 y 11 de diciembre · 21:00",
+          "en": "December 3, 4, 7, 8 and 11 · 21:00",
+          "zh": "12月3日、4日、7日、8日、11日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Cinco fechas de The Romantic Tour para combinar una gran noche de pop y funk con una estancia en Ciudad de México.",
+          "en": "Five dates on The Romantic Tour combine pop and funk with a Mexico City getaway.",
+          "zh": "The Romantic Tour 连演五场，让流行与放克音乐点亮您的墨西哥城之旅。"
+        },
+        "url": "https://www.ticketmaster.com.mx/bruno-mars-boletos/artist/1466801",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://prismic-images.tmol.io/ticketmaster-tm-global/aamnV1xvIZEnjXyq_Header-Bruno.jpg?auto=format%2Ccompress&rect=265%2C0%2C1517%2C640&w=2048&h=864",
+        "sortTime": "21:00"
+      },
+      {
+        "id": "concierto-navideno-diciembre",
+        "sortDate": "2026-12-05",
+        "title": {
+          "es": "Concierto Navideño · Sinfónica de Minería",
+          "en": "Christmas Concert · Sinfónica de Minería",
+          "zh": "圣诞音乐会 · Sinfónica de Minería"
+        },
+        "date": {
+          "es": "5 de diciembre · 19:30",
+          "en": "December 5 · 19:30",
+          "zh": "12月5日 · 19:30"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Una noche de música navideña para empezar diciembre con una escapada en familia.",
+          "en": "An evening of Christmas music to start December with a family getaway.",
+          "zh": "以温馨圣诞音乐开启12月，适合与家人共度美好夜晚。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/enero/concierto-navideño-radio-centro-con-la-sinfónica-de-minería.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Concierto-Navideno/Navi-Cartelera.jpg",
+        "sortTime": "19:30"
+      },
+      {
+        "id": "jesse-joy-diciembre",
+        "sortDate": "2026-12-06",
+        "title": {
+          "es": "Jesse & Joy · ¿Con quién se queda el Reno?",
+          "en": "Jesse & Joy · Christmas Concert",
+          "zh": "Jesse & Joy · 圣诞音乐会"
+        },
+        "date": {
+          "es": "6 de diciembre · 18:00",
+          "en": "December 6 · 18:00",
+          "zh": "12月6日 · 18:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Una tarde de canciones para compartir y continuar la noche cerca de Reforma.",
+          "en": "An afternoon of songs to share before continuing your evening near Reforma.",
+          "zh": "与亲友共享动人歌曲，再到改革大道附近延续精彩夜晚。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2026/enero/jesse-y-joy-diciembre.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2026/Joy/Auditorio-Nacional-JyJ-Cartelera.jpg",
+        "sortTime": "18:00"
+      },
+      {
+        "id": "los-bukis-diciembre",
+        "sortDate": "2026-12-12",
+        "title": {
+          "es": "Los Bukis · La Despedida",
+          "en": "Los Bukis · Farewell Concert",
+          "zh": "Los Bukis · 告别演唱会"
+        },
+        "date": {
+          "es": "12 de diciembre · 21:00",
+          "en": "December 12 · 21:00",
+          "zh": "12月12日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Una noche para reencontrarse con las canciones de Los Bukis y disfrutar una escapada musical de fin de año.",
+          "en": "Rediscover the songs of Los Bukis on a musical getaway to close the year.",
+          "zh": "重温 Los Bukis 的经典歌曲，以音乐为岁末之旅留下美好回忆。"
+        },
+        "url": "https://www.ticketmaster.com.mx/los-bukis-boletos/artist/754825",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://media.ticketmaster.com/tm/en-us/dam/a/680/e964f0ae-3db2-4e2f-99b6-7ade6303d680_CUSTOM.jpg",
+        "sortTime": "21:00"
+      },
+      {
+        "id": "mana-diciembre",
+        "sortDate": "2026-12-16",
+        "title": {
+          "es": "MANÁ",
+          "en": "MANÁ",
+          "zh": "MANÁ"
+        },
+        "date": {
+          "es": "16 y 17 de diciembre",
+          "en": "December 16 and 17",
+          "zh": "12月16日、17日"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Dos grandes noches de rock en español para cerrar la agenda musical de 2026.",
+          "en": "Two nights of Spanish-language rock to close the 2026 concert season.",
+          "zh": "以两晚西班牙语摇滚，为2026年音乐季画下精彩句点。"
+        },
+        "url": "https://www.ticketmaster.com.mx/mana-boletos/artist/759223",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://media.ticketmaster.com/tm/en-us/dam/a/ec6/5a50bf30-d0d8-4144-849b-5787430edec6_CUSTOM.jpg"
+      },
+      {
+        "id": "panteon-rococo-diciembre",
+        "sortDate": "2026-12-26",
+        "title": {
+          "es": "Panteón Rococó · XXX Aniversario",
+          "en": "Panteón Rococó · 30th Anniversary",
+          "zh": "Panteón Rococó · 三十周年演唱会"
+        },
+        "date": {
+          "es": "26 de diciembre · 21:00",
+          "en": "December 26 · 21:00",
+          "zh": "12月26日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "El cierre de la gira de aniversario reúne tres décadas de ska y canciones para celebrar las últimas noches del año.",
+          "en": "The anniversary tour finale brings together three decades of ska and songs to celebrate the year’s last nights.",
+          "zh": "周年巡演收官演出汇聚三十年斯卡音乐与经典歌曲，共庆岁末。"
+        },
+        "url": "https://www.ticketmaster.com.mx/panteon-rococo-boletos/artist/831227",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://media.ticketmaster.com/tm/en-us/dam/a/b95/986e26e0-acb6-4d1e-b4e6-c86d626b1b95_CUSTOM.jpg",
+        "sortTime": "21:00"
+      }
+    ],
+    "2027-01": [
+      {
+        "id": "munal-ruta-destino-enero-2027",
+        "sortDate": "2027-01-01",
+        "title": {
+          "es": "México: ruta y destino",
+          "en": "Mexico: Routes and Destinations",
+          "zh": "墨西哥：路线与目的地"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 14 de febrero de 2027",
+          "en": "On view this month · Through February 14, 2027",
+          "zh": "本月展览 · 展期至2027年2月14日"
+        },
+        "venue": {
+          "es": "Museo Nacional de Arte (MUNAL)",
+          "en": "National Museum of Art (MUNAL)",
+          "zh": "国家艺术博物馆（MUNAL）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Arte, fotografía, mapas y cultura visual exploran cómo México construyó su imagen como destino.",
+          "en": "Art, photography, maps and visual culture explore how Mexico developed its image as a travel destination.",
+          "zh": "通过艺术、摄影、地图与视觉文化，探索墨西哥如何塑造其旅游目的地形象。"
+        },
+        "url": "https://munal.mx/es/exposiciones/m%C3%A9xico-ruta-y-destino",
+        "sourceLabel": "MUNAL",
+        "imageUrl": "https://munal.mx/images/MUNAL_MEXICO_RUTA-Y-DESTINO.jpg"
+      },
+      {
+        "id": "tamayo-arquitectura-enero-2027",
+        "sortDate": "2027-01-01",
+        "title": {
+          "es": "Arquitectura y cosmotécnica",
+          "en": "Architecture and Cosmotechnics",
+          "zh": "建筑与宇宙技术"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 28 de febrero de 2027",
+          "en": "On view this month · Through February 28, 2027",
+          "zh": "本月展览 · 展期至2027年2月28日"
+        },
+        "venue": {
+          "es": "Museo Tamayo",
+          "en": "Museo Tamayo",
+          "zh": "塔马约博物馆（Museo Tamayo）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Una lectura contemporánea del edificio brutalista a 45 años de la inauguración del museo.",
+          "en": "A contemporary perspective on the museum’s brutalist building, 45 years after its opening.",
+          "zh": "在博物馆开馆四十五周年之际，以当代视角重新审视其粗野主义建筑。"
+        },
+        "url": "https://www.museotamayo.org/exposiciones/museo-tamayo-arquitectura-y-cosmotecnica",
+        "sourceLabel": "Museo Tamayo",
+        "imageUrl": "https://cdn.prod.website-files.com/5f3576fec2caeb654f6deb22/6a6a8db7e04a777aae497f84__MG_8780%202.jpg"
+      },
+      {
+        "id": "apocalyptica-enero-2027",
+        "sortDate": "2027-01-16",
+        "title": {
+          "es": "Apocalyptica",
+          "en": "Apocalyptica",
+          "zh": "Apocalyptica"
+        },
+        "date": {
+          "es": "16 de enero · 20:00",
+          "en": "January 16 · 20:00",
+          "zh": "1月16日 · 20:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Violonchelos y metal sinfónico para darle intensidad al primer viaje del año.",
+          "en": "Cellos and symphonic metal bring energy to your first trip of the year.",
+          "zh": "大提琴与交响金属交织，为新年首次旅行注入澎湃能量。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/enero/apocalyptica.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Apocalyptica/Auditoria-Nacional-Apocalyptica-cartelera.jpg",
+        "sortTime": "20:00"
+      },
+      {
+        "id": "interstellar-enero-2027",
+        "sortDate": "2027-01-17",
+        "title": {
+          "es": "Interstellar Live · Cinema Concert Festival",
+          "en": "Interstellar Live · Cinema Concert Festival",
+          "zh": "Interstellar Live · Cinema Concert Festival"
+        },
+        "date": {
+          "es": "17 de enero · 19:00",
+          "en": "January 17 · 19:00",
+          "zh": "1月17日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Cine concierto",
+          "en": "Film with live orchestra",
+          "zh": "电影交响音乐会"
+        },
+        "description": {
+          "es": "Una proyección con orquesta en vivo para combinar cine, música y una estancia en CDMX.",
+          "en": "A film screening with a live orchestra, combining cinema, music and a stay in Mexico City.",
+          "zh": "电影放映搭配现场交响乐，让墨西哥城之旅融合光影与音乐。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/enero/interstellar-live.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Interestellar/Auditorio-Nacional-Interstellar-artelera.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "fangoria-enero-2027",
+        "sortDate": "2027-01-21",
+        "title": {
+          "es": "Fangoria",
+          "en": "Fangoria",
+          "zh": "Fangoria"
+        },
+        "date": {
+          "es": "21 de enero",
+          "en": "January 21",
+          "zh": "1月21日"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Pop electrónico para una noche de concierto y un fin de semana a tu ritmo.",
+          "en": "Electronic pop for a concert night and a weekend at your own pace.",
+          "zh": "以电子流行音乐点亮演出之夜，享受自在周末。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/enero/fangoria.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Fangoria/Auditorio-Nacional-Fangoria-cartelera.jpg"
+      },
+      {
+        "id": "caravana-rock-enero-2027",
+        "sortDate": "2027-01-23",
+        "title": {
+          "es": "La Caravana del Rock and Roll · La Despedida",
+          "en": "La Caravana del Rock and Roll · Farewell Concert",
+          "zh": "La Caravana del Rock and Roll · 告别演唱会"
+        },
+        "date": {
+          "es": "23 de enero · 19:00",
+          "en": "January 23 · 19:00",
+          "zh": "1月23日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Una cita con el rock and roll para compartir recuerdos y descubrir la ciudad.",
+          "en": "A rock and roll gathering to share memories and discover the city.",
+          "zh": "在摇滚乐中分享回忆，探索城市的独特魅力。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/enero/la-caravana-del-rock-and-roll.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Caravana-Rock/Auditorio-Nacional-Caravana-Del_Rock-cartelera.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "nsqk-enero-2027",
+        "sortDate": "2027-01-23",
+        "title": {
+          "es": "NSQK",
+          "en": "NSQK",
+          "zh": "NSQK"
+        },
+        "date": {
+          "es": "23 de enero · 21:00",
+          "en": "January 23 · 21:00",
+          "zh": "1月23日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "NSQK llega al Estadio GNP Seguros con una noche de pop alternativo, electrónica y nuevas canciones para empezar el año.",
+          "en": "NSQK brings alternative pop, electronic music and new songs to Estadio GNP Seguros to start the year.",
+          "zh": "NSQK 在 Estadio GNP Seguros 带来另类流行、电子音乐与全新作品，开启新年。"
+        },
+        "url": "https://www.ticketmaster.com.mx/nsqk-boletos/artist/3000770",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://media.ticketmaster.com/tm/en-us/dam/a/cac/3eba20e7-afc6-4511-b6ee-edb38def3cac_CUSTOM.jpg",
+        "sortTime": "21:00"
+      }
+    ],
+    "2027-02": [
+      {
+        "id": "munal-ruta-destino-febrero-2027",
+        "sortDate": "2027-02-01",
+        "title": {
+          "es": "México: ruta y destino",
+          "en": "Mexico: Routes and Destinations",
+          "zh": "墨西哥：路线与目的地"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 14 de febrero de 2027",
+          "en": "On view this month · Through February 14, 2027",
+          "zh": "本月展览 · 展期至2027年2月14日"
+        },
+        "venue": {
+          "es": "Museo Nacional de Arte (MUNAL)",
+          "en": "National Museum of Art (MUNAL)",
+          "zh": "国家艺术博物馆（MUNAL）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Arte, fotografía, mapas y cultura visual exploran cómo México construyó su imagen como destino.",
+          "en": "Art, photography, maps and visual culture explore how Mexico developed its image as a travel destination.",
+          "zh": "通过艺术、摄影、地图与视觉文化，探索墨西哥如何塑造其旅游目的地形象。"
+        },
+        "url": "https://munal.mx/es/exposiciones/m%C3%A9xico-ruta-y-destino",
+        "sourceLabel": "MUNAL",
+        "imageUrl": "https://munal.mx/images/MUNAL_MEXICO_RUTA-Y-DESTINO.jpg"
+      },
+      {
+        "id": "tamayo-arquitectura-febrero-2027",
+        "sortDate": "2027-02-01",
+        "title": {
+          "es": "Arquitectura y cosmotécnica",
+          "en": "Architecture and Cosmotechnics",
+          "zh": "建筑与宇宙技术"
+        },
+        "date": {
+          "es": "Durante el mes · Hasta el 28 de febrero de 2027",
+          "en": "On view this month · Through February 28, 2027",
+          "zh": "本月展览 · 展期至2027年2月28日"
+        },
+        "venue": {
+          "es": "Museo Tamayo",
+          "en": "Museo Tamayo",
+          "zh": "塔马约博物馆（Museo Tamayo）"
+        },
+        "category": {
+          "es": "Museo",
+          "en": "Exhibition",
+          "zh": "艺术展览"
+        },
+        "description": {
+          "es": "Una lectura contemporánea del edificio brutalista a 45 años de la inauguración del museo.",
+          "en": "A contemporary perspective on the museum’s brutalist building, 45 years after its opening.",
+          "zh": "在博物馆开馆四十五周年之际，以当代视角重新审视其粗野主义建筑。"
+        },
+        "url": "https://www.museotamayo.org/exposiciones/museo-tamayo-arquitectura-y-cosmotecnica",
+        "sourceLabel": "Museo Tamayo",
+        "imageUrl": "https://cdn.prod.website-files.com/5f3576fec2caeb654f6deb22/6a6a8db7e04a777aae497f84__MG_8780%202.jpg"
+      },
+      {
+        "id": "carlos-sadness-febrero-2027",
+        "sortDate": "2027-02-05",
+        "title": {
+          "es": "Carlos Sadness · Noche de perseidas",
+          "en": "Carlos Sadness · Noche de perseidas",
+          "zh": "Carlos Sadness · Noche de perseidas"
+        },
+        "date": {
+          "es": "5 de febrero · 20:30",
+          "en": "February 5 · 20:30",
+          "zh": "2月5日 · 20:30"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Una noche de pop para empezar febrero con música y una escapada junto a Reforma.",
+          "en": "Start February with a night of pop and a getaway near Reforma.",
+          "zh": "以一晚流行音乐开启2月，在改革大道附近享受轻松假期。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/febrero/carlos-sadness.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Carlos-Sadness/Audiotrio-Nacional-Cartelera-CarlosSadness.jpg",
+        "sortTime": "20:30"
+      },
+      {
+        "id": "the-warning-febrero-2027",
+        "sortDate": "2027-02-05",
+        "title": {
+          "es": "The Warning · Everything’s Falling World Tour",
+          "en": "The Warning · Everything’s Falling World Tour",
+          "zh": "The Warning · Everything’s Falling World Tour"
+        },
+        "date": {
+          "es": "5 de febrero · 21:00",
+          "en": "February 5 · 21:00",
+          "zh": "2月5日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "El trío mexicano lleva su rock al Estadio GNP Seguros en una gran noche de Everything’s Falling World Tour.",
+          "en": "The Mexican trio brings its rock sound to Estadio GNP Seguros on the Everything’s Falling World Tour.",
+          "zh": "墨西哥摇滚三人组 The Warning 携 Everything’s Falling World Tour 登上 Estadio GNP Seguros。"
+        },
+        "url": "https://www.ticketmaster.com.mx/the-warning-boletos/artist/2156114",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://media.ticketmaster.com/tm/en-us/dam/a/4f2/8794fc89-53b5-4fd5-80cb-aac4e60ca4f2_CUSTOM.jpg",
+        "sortTime": "21:00"
+      },
+      {
+        "id": "franco-escamilla-febrero-2027",
+        "sortDate": "2027-02-06",
+        "title": {
+          "es": "Franco Escamilla",
+          "en": "Franco Escamilla",
+          "zh": "Franco Escamilla"
+        },
+        "date": {
+          "es": "6 de febrero · 21:30",
+          "en": "February 6 · 21:30",
+          "zh": "2月6日 · 21:30"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Comedia",
+          "en": "Comedy",
+          "zh": "喜剧演出"
+        },
+        "description": {
+          "es": "Comedia en el Auditorio Nacional para una salida en pareja o con amigos.",
+          "en": "Comedy at the Auditorio Nacional for an evening out with your partner or friends.",
+          "zh": "在国家礼堂欣赏喜剧演出，与伴侣或朋友共享欢乐夜晚。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/febrero/franco-escamilla.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Franco-Escamilla/Auditorio-Nacional-Franco-Escamilla-Cartelera.jpg",
+        "sortTime": "21:30"
+      },
+      {
+        "id": "sin-bandera-febrero-2027",
+        "sortDate": "2027-02-07",
+        "title": {
+          "es": "Sin Bandera · Frecuencia Tour",
+          "en": "Sin Bandera · Frecuencia Tour",
+          "zh": "Sin Bandera · Frecuencia Tour"
+        },
+        "date": {
+          "es": "7 de febrero · 19:30",
+          "en": "February 7 · 19:30",
+          "zh": "2月7日 · 19:30"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Baladas para una noche especial antes de volver a descansar en tu suite.",
+          "en": "Romantic ballads for a special evening before returning to relax in your suite.",
+          "zh": "以浪漫抒情歌曲度过特别之夜，再回到套房放松休息。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/febrero/sin-bandera.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Sin-Bandera/Auditorio-Nacional-Cartelera-SinBandera.jpg",
+        "sortTime": "19:30"
+      },
+      {
+        "id": "jesse-joy-febrero-2027",
+        "sortDate": "2027-02-14",
+        "title": {
+          "es": "Jesse & Joy · El amor de México",
+          "en": "Jesse & Joy · El amor de México",
+          "zh": "Jesse & Joy · 墨西哥之爱"
+        },
+        "date": {
+          "es": "14 de febrero · 19:00",
+          "en": "February 14 · 19:00",
+          "zh": "2月14日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Celebra el Día del Amor y la Amistad con música y una estancia para dos.",
+          "en": "Celebrate Valentine’s Day with music and a getaway for two.",
+          "zh": "以音乐与双人假期庆祝情人节。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/febrero/jesse-y-joy.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Joy/Auditorio-Nacional-Joy-Cartelera.jpg",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "leyendas-cumbia-febrero-2027",
+        "sortDate": "2027-02-21",
+        "title": {
+          "es": "Leyendas de la Cumbia",
+          "en": "Cumbia Legends",
+          "zh": "昆比亚传奇"
+        },
+        "date": {
+          "es": "21 de febrero · 19:00",
+          "en": "February 21 · 19:00",
+          "zh": "2月21日 · 19:00"
+        },
+        "venue": {
+          "es": "Auditorio Nacional",
+          "en": "Auditorio Nacional",
+          "zh": "国家礼堂（Auditorio Nacional）"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "La Sonora Dinamita y Los Socios del Ritmo ponen el baile en tu escapada de febrero.",
+          "en": "La Sonora Dinamita and Los Socios del Ritmo bring dance rhythms to your February getaway.",
+          "zh": "La Sonora Dinamita 与 Los Socios del Ritmo 为您的2月旅程带来热情舞曲。"
+        },
+        "url": "https://www.auditorio.com.mx/cartelera/2027/febrero/leyendas-de-la-cumbia.html",
+        "sourceLabel": "Auditorio Nacional",
+        "imageUrl": "https://www.auditorio.com.mx/assets/images/cartelera/2027/Leyendas-de-la-cumbia/LeyendasDeLaCumbia_cartelera.png",
+        "sortTime": "19:00"
+      },
+      {
+        "id": "u2-febrero-2027",
+        "sortDate": "2027-02-23",
+        "title": {
+          "es": "U2 · The Greatest Show On Earth World Tour",
+          "en": "U2 · The Greatest Show On Earth World Tour",
+          "zh": "U2 · The Greatest Show On Earth World Tour"
+        },
+        "date": {
+          "es": "23, 26 y 28 de febrero · 21:00",
+          "en": "February 23, 26 and 28 · 21:00",
+          "zh": "2月23日、26日、28日 · 21:00"
+        },
+        "venue": {
+          "es": "Estadio GNP Seguros",
+          "en": "Estadio GNP Seguros",
+          "zh": "Estadio GNP Seguros"
+        },
+        "category": {
+          "es": "Concierto",
+          "en": "Concert",
+          "zh": "音乐会"
+        },
+        "description": {
+          "es": "Tres noches de U2 en Ciudad de México para convertir febrero en una escapada de rock y descanso.",
+          "en": "Three nights of U2 in Mexico City turn February into a getaway filled with rock and relaxation.",
+          "zh": "U2 在墨西哥城连演三晚，让2月假期兼具摇滚激情与休闲时光。"
+        },
+        "url": "https://www.ticketmaster.com.mx/u2-boletos/artist/736365",
+        "sourceLabel": "Ticketmaster México",
+        "imageUrl": "https://prismic-images.tmol.io/ticketmaster-tm-global/R7uATto925LtDBq7_U22048x864V3.jpg?auto=format,compress&rect=0,0,2048,864&w=2048&h=864",
+        "sortTime": "21:00"
+      }
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 ---
 import MirrorDocument from "../layouts/MirrorDocument.astro";
 import { getMirrorRouteSlugs, readMirrorDocumentBySlug } from "../lib/mirror";
+import { withMonthlyAgenda } from "../lib/blog-agenda";
 
 export function getStaticPaths() {
   return getMirrorRouteSlugs().map((slug) => ({
@@ -10,7 +11,10 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.props as { slug: string };
-const document = readMirrorDocumentBySlug(slug);
+const original = readMirrorDocumentBySlug(slug);
+const document = slug === 'en/our-blog' || slug === 'zh/our-blog'
+  ? withMonthlyAgenda(original, slug.startsWith('en/') ? 'en' : 'zh')
+  : original;
 ---
 
 <MirrorDocument
