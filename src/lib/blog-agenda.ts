@@ -32,12 +32,13 @@ export function withMonthlyAgenda(document: MirrorDocument, language: BlogLangua
   const archive = `<details class="sm-calendar-archive"><summary>${copy.archive}</summary>${document.bodyInnerHtml.slice(start, end)}</details>`;
   const paths = { es: '/our-blog/', en: '/en/our-blog/', zh: '/zh/our-blog/' };
   const head = document.headInnerHtml
-    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(copy.metaTitle)}</title>`)
+    .replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, '')
     .replace(/<meta\s+(?:name="description"|property="og:(?:title|description)")[^>]*>/gi, '')
     .replace(/<link[^>]+rel="alternate"[^>]+hreflang=[^>]*>/gi, '');
   return {
     ...document,
     headInnerHtml: `${head}
+      <title>${escapeHtml(copy.metaTitle)}</title>
       <meta name="description" content="${escapeHtml(copy.metaDescription)}" />
       <meta property="og:title" content="${escapeHtml(copy.metaTitle)}" />
       <meta property="og:description" content="${escapeHtml(copy.metaDescription)}" />
