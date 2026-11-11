@@ -4,7 +4,11 @@ const root = document.querySelector('[data-events-calendar]');
 if (root) {
   let updating = false;
   let approvedMonth = '';
+  let rendered = '';
   const show = (month, events) => {
+    const next = JSON.stringify([month, events]);
+    if (rendered === next) return;
+    rendered = next;
     root.innerHTML = renderMonth({ months: { [month]: events } }, month, root.dataset.language);
     root.dataset.month = month;
   };
